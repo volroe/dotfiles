@@ -32,11 +32,12 @@ set encoding=utf-8
 
 " Whitespace
 set wrap
-set textwidth=79
-set formatoptions=tcqrn1
-set tabstop=2
-set shiftwidth=2
-set softtabstop=2
+set textwidth=72
+set wm=0
+set formatoptions=tcq
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
 set expandtab
 set noshiftround
 
@@ -47,8 +48,14 @@ set matchpairs+=<:> " use % to jump between pairs
 runtime! macros/matchit.vim
 
 " Move up/down editor lines
-nnoremap j gj
-nnoremap k gk
+vnoremap j gj
+vnoremap k gk
+nnoremap <Down> gj
+nnoremap <Up> gk
+vnoremap <Down> gj
+vnoremap <Up> gk
+inoremap <Down> <C-o>gj
+inoremap <Up> <C-o>gk
 
 " Allow hidden buffers
 set hidden
