@@ -60,7 +60,7 @@ set encoding=utf-8
 
 " Whitespace
 set wrap
-set textwidth=72
+set textwidth=0
 set wm=0
 set formatoptions=tcq
 set tabstop=4
@@ -160,6 +160,7 @@ endfunction
 " Call everytime we open a Markdown file
 autocmd BufRead,BufNewFile,BufEnter *.md,*.markdown call MathAndLiquid()
 
+set mouse=a
 if &term =~ '^screen'
         " tmux knows the extended mouse mode
     set ttymouse=xterm2
