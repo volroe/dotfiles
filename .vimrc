@@ -201,4 +201,4 @@ endif
 " Display all matching file when we tab complete
 set wildmenu
 
-set clipboard=unnamed
+set clipboard=unnamedplus
