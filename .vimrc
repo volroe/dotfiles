@@ -24,6 +24,10 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
     Plugin 'vimwiki/vimwiki'
 
     Plugin 'michal-h21/vim-zettel'      
+    
+    Plugin 'tpope/vim-fugitive'      
+
+    Plugin 'airblade/vim-gitgutter'
     " All of your Plugins must be added before the following line
     call vundle#end()            " required
     filetype plugin indent on    " required
@@ -104,6 +108,42 @@ set scrolloff=3
 set backspace=indent,eol,start
 set matchpairs+=<:> " use % to jump between pairs
 runtime! macros/matchit.vim
+
+" Naviation
+" nmap <Up>    <Nop>
+" nmap <Down>  <Nop>
+" nmap <Left>  <Nop>
+" nmap <Right> <Nop>
+" map $ <Nop>
+" map ^ <Nop>
+" map { <Nop>
+" map } <Nop>
+noremap K     {
+noremap J     }
+noremap H     ^
+noremap L     $
+noremap <C-x> :bp<Bar>bd #<Cr>
+" pairing braces
+inoremap <> <><Left>
+inoremap () ()<Left>
+inoremap {} {}<Left>
+inoremap [] []<Left>
+inoremap "" ""<Left>
+inoremap '' ''<Left>
+inoremap `` ``<Left>
+
+" indentation
+nnoremap <Tab>   >>
+nnoremap <S-Tab> <<
+vnoremap <Tab>   >><Esc>gv
+vnoremap <S-Tab> <<<Esc>gv
+
+" avoiding the ESC key
+inoremap <S-Tab> <Esc>
+onoremap <S-Tab> <Esc>
+
+" consistent Y
+nnoremap Y y$
 
 " Move up/down editor lines
 vnoremap j gj
@@ -209,3 +249,6 @@ endif
 set wildmenu
 
 set clipboard=unnamedplus
+
+set tags=./tags,tags;
+set autochdir
