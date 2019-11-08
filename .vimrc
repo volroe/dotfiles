@@ -18,6 +18,21 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
     Plugin 'klen/python-mode'
 
     Plugin 'junegunn/fzf'
+    let g:fzf_nvim_statusline = 0 " disable statusline overwriting
+
+    nnoremap <silent> <leader><space> :Files<CR>
+    nnoremap <silent> <leader>a :Buffers<CR>
+    nnoremap <silent> <leader>A :Windows<CR>
+    nnoremap <silent> <leader>; :BLines<CR>
+    nnoremap <silent> <leader>o :BTags<CR>
+    nnoremap <silent> <leader>O :Tags<CR>
+    nnoremap <silent> <leader>? :History<CR>
+    nnoremap <silent> <leader>/ :execute 'Ag ' . input('Ag/')<CR>
+    nnoremap <silent> <leader>. :AgIn 
+
+    nnoremap <silent> <leader>gl :Commits<CR>
+    nnoremap <silent> <leader>ga :BCommits<CR>
+    nnoremap <silent> <leader>ft :Filetypes<CR>
 
     Plugin 'junegunn/fzf.vim'
 
@@ -123,6 +138,7 @@ noremap J     }
 noremap H     ^
 noremap L     $
 noremap <C-x> :bp<Bar>bd #<Cr>
+
 " pairing braces
 inoremap <> <><Left>
 inoremap () ()<Left>
@@ -176,7 +192,7 @@ set incsearch
 set ignorecase
 set smartcase
 set showmatch
-map <leader><space> :let @/=''<cr> " clear search
+" map <leader><space> :let @/=''<cr> " clear search
 
 " Remap help key.
 inoremap <F1> <ESC>:set invfullscreen<CR>a
