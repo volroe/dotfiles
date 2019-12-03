@@ -19,21 +19,21 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
 
     Plugin 'junegunn/fzf'
     let g:fzf_nvim_statusline = 0 " disable statusline overwriting
-
-    nnoremap <silent> <leader><space> :Files<CR>
-    nnoremap <silent> <leader>a :Buffers<CR>
-    nnoremap <silent> <leader>A :Windows<CR>
-    nnoremap <silent> <leader>; :BLines<CR>
-    nnoremap <silent> <leader>o :BTags<CR>
-    nnoremap <silent> <leader>O :Tags<CR>
-    nnoremap <silent> <leader>? :History<CR>
-    nnoremap <silent> <leader>/ :execute 'Ag ' . input('Ag/')<CR>
-    nnoremap <silent> <leader>. :AgIn 
-
-    nnoremap <silent> <leader>gl :Commits<CR>
-    nnoremap <silent> <leader>ga :BCommits<CR>
-    nnoremap <silent> <leader>ft :Filetypes<CR>
-
+    nmap <Leader>f :GFiles<CR>
+    nmap <Leader>F :Files<CR>
+    nmap <Leader>d :Buffers<CR>
+    nmap <Leader>h :History<CR>
+    nmap <Leader>t :BTags<CR>
+    nmap <Leader>T :Tags<CR>
+    nmap <Leader>l :BLines<CR>
+    nmap <Leader>L :Lines<CR>
+    nmap <Leader>' :Marks<CR>
+    nmap <Leader>/ :Ag<Space>
+    nmap <Leader>H :Helptags!<CR>
+    nmap <Leader>C :Commands<CR>
+    nmap <Leader>: :History:<CR>
+    nmap <Leader>M :Maps<CR>
+    nmap <Leader>s :Filetypes<CR>
     Plugin 'junegunn/fzf.vim'
 
     Plugin 'vimwiki/vimwiki'
@@ -41,6 +41,8 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
     Plugin 'michal-h21/vim-zettel'      
     
     Plugin 'tpope/vim-fugitive'      
+
+    Plugin 'tpope/vim-commentary'
 
     Plugin 'airblade/vim-gitgutter'
     " All of your Plugins must be added before the following line
@@ -137,7 +139,6 @@ noremap K     {
 noremap J     }
 noremap H     ^
 noremap L     $
-noremap <C-x> :bp<Bar>bd #<Cr>
 
 " pairing braces
 inoremap <> <><Left>
@@ -267,4 +268,4 @@ set wildmenu
 set clipboard=unnamedplus
 
 set tags=./tags,tags;
-set autochdir
+" set autochdir
