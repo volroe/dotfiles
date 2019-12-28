@@ -140,15 +140,6 @@ noremap J     }
 noremap H     ^
 noremap L     $
 
-" pairing braces
-inoremap <> <><Left>
-inoremap () ()<Left>
-inoremap {} {}<Left>
-inoremap [] []<Left>
-inoremap "" ""<Left>
-inoremap '' ''<Left>
-inoremap `` ``<Left>
-
 " indentation
 nnoremap <Tab>   >>
 nnoremap <S-Tab> <<
@@ -269,3 +260,12 @@ set clipboard=unnamedplus
 
 set tags=./tags,tags;
 " set autochdir
+" cursor shape depending on mode
+let &t_SI = "\e[6 q"
+let &t_EI = "\e[2 q"
+
+" optional reset cursor on start:
+augroup myCmds
+au!
+autocmd VimEnter * silent !echo -ne "\e[2 q"
+augroup END
