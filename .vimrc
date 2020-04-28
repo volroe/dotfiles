@@ -16,8 +16,8 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
     Plugin 'c.vim'
 
     Plugin 'klen/python-mode'
-
-    Plugin 'junegunn/fzf'
+    " PlugInstall and PlugUpdate will clone fzf in ~/.fzf and run the install script
+    Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
     let g:fzf_nvim_statusline = 0 " disable statusline overwriting
     nmap <Leader>f :GFiles<CR>
     nmap <Leader>F :Files<CR>
