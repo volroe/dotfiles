@@ -2,7 +2,6 @@
 alias ll='ls -haltr'
 alias la='ls -A'
 alias l='ls -CF'
-alias matlab='/usr/local/MATLAB/R2019a/bin/matlab'
 
 pushd()
 {
@@ -31,6 +30,6 @@ echo -n "DIRSTACK: "
 dirs
 }
 
-alias cd='pushd'
-alias back='popd'
+alias cd='pushd > /dev/null'
+alias back='popd > /dev/null'
 alias flip='pushd_builtin'
