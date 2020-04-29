@@ -16,8 +16,13 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
     Plugin 'c.vim'
 
     Plugin 'klen/python-mode'
-    " PlugInstall and PlugUpdate will clone fzf in ~/.fzf and run the install script
+    
+    Plugin 'mjbrownie/swapit'
+
+    Plugin 'vim-airline/vim-airline'
+
     Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+
     let g:fzf_nvim_statusline = 0 " disable statusline overwriting
     nmap <Leader>f :GFiles<CR>
     nmap <Leader>F :Files<CR>
@@ -34,6 +39,7 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
     nmap <Leader>: :History:<CR>
     nmap <Leader>M :Maps<CR>
     nmap <Leader>s :Filetypes<CR>
+    
     Plugin 'junegunn/fzf.vim'
 
     Plugin 'vimwiki/vimwiki'
