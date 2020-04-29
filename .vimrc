@@ -168,6 +168,10 @@ vnoremap <Down> gj
 vnoremap <Up> gk
 inoremap <Down> <C-o>gj
 inoremap <Up> <C-o>gk
+
+" allow ctrl-z in insert mode
+inoremap <c-z> <esc><c-z>
+
 set whichwrap+=<,>,h,l,[,]
 " Allow hidden buffers
 set hidden
