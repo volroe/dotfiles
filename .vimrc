@@ -21,8 +21,18 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
     Plugin 'c.vim'
 
     Plugin 'klen/python-mode'
-    " PlugInstall and PlugUpdate will clone fzf in ~/.fzf and run the install script
+    
+    Plugin 'mjbrownie/swapit'
+
+    Plugin 'vim-airline/vim-airline'
+    let g:airline_theme='angr'
+
+    Plugin 'vim-airline/vim-airline-themes'
+    
     Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+
+    Plugin 'junegunn/fzf.vim'
+
     let g:fzf_nvim_statusline = 0 " disable statusline overwriting
     nmap <Leader>f :GFiles<CR>
     nmap <Leader>F :Files<CR>
@@ -39,7 +49,7 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
     nmap <Leader>: :History:<CR>
     nmap <Leader>M :Maps<CR>
     nmap <Leader>s :Filetypes<CR>
-    Plugin 'junegunn/fzf.vim'
+    
 
     Plugin 'vimwiki/vimwiki'
 
@@ -50,6 +60,9 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
     Plugin 'tpope/vim-commentary'
 
     Plugin 'airblade/vim-gitgutter'
+
+    Plugin 'skywind3000/asyncrun.vim'
+
     " All of your Plugins must be added before the following line
     call vundle#end()            " required
     filetype plugin indent on    " required
@@ -151,10 +164,6 @@ nnoremap <S-Tab> <<
 vnoremap <Tab>   >><Esc>gv
 vnoremap <S-Tab> <<<Esc>gv
 
-" avoiding the ESC key
-inoremap <S-Tab> <Esc>
-onoremap <S-Tab> <Esc>
-
 " consistent Y
 nnoremap Y y$
 
@@ -167,6 +176,10 @@ vnoremap <Down> gj
 vnoremap <Up> gk
 inoremap <Down> <C-o>gj
 inoremap <Up> <C-o>gk
+
+" allow ctrl-z in insert mode
+inoremap <c-z> <esc><c-z>
+
 set whichwrap+=<,>,h,l,[,]
 " Allow hidden buffers
 set hidden
