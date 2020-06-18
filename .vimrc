@@ -19,10 +19,10 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
     
     Plugin 'mjbrownie/swapit'
 
-    Plugin 'vim-airline/vim-airline'
-    let g:airline_theme='angr'
+    " Plugin 'vim-airline/vim-airline'
+    " let g:airline_theme='angr'
 
-    Plugin 'vim-airline/vim-airline-themes'
+    " Plugin 'vim-airline/vim-airline-themes'
     
     Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 
@@ -57,6 +57,10 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
     Plugin 'airblade/vim-gitgutter'
 
     Plugin 'skywind3000/asyncrun.vim'
+
+    Plugin 'lifepillar/vim-mucomplete'
+    set completeopt+=menuone
+    set completeopt+=noselect
 
     " All of your Plugins must be added before the following line
     call vundle#end()            " required
@@ -225,6 +229,7 @@ let g:solarized_termtrans=1
 " in ~/.vim/colors/ and uncomment:
 " colorscheme solarized
 "
+:hi ColorColumn ctermbg=8
 if &term =~ '^screen'
     "tmux will send xterm-style keys when its xterm-keys option is on
     execute "set <xUp>=\e[1;*A"
@@ -282,3 +287,5 @@ augroup myCmds
 au!
 autocmd VimEnter * silent !echo -ne "\e[2 q"
 augroup END
+
+
