@@ -22,7 +22,7 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
 
     Plugin 'klen/python-mode'
     
-    Plugin 'mjbrownie/swapit'
+    " Plugin 'mjbrownie/swapit'
 
     " Plugin 'vim-airline/vim-airline'
     " let g:airline_theme='angr'
