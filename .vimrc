@@ -4,11 +4,6 @@ set nocompatible
 if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
     " set the runtime path to include Vundle and initialize
     set rtp+=~/.vim/bundle/Vundle.vim
-    if empty(glob('~/.vim/autoload/plug.vim'))
-      silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-        \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-      autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-    endif
     call vundle#begin()
     " alternatively, pass a path where Vundle should install plugins
     "call vundle#begin('~/some/path/here')
@@ -293,4 +288,4 @@ au!
 autocmd VimEnter * silent !echo -ne "\e[2 q"
 augroup END
 
-
+autocmd filetype c setlocal noexpandtab shiftwidth=4 softtabstop=4 et
