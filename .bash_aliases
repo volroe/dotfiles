@@ -2,7 +2,7 @@
 alias ll='ls -haltr'
 alias la='ls -A'
 alias l='ls -CF'
-
+alias python=python3
 # Some tmux-related shell aliases
 # Attaches tmux to the last session; creates a new session if none exists.
 alias t='tmux attach || tmux new-session'
