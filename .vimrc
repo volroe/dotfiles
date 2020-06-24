@@ -213,6 +213,10 @@ vnoremap <F1> :set invfullscreen<CR>
 " Formatting
 map <leader>q gqip
 
+" useful shortcuts
+" Allow saving of files as sudo when I forgot to start vim using sudo.
+cmap w!! w !sudo tee > /dev/null %
+
 " Visualize tabs and newlines
 set listchars=tab:▸\ ,eol:¬
 " Uncomment this to enable by default:
