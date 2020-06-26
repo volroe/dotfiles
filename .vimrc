@@ -11,13 +11,13 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
     " let Vundle manage Vundle, required
     Plugin 'VundleVim/Vundle.vim'
 
-    Plugin 'christoomey/vim-tmux-navigator'
-
     Plugin 'c.vim'
+
+    Plugin 'christoomey/vim-tmux-navigator'
 
     Plugin 'klen/python-mode'
     
-    " Plugin 'mjbrownie/swapit'
+    Plugin 'mjbrownie/swapit'
 
     " Plugin 'vim-airline/vim-airline'
     " let g:airline_theme='angr'
@@ -216,6 +216,7 @@ map <leader>q gqip
 " useful shortcuts
 " Allow saving of files as sudo when I forgot to start vim using sudo.
 cmap w!! w !sudo tee > /dev/null %
+vnoremap <C-X> <Esc>`.``gvP``P
 
 " Visualize tabs and newlines
 set listchars=tab:▸\ ,eol:¬
