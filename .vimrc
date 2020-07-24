@@ -11,9 +11,9 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
     " let Vundle manage Vundle, required
     Plugin 'VundleVim/Vundle.vim'
 
-    Plugin 'christoomey/vim-tmux-navigator'
-
     Plugin 'c.vim'
+
+    Plugin 'christoomey/vim-tmux-navigator'
 
     Plugin 'klen/python-mode'
     
@@ -219,9 +219,10 @@ map <leader>q gqip
 " Allow saving of files as sudo when I forgot to start vim using sudo.
 cmap w!! w !sudo tee > /dev/null %
 " to swap two object select and delete, then visual select and ctrl-x to swap
-" vnoremap <C-X> <Esc>`.``gvP``P
+vnoremap <C-X> <Esc>`.``gvP``P
 " press enter to clear last search highlighting
 nnoremap <silent> <cr> :noh<CR><CR>
+
 " Visualize tabs and newlines
 set listchars=tab:▸\ ,eol:¬
 " Uncomment this to enable by default:
