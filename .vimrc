@@ -46,9 +46,9 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
     nmap <Leader>s :Filetypes<CR>
     
 
-    Plugin 'vimwiki/vimwiki'
+    " Plugin 'vimwiki/vimwiki'
 
-    Plugin 'michal-h21/vim-zettel'      
+    " Plugin 'michal-h21/vim-zettel'      
     
     Plugin 'tpope/vim-fugitive'      
 
@@ -59,6 +59,11 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
     Plugin 'skywind3000/asyncrun.vim'
 
     Plugin 'lifepillar/vim-mucomplete'
+
+    Plugin 'xavierd/clang_complete'
+
+    Plugin 'reedes/vim-pencil'
+
     set completeopt+=menuone
     set completeopt+=noselect
 
@@ -232,9 +237,10 @@ map <leader>l :set list!<CR> " Toggle tabs and EOL
 
 " Color scheme (terminal)
 set t_Co=256
-set background=dark
+" set background=dark
 let g:solarized_termcolors=256
 let g:solarized_termtrans=1
+colorscheme morning
 " put https://raw.github.com/altercation/vim-colors-solarized/master/colors/solarized.vim
 " in ~/.vim/colors/ and uncomment:
 " colorscheme solarized
@@ -301,6 +307,13 @@ augroup END
 autocmd filetype c setlocal noexpandtab shiftwidth=4 softtabstop=4
 
 set directory=$HOME/.vim/swapfiles//
+
+" use vim for prose
+augroup pencil
+  autocmd!
+  autocmd FileType markdown,mkd call pencil#init()
+  autocmd FileType text         call pencil#init()
+augroup END
 
 nnoremap <silent> Q gqap
 xnoremap <silent> Q gq
