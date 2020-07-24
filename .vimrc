@@ -62,8 +62,6 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
 
     Plugin 'xavierd/clang_complete'
 
-    Plugin 'reedes/vim-pencil'
-
     set completeopt+=menuone
     set completeopt+=noselect
 
