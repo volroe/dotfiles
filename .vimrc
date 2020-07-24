@@ -67,6 +67,10 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
 
     Plugin 'reedes/vim-pencil'
 
+    Plugin 'junegunn/goyo.vim'
+
+    Plugin 'junegunn/seoul256.vim'
+
     " All of your Plugins must be added before the following line
     call vundle#end()            " required
     filetype plugin indent on    " required
@@ -235,15 +239,12 @@ map <leader>l :set list!<CR> " Toggle tabs and EOL
 
 " Color scheme (terminal)
 set t_Co=256
-" set background=dark
+set background=light
 let g:solarized_termcolors=256
 let g:solarized_termtrans=1
-colorscheme morning
-" put https://raw.github.com/altercation/vim-colors-solarized/master/colors/solarized.vim
-" in ~/.vim/colors/ and uncomment:
-" colorscheme solarized
-"
-:hi ColorColumn ctermbg=8
+let g:seoul256_background = 256
+colorscheme seoul256-light
+" :hi ColorColumn ctermbg=8
 if &term =~ '^screen'
     "tmux will send xterm-style keys when its xterm-keys option is on
     execute "set <xUp>=\e[1;*A"
