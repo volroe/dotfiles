@@ -17,7 +17,7 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
 
     Plugin 'klen/python-mode'
     
-    " Plugin 'mjbrownie/swapit'
+    Plugin 'mjbrownie/swapit'
 
     " Plugin 'vim-airline/vim-airline'
     " let g:airline_theme='angr'
@@ -61,6 +61,8 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
     Plugin 'lifepillar/vim-mucomplete'
     set completeopt+=menuone
     set completeopt+=noselect
+
+    Plugin 'reedes/vim-pencil'
 
     " All of your Plugins must be added before the following line
     call vundle#end()            " required
@@ -216,7 +218,10 @@ map <leader>q gqip
 " useful shortcuts
 " Allow saving of files as sudo when I forgot to start vim using sudo.
 cmap w!! w !sudo tee > /dev/null %
-
+" to swap two object select and delete, then visual select and ctrl-x to swap
+" vnoremap <C-X> <Esc>`.``gvP``P
+" press enter to clear last search highlighting
+nnoremap <silent> <cr> :noh<CR><CR>
 " Visualize tabs and newlines
 set listchars=tab:▸\ ,eol:¬
 " Uncomment this to enable by default:
@@ -295,3 +300,7 @@ augroup END
 autocmd filetype c setlocal noexpandtab shiftwidth=4 softtabstop=4
 
 set directory=$HOME/.vim/swapfiles//
+
+nnoremap <silent> Q gqap
+xnoremap <silent> Q gq
+nnoremap <silent> <leader>Q vapJgqap
