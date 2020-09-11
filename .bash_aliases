@@ -60,8 +60,8 @@ bind '"\e[3;5~": kill-word'
 
 # enable pdf text search (first page) with fzf
 p () {
-    open=xdg-open   # this will open pdf file withthe default PDF viewer on KDE, xfce, LXDE and perhaps on other desktops.
-
+    open=${2:-"xdg-open"}   # this will open pdf file withthe default PDF viewer on KDE, xfce, LXDE and perhaps on other desktops.
+    
     ag $1 -U -g ".pdf$" \
     | fast-p \
     | fzf --read0 --reverse -e -d $'\t'  \
@@ -69,5 +69,6 @@ p () {
             v=$(echo {q} | tr " " "|");
             echo -e {1}"\n"{2} | grep -E "^|$v" -i --color=always;
         ' \
-    | cut -z -f 1 -d $'\t' | tr -d '\n' | xargs -r --null $open > /dev/null 2> /dev/null
+            | cut -z -f 1 -d $'\t' | tr -d '\n' | tee >(xargs -r --null $open > /dev/null 2> /dev/null) >(xargs -r --null echo)
+    echo
 }

@@ -310,8 +310,8 @@ set directory=$HOME/.vim/swapfiles//
 " use vim for prose
 augroup pencil
   autocmd!
-  autocmd FileType markdown,mkd call pencil#init()
-  autocmd FileType text         call pencil#init()
+  autocmd FileType markdown,mkd call pencil#init({'wrap': 'hard', 'autoformat': 1})
+  autocmd FileType text         call pencil#init({'wrap': 'hard', 'autoformat': 1})
 augroup END
 
 nnoremap <silent> Q gqap
