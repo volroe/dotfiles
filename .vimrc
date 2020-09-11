@@ -71,6 +71,9 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
 
     Plugin 'junegunn/seoul256.vim'
 
+    Plugin 'majutsushi/tagbar'
+
+
     " All of your Plugins must be added before the following line
     call vundle#end()            " required
     filetype plugin indent on    " required
