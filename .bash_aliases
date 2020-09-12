@@ -69,6 +69,6 @@ p () {
             v=$(echo {q} | tr " " "|");
             echo -e {1}"\n"{2} | grep -E "^|$v" -i --color=always;
         ' \
-            | cut -z -f 1 -d $'\t' | tr -d '\n' | tee >(xargs -r --null $open > /dev/null 2> /dev/null) >(xargs -r --null echo)
+            | cut -z -f 1 -d $'\t' | tr -d '\n' | tee >(xargs -r --null $open > /dev/null 2> /dev/null) 
     echo
 }
