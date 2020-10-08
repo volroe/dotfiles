@@ -15,7 +15,7 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
 
     Plugin 'christoomey/vim-tmux-navigator'
 
-    Plugin 'klen/python-mode'
+    " Plugin 'klen/python-mode'
     
     Plugin 'mjbrownie/swapit'
 
