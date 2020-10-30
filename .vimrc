@@ -61,7 +61,7 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
     Plugin 'lifepillar/vim-mucomplete'
 
     Plugin 'xavierd/clang_complete'
-
+    let g:clang_library_path='/usr/lib/llvm-7/lib/libclang-7.so.1'
     set completeopt+=menuone
     set completeopt+=noselect
 
