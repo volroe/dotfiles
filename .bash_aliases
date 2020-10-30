@@ -72,3 +72,9 @@ p () {
             | cut -z -f 1 -d $'\t' | tr -d '\n' | tee >(xargs -r --null $open > /dev/null 2> /dev/null) 
     echo
 }
+
+mkcdir ()
+{
+    mkdir -p -- "$1" &&
+      cd -P -- "$1"
+}
