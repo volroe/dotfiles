@@ -60,10 +60,14 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
 
     Plugin 'lifepillar/vim-mucomplete'
 
-    Plugin 'xavierd/clang_complete'
-    let g:clang_library_path='/usr/lib/llvm-7/lib/libclang-7.so.1'
-    set completeopt+=menuone
-    set completeopt+=noselect
+    " Plugin 'justmao945/vim-clang'
+    " let g:clang_compilation_database = './'
+
+    " Plugin 'xavierd/clang_complete'
+    " let g:clang_library_path='/usr/lib/llvm-8/lib/libclang.so.1'
+    " let g:clang_auto_select=1
+    " set completeopt+=menuone
+    " set completeopt+=noselect
 
     Plugin 'reedes/vim-pencil'
 
