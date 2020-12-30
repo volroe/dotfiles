@@ -28,23 +28,6 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
 
     Plugin 'junegunn/fzf.vim'
 
-    let g:fzf_nvim_statusline = 0 " disable statusline overwriting
-    nmap <Leader>f :GFiles<CR>
-    nmap <Leader>F :Files<CR>
-    nmap <Leader>d :Buffers<CR>
-    nmap <Leader>h :History<CR>
-    nmap <Leader>t :BTags<CR>
-    nmap <Leader>T :Tags<CR>
-    nmap <Leader>l :BLines<CR>
-    nmap <Leader>L :Lines<CR>
-    nmap <Leader>' :Marks<CR>
-    nmap <Leader>/ :Ag<Space>
-    nmap <Leader>H :Helptags!<CR>
-    nmap <Leader>C :Commands<CR>
-    nmap <Leader>: :History:<CR>
-    nmap <Leader>M :Maps<CR>
-    nmap <Leader>s :Filetypes<CR>
-
     Plugin 'tpope/vim-fugitive'      
 
     Plugin 'tpope/vim-commentary'
@@ -77,6 +60,28 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
     call vundle#end()            " required
     filetype plugin indent on    " required
 endif
+
+let g:fzf_nvim_statusline = 0 " disable statusline overwriting
+nmap <Leader>f :GFiles<CR>
+nmap <Leader>F :Files<CR>
+nmap <Leader>d :Buffers<CR>
+nmap <Leader>h :History<CR>
+nmap <Leader>t :BTags<CR>
+nmap <Leader>T :Tags<CR>
+nmap <Leader>l :BLines<CR>
+nmap <Leader>L :Lines<CR>
+nmap <Leader>' :Marks<CR>
+nmap <Leader>/ :Rg<Space>
+nmap <Leader>H :Helptags!<CR>
+nmap <Leader>C :Commands<CR>
+nmap <Leader>: :History:<CR>
+nmap <Leader>M :Maps<CR>
+nmap <Leader>s :Filetypes<CR>
+" Get text in files with Rg
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
+  \   fzf#vim#with_preview(), <bang>0)
 
 " Put your non-Plugin stuff after this line
 "
