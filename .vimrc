@@ -44,12 +44,7 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
     nmap <Leader>: :History:<CR>
     nmap <Leader>M :Maps<CR>
     nmap <Leader>s :Filetypes<CR>
-    
 
-    " Plugin 'vimwiki/vimwiki'
-
-    " Plugin 'michal-h21/vim-zettel'      
-    
     Plugin 'tpope/vim-fugitive'      
 
     Plugin 'tpope/vim-commentary'
@@ -81,50 +76,14 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
     " All of your Plugins must be added before the following line
     call vundle#end()            " required
     filetype plugin indent on    " required
-    " To ignore plugin indent changes, instead use:
-    "filetype plugin on
-    "
-    " Brief help
-    " :PluginList       - lists configured plugins
-    " :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
-    " :PluginSearch foo - searches for foo; append `!` to refresh local cache
-    " :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-    "
-    " see :h vundle for more details or wiki for FAQ
-    endif
+endif
+
 " Put your non-Plugin stuff after this line
-" Filename format. The filename is created using strftime() function
-let g:zettel_format = "%y%m%d-%H%M"
-" Disable default keymappings
-let g:zettel_default_mappings = 0 
-" This is basically the same as the default configuration
-augroup filetype_vimwiki
-  autocmd!
-  autocmd FileType vimwiki imap <silent> [[ [[<esc><Plug>ZettelSearchMap
-  autocmd FileType vimwiki nmap T <Plug>ZettelYankNameMap
-  autocmd FileType vimwiki xmap z <Plug>ZettelNewSelectedMap
-  autocmd FileType vimwiki nmap gZ <Plug>ZettelReplaceFileWithLink
-augroup END
-
+"
 let g:ackprg = 'ag --nogroup --nocolor --column'
-
-" Settings for Vimwiki
-let g:vimwiki_list = [{'path':'~/scratchbox/vimwiki/markdown/','ext':'.md','syntax':'markdown', 'zettel_template': "~/mytemplate.tpl"}, {"path":"~/scratchbox/vimwiki/wiki/"}]
-" Set template and custom header variable for the second Wiki
-let g:zettel_options = [{},{"front_matter" : {"tags" : ""}, "template" :  "~/mytemplate.tpl"}]
-" Helps force plugins to load correctly when it is turned back on below
-filetype off
-
-" TODO: Load plugins here (pathogen or vundle)
 
 " Turn on syntax highlighting
 syntax on
-
-" For plugins to load correctly
-filetype plugin indent on
-
-" TODO: Pick a leader key
-" let mapleader = ","
 
 " Security
 set modelines=0
@@ -160,18 +119,19 @@ set matchpairs+=<:> " use % to jump between pairs
 runtime! macros/matchit.vim
 
 " Naviation
-" nmap <Up>    <Nop>
-" nmap <Down>  <Nop>
-" nmap <Left>  <Nop>
-" nmap <Right> <Nop>
-" map $ <Nop>
-" map ^ <Nop>
-" map { <Nop>
-" map } <Nop>
 noremap K     {
 noremap J     }
 noremap H     ^
 noremap L     $
+vnoremap j gj
+vnoremap k gk
+nnoremap <Down> gj
+nnoremap <Up> gk
+vnoremap <Down> gj
+vnoremap <Up> gk
+inoremap <Down> <C-o>gj
+inoremap <Up> <C-o>gk
+
 
 " indentation
 nnoremap <Tab>   >>
@@ -181,16 +141,6 @@ vnoremap <S-Tab> <<<Esc>gv
 
 " consistent Y
 nnoremap Y y$
-
-" Move up/down editor lines
-vnoremap j gj
-vnoremap k gk
-nnoremap <Down> gj
-nnoremap <Up> gk
-vnoremap <Down> gj
-vnoremap <Up> gk
-inoremap <Down> <C-o>gj
-inoremap <Up> <C-o>gk
 
 " allow ctrl-z in insert mode
 inoremap <c-z> <esc><c-z>
@@ -217,26 +167,27 @@ set incsearch
 set ignorecase
 set smartcase
 set showmatch
-" map <leader><space> :let @/=''<cr> " clear search
+" press enter to clear last search highlighting
+nnoremap <silent> <cr> :noh<CR><CR>
 
 " Remap help key.
 inoremap <F1> <ESC>:set invfullscreen<CR>a
 nnoremap <F1> :set invfullscreen<CR>
 vnoremap <F1> :set invfullscreen<CR>
 
-" Textmate holdouts
-
-" Formatting
-map <leader>q gqip
+" format to hard line wraps
+nnoremap <silent> Q gqap
+xnoremap <silent> Q gq
+nnoremap <silent> <leader>Q vapJgqap
 
 " useful shortcuts
+
 " Allow saving of files as sudo when I forgot to start vim using sudo.
 cmap w!! w !sudo tee > /dev/null %
 " to swap two object select and delete, then visual select and ctrl-x to swap
 vnoremap <C-X> <Esc>`.``gvP``P
-" press enter to clear last search highlighting
-nnoremap <silent> <cr> :noh<CR><CR>
-
+" gw to swap the current word with the next, keep cursor
+:nnoremap <silent> gw "_yiw:s/\(\%#\w\+\)\(\W\+\)\(\w\+\)/\3\2\1/<CR><c-o><c-l>:nohlsearch<CR>
 " Visualize tabs and newlines
 set listchars=tab:▸\ ,eol:¬
 " Uncomment this to enable by default:
@@ -259,6 +210,7 @@ if &term =~ '^screen'
     execute "set <xRight>=\e[1;*C"
     execute "set <xLeft>=\e[1;*D"
 endif
+
 " fix syntax highlighting in markdown 
 function! MathAndLiquid()
     "" Define certain regions
@@ -318,9 +270,5 @@ set directory=$HOME/.vim/swapfiles//
 augroup pencil
   autocmd!
   autocmd FileType markdown,mkd call pencil#init({'wrap': 'hard', 'autoformat': 1})
-  " autocmd FileType text         call pencil#init({'wrap': 'hard', 'autoformat': 1})
+  autocmd FileType text         call pencil#init({'wrap': 'hard', 'autoformat': 0})
 augroup END
-
-nnoremap <silent> Q gqap
-xnoremap <silent> Q gq
-nnoremap <silent> <leader>Q vapJgqap
