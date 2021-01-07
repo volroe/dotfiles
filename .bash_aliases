@@ -78,3 +78,5 @@ mkcdir ()
     mkdir -p -- "$1" &&
       cd "$1"
 }
+
+alias serve="python3 -m http.server"
