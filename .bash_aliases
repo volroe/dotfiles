@@ -42,6 +42,10 @@ dirs
 alias cd='pushd > /dev/null'
 alias back='popd > /dev/null'
 alias flip='pushd_builtin'
+alias ..='cd ..'
+alias ...='cd ../../'
+alias ....='cd ../../../'
+
 
 # some more ls aliases
 alias ll='ls -haltr'
@@ -73,10 +77,31 @@ p () {
     echo
 }
 
-mkcdir ()
+mcd ()
 {
     mkdir -p -- "$1" &&
       cd "$1"
 }
 
 alias serve="python3 -m http.server"
+
+# Usage: extract <file>
+# Description: extracts archived files (maybe)
+extract () {
+    if [ -f $1 ]; then
+            case $1 in
+            *.tar.bz2)  tar -jxvf $1        ;;
+            *.tar.gz)   tar -zxvf $1        ;;
+            *.bz2)      bzip2 -d $1         ;;
+            *.gz)       gunzip -d $1        ;;
+            *.tar)      tar -xvf $1         ;;
+            *.tgz)      tar -zxvf $1        ;;
+            *.zip)      unzip $1            ;;
+            *.Z)        uncompress $1       ;;
+            *.rar)      unrar x $1            ;;
+            *)          echo "'$1' Error. Please go away" ;;
+            esac
+            else
+            echo "'$1' is not a valid file"
+  fi
+}
