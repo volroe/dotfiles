@@ -11,7 +11,7 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
     " let Vundle manage Vundle, required
     Plugin 'VundleVim/Vundle.vim'
 
-    Plugin 'c.vim'
+    " Plugin 'c.vim'
 
     Plugin 'christoomey/vim-tmux-navigator'
 
@@ -55,6 +55,7 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
 
     Plugin 'majutsushi/tagbar'
 
+    Plugin 'tommcdo/vim-exchange'
 
     " All of your Plugins must be added before the following line
     call vundle#end()            " required
