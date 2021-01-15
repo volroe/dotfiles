@@ -56,6 +56,8 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
     Plugin 'majutsushi/tagbar'
 
     Plugin 'tommcdo/vim-exchange'
+    
+    Plugin 'rhysd/vim-clang-format'
 
     " All of your Plugins must be added before the following line
     call vundle#end()            " required
