@@ -121,7 +121,7 @@ set number
 set ruler
 
 " Blink cursor on error instead of beeping (grr)
-set visualbell
+set vb t_vb=
 
 " Encoding
 set encoding=utf-8
@@ -195,7 +195,8 @@ set smartcase
 set showmatch
 " press enter to clear last search highlighting
 nnoremap <silent> <cr> :noh<CR><CR>
-
+" * just highlights but doesn't jump
+map <silent> * :let @/="\\<<c-r><c-w>\\>"<CR>:set hls<CR>
 " Remap help key.
 inoremap <F1> <ESC>:set invfullscreen<CR>a
 nnoremap <F1> :set invfullscreen<CR>
