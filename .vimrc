@@ -72,6 +72,8 @@ endif
 nnoremap <SPACE> <Nop>
 let mapleader=" "
 
+nnoremap <silent> <F8> :TagbarToggle<CR>
+
 let g:fzf_nvim_statusline = 0 " disable statusline overwriting
 nmap <Leader>f :GFiles<CR>
 nmap <Leader>F :Files<CR>
