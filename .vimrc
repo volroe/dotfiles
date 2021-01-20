@@ -68,6 +68,10 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
     filetype plugin indent on    " required
 endif
 
+" remap leader key
+nnoremap <SPACE> <Nop>
+let mapleader=" "
+
 let g:fzf_nvim_statusline = 0 " disable statusline overwriting
 nmap <Leader>f :GFiles<CR>
 nmap <Leader>F :Files<CR>
@@ -224,7 +228,7 @@ let g:solarized_termcolors=256
 let g:solarized_termtrans=1
 let g:seoul256_background = 256
 colorscheme seoul256-light
-" :hi ColorColumn ctermbg=8
+:hi Normal ctermbg=NONE guibg=NONE
 if &term =~ '^screen'
     "tmux will send xterm-style keys when its xterm-keys option is on
     execute "set <xUp>=\e[1;*A"
