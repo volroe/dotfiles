@@ -83,7 +83,7 @@ mcd ()
       cd "$1"
 }
 
-alias serve="python3 -m http.server"
+alias serve="python3 -m http.server > /dev/null 2>&1"
 
 # Usage: extract <file>
 # Description: extracts archived files (maybe)
