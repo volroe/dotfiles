@@ -96,6 +96,9 @@ command! -bang -nargs=* Rg
   \   'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
   \   fzf#vim#with_preview(), <bang>0)
 
+" neccessary as snap ctags can't access /tmp 
+let g:tagbar_use_cache = 0
+
 " set statusline+=%#warningmsg#
 " set statusline+=%{SyntasticStatuslineFlag()}
 " set statusline+=%*
@@ -118,13 +121,14 @@ endif
 "
 let g:ackprg = 'ag --nogroup --nocolor --column'
 
-" Source the termdebug plugin
-" packadd termdebug
-" noremap <silent> <leader>t :Termdebug<cr>
-" K to evaluate messes up my navigation
-" if !exists('g:termdebug_map_K') || g:termdebug_map_K
-" nnoremap K :Evaluate<CR>
-" endif
+" Source the termdebug plugin for vim 8.2
+if v:version >= 802
+    packadd termdebug
+    noremap <silent> <leader>t :Termdebug<cr>
+endif
+
+" better termdebug layout
+let g:termdebug_wide=1
 
 " Turn on syntax highlighting
 syntax on
@@ -161,9 +165,6 @@ set scrolloff=3
 set backspace=indent,eol,start
 set matchpairs+=<:> " use % to jump between pairs
 runtime! macros/matchit.vim
-"
-" better termdebug layput
-let g:termdebug_wide=1
 
 " Navigation
 noremap K     {
