@@ -105,10 +105,26 @@ command! -bang -nargs=* Rg
 " let g:syntastic_check_on_open = 1
 " let g:syntastic_check_on_wq = 0
 
+" seemless navigation if termdebug is open
+if exists(':tnoremap')
+ tnoremap <silent> <c-h> <c-w>:TmuxNavigateLeft<cr>
+ tnoremap <silent> <c-j> <c-w>:TmuxNavigateDown<cr>
+ tnoremap <silent> <c-k> <c-w>:TmuxNavigateUp<cr>
+ tnoremap <silent> <c-l> <c-w>:TmuxNavigateRight<cr>
+ tnoremap <silent> <c-\> <c-w>:TmuxNavigatePrevious<cr>
+endif
 
 " Put your non-Plugin stuff after this line
 "
 let g:ackprg = 'ag --nogroup --nocolor --column'
+
+" Source the termdebug plugin
+" packadd termdebug
+" noremap <silent> <leader>t :Termdebug<cr>
+" K to evaluate messes up my navigation
+" if !exists('g:termdebug_map_K') || g:termdebug_map_K
+" nnoremap K :Evaluate<CR>
+" endif
 
 " Turn on syntax highlighting
 syntax on
@@ -145,8 +161,11 @@ set scrolloff=3
 set backspace=indent,eol,start
 set matchpairs+=<:> " use % to jump between pairs
 runtime! macros/matchit.vim
+"
+" better termdebug layput
+let g:termdebug_wide=1
 
-" Naviation
+" Navigation
 noremap K     {
 noremap J     }
 noremap H     ^
@@ -159,7 +178,6 @@ vnoremap <Down> gj
 vnoremap <Up> gk
 inoremap <Down> <C-o>gj
 inoremap <Up> <C-o>gk
-
 
 " indentation
 nnoremap <Tab>   >>
@@ -197,7 +215,7 @@ set smartcase
 set showmatch
 " press enter to clear last search highlighting
 nnoremap <silent> <cr> :noh<CR><CR>
-" * just highlights but doesn't jump
+" * just highlights but don't jump
 map <silent> * :let @/="\\<<c-r><c-w>\\>"<CR>:set hls<CR>
 " Remap help key.
 inoremap <F1> <ESC>:set invfullscreen<CR>a
@@ -213,8 +231,6 @@ nnoremap <silent> <leader>Q vapJgqap
 
 " Allow saving of files as sudo when I forgot to start vim using sudo.
 cmap w!! w !sudo tee > /dev/null %
-" to swap two object select and delete, then visual select and ctrl-x to swap
-vnoremap <C-X> <Esc>`.``gvP``P
 " gw to swap the current word with the next, keep cursor
 :nnoremap <silent> gw "_yiw:s/\(\%#\w\+\)\(\W\+\)\(\w\+\)/\3\2\1/<CR><c-o><c-l>:nohlsearch<CR>
 " Visualize tabs and newlines
