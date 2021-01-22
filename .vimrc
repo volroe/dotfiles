@@ -108,14 +108,21 @@ let g:tagbar_use_cache = 0
 " let g:syntastic_check_on_open = 1
 " let g:syntastic_check_on_wq = 0
 
-" seemless navigation if termdebug is open
-if exists(':tnoremap')
- tnoremap <silent> <c-h> <c-w>:TmuxNavigateLeft<cr>
- tnoremap <silent> <c-j> <c-w>:TmuxNavigateDown<cr>
- tnoremap <silent> <c-k> <c-w>:TmuxNavigateUp<cr>
- tnoremap <silent> <c-l> <c-w>:TmuxNavigateRight<cr>
- tnoremap <silent> <c-\> <c-w>:TmuxNavigatePrevious<cr>
-endif
+function s:AddTerminalNavigation()
+
+    if &filetype ==# ''
+        tnoremap <buffer> <silent> <c-h> <c-\><c-n>:TmuxNavigateLeft<cr>
+        tnoremap <buffer> <silent> <c-j> <c-\><c-n>:TmuxNavigateDown<cr>
+        tnoremap <buffer> <silent> <c-k> <c-\><c-n>:TmuxNavigateUp<cr>
+        tnoremap <buffer> <silent> <c-l> <c-\><c-n>:TmuxNavigateRight<cr>
+    endif
+
+endfunction
+
+augroup TerminalNavigation
+    autocmd!
+    autocmd TerminalOpen * call s:AddTerminalNavigation()
+augroup END
 
 " Put your non-Plugin stuff after this line
 "
