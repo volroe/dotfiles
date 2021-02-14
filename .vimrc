@@ -248,6 +248,8 @@ set listchars=tab:▸\ ,eol:¬
 " Or use your leader key + l to toggle on/off
 map <leader>l :set list!<CR> " Toggle tabs and EOL
 
+" avoid random characters at startup
+set t_TI= t_TE=
 " Color scheme (terminal)
 set t_Co=256
 set background=light
@@ -263,7 +265,7 @@ if &term =~ '^screen'
     execute "set <xRight>=\e[1;*C"
     execute "set <xLeft>=\e[1;*D"
 endif
-
+:hi debugPC term=reverse ctermbg=4 guibg=lightblue
 " fix syntax highlighting in markdown 
 function! MathAndLiquid()
     "" Define certain regions

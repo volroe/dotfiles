@@ -64,9 +64,10 @@ bind '"\e[3;5~": kill-word'
 
 # enable pdf text search (first page) with fzf
 p () {
+    dir=${1:-"/home/vroeloffs/umg/papers/"}
     open=${2:-"xdg-open"}   # this will open pdf file withthe default PDF viewer on KDE, xfce, LXDE and perhaps on other desktops.
     
-    ag $1 -U -g ".pdf$" \
+    ag $dir -U -g ".pdf$" \
     | fast-p \
     | fzf --read0 --reverse -e -d $'\t'  \
         --preview-window down:80% --preview '
