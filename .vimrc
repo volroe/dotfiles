@@ -55,6 +55,8 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
 
     Plugin 'junegunn/goyo.vim'
 
+    Plugin 'baeuml/summerfruit256.vim'
+
     Plugin 'junegunn/seoul256.vim'
 
     Plugin 'majutsushi/tagbar'
