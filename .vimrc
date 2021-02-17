@@ -255,11 +255,13 @@ set t_TI= t_TE=
 " Color scheme (terminal)
 set t_Co=256
 set background=light
-let g:solarized_termcolors=256
-let g:solarized_termtrans=1
-let g:seoul256_background = 256
-colorscheme seoul256-light
+" let g:solarized_termcolors=256
+" let g:solarized_termtrans=1
+" let g:seoul256_background = 256
+" colorscheme seoul256-light
+colorscheme summerfruit256
 :hi Normal ctermbg=NONE guibg=NONE
+:hi Comment ctermfg=lightgray
 if &term =~ '^screen'
     "tmux will send xterm-style keys when its xterm-keys option is on
     execute "set <xUp>=\e[1;*A"
