@@ -32,6 +32,8 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
 
     Plugin 'tpope/vim-commentary'
 
+    Plugin 'tpope/vim-obsession'
+
     Plugin 'airblade/vim-gitgutter'
 
     Plugin 'skywind3000/asyncrun.vim'
@@ -269,7 +271,7 @@ if &term =~ '^screen'
     execute "set <xRight>=\e[1;*C"
     execute "set <xLeft>=\e[1;*D"
 endif
-:hi debugPC term=reverse ctermbg=4 guibg=lightblue
+:hi debugPC term=reverse ctermbg=lightblue guibg=lightblue
 " fix syntax highlighting in markdown 
 function! MathAndLiquid()
     "" Define certain regions
