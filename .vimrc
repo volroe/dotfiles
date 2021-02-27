@@ -333,3 +333,13 @@ augroup pencil
   autocmd FileType markdown,mkd call pencil#init({'wrap': 'hard', 'autoformat': 1})
   autocmd FileType text         call pencil#init({'wrap': 'hard', 'autoformat': 0})
 augroup END
+
+function! ToggleQuickFix()
+    if empty(filter(getwininfo(), 'v:val.quickfix'))
+        bo copen
+    else
+        cclose
+    endif
+endfunction
+
+nnoremap <silent> <F4> :call ToggleQuickFix()<cr>
