@@ -67,6 +67,8 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
     
     Plugin 'rhysd/vim-clang-format'
 
+    Plugin 'alok/notational-fzf-vim'
+
     " All of your Plugins must be added before the following line
     call vundle#end()            " required
     filetype plugin indent on    " required
@@ -93,7 +95,7 @@ nmap <Leader>H :Helptags!<CR>
 nmap <Leader>C :Commands<CR>
 nmap <Leader>: :History:<CR>
 nmap <Leader>M :Maps<CR>
-nmap <Leader>s :Filetypes<CR>
+" nmap <Leader>s :Filetypes<CR>
 " Get text in files with Rg
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
@@ -127,6 +129,9 @@ augroup TerminalNavigation
     autocmd!
     autocmd TerminalOpen * call s:AddTerminalNavigation()
 augroup END
+
+let g:nv_search_paths = ['docs.md' , '~/neoscan/notes']
+nnoremap <silent> <leader>s :NV<CR>
 
 " Put your non-Plugin stuff after this line
 "
