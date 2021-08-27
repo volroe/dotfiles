@@ -113,6 +113,7 @@ extract () {
   fi
 }
 
+<<<<<<< Updated upstream
 # GIT heart FZF
 # -------------
 
@@ -178,4 +179,13 @@ latest-file-in-directory () {
                     printf '%s' "$record" | cut -d. -f3-
                     break
             done
+}
+
+makescriptfromhistory () {
+
+    scriptname="$1"
+
+    history | fzf -m --tac | cut -c 8- > $scriptname
+    chmod u+x $scriptname
+    sed -i '1 i\#! /bin/bash' $scriptname
 }

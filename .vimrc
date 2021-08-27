@@ -34,13 +34,13 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
 
     Plugin 'tpope/vim-obsession'
 
+    Plugin 'tpope/vim-surround'
+    
     Plugin 'airblade/vim-gitgutter'
 
     Plugin 'skywind3000/asyncrun.vim'
 
     " Plugin 'lifepillar/vim-mucomplete'
-
-    Plugin 'zxqfl/tabnine-vim'
 
     " Plugin 'vim-syntastic/syntastic' 
 
@@ -68,6 +68,8 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
     Plugin 'rhysd/vim-clang-format'
 
     Plugin 'alok/notational-fzf-vim'
+
+    Plugin 'codota/tabnine-vim'
 
     " All of your Plugins must be added before the following line
     call vundle#end()            " required
@@ -130,9 +132,8 @@ augroup TerminalNavigation
     autocmd TerminalOpen * call s:AddTerminalNavigation()
 augroup END
 
-let g:nv_search_paths = ['docs.md' , '~/neoscan/notes']
+let g:nv_search_paths = ['~/neoscan/notes', '~/notes', 'docs.md', './notes.md']
 nnoremap <silent> <leader>s :NV<CR>
-
 nnoremap <silent> <Leader>ag :Ag <C-R><C-W><CR>
 
 " Put your non-Plugin stuff after this line
@@ -340,7 +341,7 @@ set directory=$HOME/.vim/swapfiles//
 " use vim for prose
 augroup pencil
   autocmd!
-  autocmd FileType markdown,mkd call pencil#init({'wrap': 'hard', 'autoformat': 1})
+  autocmd FileType markdown,mkd call pencil#init({'wrap': 'hard', 'autoformat': 0})
   autocmd FileType text         call pencil#init({'wrap': 'hard', 'autoformat': 0})
 augroup END
 
