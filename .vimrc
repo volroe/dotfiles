@@ -133,6 +133,8 @@ augroup END
 let g:nv_search_paths = ['docs.md' , '~/neoscan/notes']
 nnoremap <silent> <leader>s :NV<CR>
 
+nnoremap <silent> <Leader>ag :Ag <C-R><C-W><CR>
+
 " Put your non-Plugin stuff after this line
 "
 let g:ackprg = 'ag --nogroup --nocolor --column'
@@ -243,6 +245,9 @@ vnoremap <F1> :set invfullscreen<CR>
 nnoremap <silent> Q gqap
 xnoremap <silent> Q gq
 nnoremap <silent> <leader>Q vapJgqap
+
+" fzf-vim close quick when hitting ESC
+set timeoutlen=1000 ttimeoutlen=0
 
 " useful shortcuts
 

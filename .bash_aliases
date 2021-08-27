@@ -170,3 +170,12 @@ _gs() {
   git stash list | fzf-down --reverse -d: --preview 'git show --color=always {1}' |
   cut -d: -f1
 }
+
+latest-file-in-directory () {
+    find "${@:-.}" -maxdepth 1 -type f -printf '%T@.%p\0' | \
+            sort -znr -t. -k1,2 | \
+            while IFS= read -r -d '' -r record ; do
+                    printf '%s' "$record" | cut -d. -f3-
+                    break
+            done
+}
