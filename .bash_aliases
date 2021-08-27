@@ -113,7 +113,6 @@ extract () {
   fi
 }
 
-<<<<<<< Updated upstream
 # GIT heart FZF
 # -------------
 
