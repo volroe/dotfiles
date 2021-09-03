@@ -46,6 +46,8 @@ alias ..='cd ..'
 alias ...='cd ../../'
 alias ....='cd ../../../'
 
+../..() { cd ../../; }
+../../..() { cd ../../../; }
 
 # some more ls aliases
 alias ll='ls -haltr'
