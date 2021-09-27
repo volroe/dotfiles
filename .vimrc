@@ -104,6 +104,7 @@ command! -bang -nargs=* Rg
   \   'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
   \   fzf#vim#with_preview(), <bang>0)
 
+
 " neccessary as snap ctags can't access /tmp 
 let g:tagbar_use_cache = 0
 
@@ -268,6 +269,20 @@ set t_TI= t_TE=
 " Color scheme (terminal)
 set t_Co=256
 set background=light
+
+" handling setting and unsetting BAT_THEME for fzf.vim
+augroup update_bat_theme
+    autocmd!
+    autocmd colorscheme * call ToggleBatEnvVar()
+augroup end
+function ToggleBatEnvVar()
+    if (&background == "light")
+        let $BAT_THEME='Monokai Extended Light'
+    else
+        let $BAT_THEME=''
+    endif
+endfunction
+
 " let g:solarized_termcolors=256
 " let g:solarized_termtrans=1
 " let g:seoul256_background = 256
@@ -321,6 +336,8 @@ endif
 set wildmenu
 
 set clipboard=unnamedplus
+" make sure pasted-over content doesn't go to clipboard
+vnoremap p "_c<C-r><C-o>+<Esc>
 
 set tags=./tags,tags;
 " set autochdir
