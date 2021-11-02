@@ -38,8 +38,6 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
     
     Plugin 'airblade/vim-gitgutter'
 
-    Plugin 'skywind3000/asyncrun.vim'
-
     " Plugin 'lifepillar/vim-mucomplete'
 
     " Plugin 'vim-syntastic/syntastic' 
@@ -71,6 +69,9 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
 
     Plugin 'codota/tabnine-vim'
 
+    Plugin 'JoshMcguigan/estream'
+
+    Plugin 'skywind3000/asyncrun.vim'
     " All of your Plugins must be added before the following line
     call vundle#end()            " required
     filetype plugin indent on    " required
@@ -362,12 +363,25 @@ augroup pencil
   autocmd FileType text         call pencil#init({'wrap': 'hard', 'autoformat': 0})
 augroup END
 
-function! ToggleQuickFix()
-    if empty(filter(getwininfo(), 'v:val.quickfix'))
-        bo copen
-    else
-        cclose
-    endif
-endfunction
+" open quickfix window automatically when AsyncRun is executed
+" set the quickfix window 6 lines height.
+let g:asyncrun_open = 12
+" open quickfix window always at the bottom 
+" :autocmd FileType qf wincmd J
+" Set global error format to match estream output
+" set errorformat=%f\|%l\|%c,%f\|%l\|,%f\|\|
+" Use global error format with asyncrun
+" let g:asyncrun_local = 0
 
-nnoremap <silent> <F4> :call ToggleQuickFix()<cr>
+" Pipe any async command through estream to format it as expected
+" by the errorformat setting above
+" example: `:Async cargo test`
+" command -nargs=1 Async execute "AsyncRun <args> |& $VIM_HOME/bundle/estream/bin/estream"
+
+" F4 to toggle quickfix window
+nnoremap <F4> :call asyncrun#quickfix_toggle(12)<cr>
+
+" logic to find the root directory
+let g:asyncrun_rootmarks = ['.gitmodules', '.root']
+
+nnoremap <silent> <F7> :AsyncRun -cwd=<root> -mode=term -pos=right /opt/Qt/Tools/CMake/bin/cmake --build ./../build-*-Desktop_Qt_5_15_2_GCC_64bit-Debug --target all<cr>
