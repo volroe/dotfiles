@@ -192,3 +192,11 @@ makescriptfromhistory () {
     chmod u+x $scriptname
     sed -i '1 i\#! /bin/bash' $scriptname
 }
+
+v() {
+  local files
+  files=$(grep '^>' ~/.viminfo | cut -c3- |
+          while read line; do
+            [ -f "${line/\~/$HOME}" ] && echo "$line"
+          done | fzf-tmux -d -m -q "$*" -1) && vim ${files//\~/$HOME}
+}
