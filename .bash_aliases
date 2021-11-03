@@ -11,6 +11,8 @@ alias ta='tmux attach -t'
 alias tn='tmux new-session'
 # Lists all ongoing sessions
 alias tl='tmux list-sessions'
+# to edit sensitive content
+alias vimprivate='vim -u NONE -c "setlocal history=0 nobackup nomodeline noshelltemp noswapfile noundofile nowritebackup secure viminfo=\"\""'
 
 pushd()
 {
