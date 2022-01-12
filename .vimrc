@@ -72,6 +72,9 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
     Plugin 'JoshMcguigan/estream'
 
     Plugin 'skywind3000/asyncrun.vim'
+
+    Plugin 'dbakker/vim-paragraph-motion'
+
     " All of your Plugins must be added before the following line
     call vundle#end()            " required
     filetype plugin indent on    " required

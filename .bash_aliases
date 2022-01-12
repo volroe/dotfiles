@@ -74,7 +74,7 @@ bind '"\e[3;5~": kill-word'
 
 # enable pdf text search (first page) with fzf
 p () {
-    dir=${1:-"/home/vroeloffs/umg/papers/"}
+    dir=${1:-"/home/vroeloffs/neoscan/"}
     open=${2:-"xdg-open"}   # this will open pdf file withthe default PDF viewer on KDE, xfce, LXDE and perhaps on other desktops.
     
     ag $dir -U -g ".pdf$" \
@@ -199,4 +199,11 @@ v() {
           while read line; do
             [ -f "${line/\~/$HOME}" ] && echo "$line"
           done | fzf-tmux -d -m -q "$*" -1) && vim ${files//\~/$HOME}
+}
+
+rs() {
+    for var in "$@"
+    do
+        printf "%s" "${var%.*} "
+    done
 }
