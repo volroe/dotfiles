@@ -356,6 +356,7 @@ autocmd VimEnter * silent !echo -ne "\e[2 q"
 augroup END
 
 autocmd filetype c setlocal noexpandtab shiftwidth=4 softtabstop=4
+autocmd FileType c,cpp,cs,java          set commentstring=//\ %s
 
 set directory=$HOME/.vim/swapfiles//
 

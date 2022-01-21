@@ -43,6 +43,7 @@ dirs
 
 alias cd='pushd > /dev/null'
 alias back='popd > /dev/null'
+alias b='popd > /dev/null'
 alias flip='pushd_builtin'
 alias ..='cd ..'
 alias ...='cd ../../'
@@ -51,10 +52,6 @@ alias ....='cd ../../../'
 ../..() { cd ../../; }
 ../../..() { cd ../../../; }
 
-# some more ls aliases
-alias ll='ls -haltr'
-alias la='ls -A'
-alias l='ls -CF'
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
