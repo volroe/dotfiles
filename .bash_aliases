@@ -14,6 +14,11 @@ alias tl='tmux list-sessions'
 # to edit sensitive content
 alias vimprivate='vim -u NONE -c "setlocal history=0 nobackup nomodeline noshelltemp noswapfile noundofile nowritebackup secure viminfo=\"\""'
 
+bartfiles () { names=( "$2"*.hdr ); COMPREPLY=( "${names[@]%.hdr}" ); }
+complete -F bartfiles bart
+complete -F bartfiles dims
+complete -F bartfiles view
+
 pushd()
 {
 if [ $# -eq 0 ]; then

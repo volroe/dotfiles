@@ -300,7 +300,10 @@ if &term =~ '^screen'
     execute "set <xDown>=\e[1;*B"
     execute "set <xRight>=\e[1;*C"
     execute "set <xLeft>=\e[1;*D"
+    " tmux knows the extended mouse mode
+    set ttymouse=xterm2
 endif
+
 :hi debugPC term=reverse ctermbg=lightblue guibg=lightblue
 " fix syntax highlighting in markdown 
 function! MathAndLiquid()
@@ -386,6 +389,37 @@ let g:asyncrun_open = 12
 nnoremap <F4> :call asyncrun#quickfix_toggle(12)<cr>
 
 " logic to find the root directory
-let g:asyncrun_rootmarks = ['.gitmodules', '.root']
+let g:asyncrun_rootmarks = ['.gitmodules_ssh', '.root']
 
-nnoremap <silent> <F7> :AsyncRun -cwd=<root> -mode=term -pos=right /opt/Qt/Tools/CMake/bin/cmake --build ./../build-*-Desktop_Qt_5_15_2_GCC_64bit-Debug --target all<cr>
+nnoremap <silent> <F9> :AsyncRun -cwd=<root> ~/scripts/build-script.sh<cr>
+let g:clang_format#code_style="llvm"
+let g:clang_format#style_options = {
+            \ "UseTab": "Never",
+            \ "IndentWidth": "4",
+            \ "AllowShortIfStatementsOnASingleLine": "false",
+            \ "AllowShortFunctionsOnASingleLine": "false",
+            \ "IndentCaseLabels": "false",
+            \ "ColumnLimit": "0",
+            \ "ConstructorInitializerAllOnOneLineOrOnePerLine": "false",
+            \ "ConstructorInitializerIndentWidth": "0",
+            \ "AccessModifierOffset": "-4",
+            \ "BreakBeforeBraces": "Linux",
+            \ "BreakConstructorInitializers": "BeforeComma"}
+
+" use this to close multiple buffers with fzf
+function! s:list_buffers()
+  redir => list
+  silent ls
+  redir END
+  return split(list, "\n")
+endfunction
+
+function! s:delete_buffers(lines)
+  execute 'bwipeout' join(map(a:lines, {_, line -> split(line)[0]}))
+endfunction
+
+command! BD call fzf#run(fzf#wrap({
+  \ 'source': s:list_buffers(),
+  \ 'sink*': { lines -> s:delete_buffers(lines) },
+  \ 'options': '--multi --reverse --bind ctrl-a:select-all+accept'
+\ }))
