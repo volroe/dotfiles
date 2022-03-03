@@ -344,7 +344,7 @@ set wildmenu
 
 set clipboard=unnamedplus
 " make sure pasted-over content doesn't go to clipboard
-vnoremap p "_c<C-r><C-o>+<Esc>"_dd
+xnoremap <expr> p 'pgv"'.v:register.'y`>' 
 
 set tags=./tags,tags;
 " set autochdir
