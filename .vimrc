@@ -75,6 +75,12 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
 
     Plugin 'dbakker/vim-paragraph-motion'
 
+    Plugin 'vim-scripts/argtextobj.vim'
+
+    Plugin 'vim-scripts/DoxygenToolkit.vim'
+
+    " Plugin 'dense-analysis/ale'
+
     " All of your Plugins must be added before the following line
     call vundle#end()            " required
     filetype plugin indent on    " required
@@ -294,15 +300,17 @@ endfunction
 colorscheme summerfruit256
 :hi Normal ctermbg=NONE guibg=NONE
 :hi Comment ctermfg=lightgray
+" tmux knows the extended mouse mode
+set ttymouse=xterm2
 if &term =~ '^screen'
     "tmux will send xterm-style keys when its xterm-keys option is on
     execute "set <xUp>=\e[1;*A"
     execute "set <xDown>=\e[1;*B"
     execute "set <xRight>=\e[1;*C"
     execute "set <xLeft>=\e[1;*D"
-    " tmux knows the extended mouse mode
-    set ttymouse=xterm2
 endif
+" open new splits to the right
+set splitright
 
 :hi debugPC term=reverse ctermbg=lightblue guibg=lightblue
 " fix syntax highlighting in markdown 
@@ -389,7 +397,7 @@ let g:asyncrun_open = 12
 nnoremap <F4> :call asyncrun#quickfix_toggle(12)<cr>
 
 " logic to find the root directory
-let g:asyncrun_rootmarks = ['.gitmodules_ssh', '.root']
+let g:asyncrun_rootmarks = ['.git', '.root']
 
 nnoremap <silent> <F9> :AsyncRun -cwd=<root> ~/scripts/build-script.sh<cr>
 let g:clang_format#code_style="llvm"
