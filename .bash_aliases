@@ -1,4 +1,5 @@
-# some more ls aliases
+shopt -s expand_aliases
+#some more ls aliases
 alias ll='ls -haltr'
 alias la='ls -A'
 alias l='ls -CF'
@@ -60,19 +61,6 @@ alias ....='cd ../../../'
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-
-bind '"\e[A": history-search-backward'
-bind '"\e[B": history-search-forward'
-
-# bind '"\e[1;5A":history-search-backward'
-# bind '"\e[1;5B":history-search-forward'
- 
-bind '"\e[1;5D" backward-word'
-bind '"\e[1;5C" forward-word'
-
-stty werase undef
-bind '"\C-H": backward-kill-word'
-bind '"\e[3;5~": kill-word'
 
 # enable pdf text search (first page) with fzf
 p () {
@@ -149,5 +137,53 @@ rs() {
     for var in "$@"
     do
         printf "%s" "${var%.*} "
+    done
+}
+
+rga-fzf() {
+	RG_PREFIX="rga --files-with-matches"
+	local file
+	file="$(
+		FZF_DEFAULT_COMMAND="$RG_PREFIX '$1'" \
+			fzf --sort --preview="[[ ! -z {} ]] && rga --pretty --context 5 {q} {}" \
+				--phony -q "$1" \
+				--bind "change:reload:$RG_PREFIX {q}" \
+				--preview-window="70%:wrap"
+	)" &&
+	echo "opening $file" &&
+	xdg-open "$file"
+}
+
+rga-fzf-online() {
+	RG_PREFIX="rga --files-with-matches"
+	local file
+    local RELATIVEFILE
+    local FULLONLINENAME
+	file="$(
+		FZF_DEFAULT_COMMAND="$RG_PREFIX '$1'" \
+			fzf --sort --preview="[[ ! -z {} ]] && rga --pretty --context 5 {q} {}" \
+				--phony -q "$1" \
+                --multi \
+				--bind "change:reload:$RG_PREFIX {q}" \
+				--preview-window="70%:wrap"
+	)" &&
+    echo "$file" | \
+    while IFS= read -r line; do
+        RELATIVEFILE="$(realpath --relative-to="/home/vroeloffs/sharepoint/" "$line")" &&
+        FULLONLINENAME="https://neoscansolutions.sharepoint.com/:t:/r/sites/NeoscanSolutionsGmbH/Freigegebene%20Dokumente/${RELATIVEFILE}?csf=1&web=1&e=W0VqTk" &&
+        echo "opening $file online" &&
+        /usr/bin/firefox --new-tab "$FULLONLINENAME"
+    done
+}
+# open file online with Office365
+oo() {
+    for file in "$@"; do
+        echo "$file" | \
+        while IFS= read -r line; do
+            RELATIVEFILE="$(realpath --relative-to="/home/vroeloffs/sharepoint/" "$line")" &&
+            FULLONLINENAME="https://neoscansolutions.sharepoint.com/:t:/r/sites/NeoscanSolutionsGmbH/Freigegebene%20Dokumente/${RELATIVEFILE}?csf=1&web=1&e=W0VqTk" &&
+            echo "opening $file online" &&
+            /usr/bin/firefox --new-tab "$FULLONLINENAME"
+        done
     done
 }
