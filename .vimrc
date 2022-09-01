@@ -309,6 +309,10 @@ endfunction
 colorscheme summerfruit256
 :hi Normal ctermbg=NONE guibg=NONE
 :hi Comment ctermfg=lightgray
+:hi DiffAdd     ctermfg=NONE ctermbg=NONE gui=none guifg=bg guibg=Red
+:hi DiffDelete  ctermfg=NONE ctermbg=NONE gui=none guifg=bg guibg=Red
+:hi DiffChange  ctermfg=NONE ctermbg=NONE gui=none guifg=bg guibg=Red
+:hi DiffText   cterm=bold ctermfg=NONE ctermbg=NONE gui=none guifg=bg guibg=Red
 " tmux knows the extended mouse mode
 set ttymouse=xterm2
 if &term =~ '^screen'
