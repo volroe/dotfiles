@@ -427,7 +427,7 @@ nnoremap <silent> <F12> :$read ! ~/scripts/grab-data-from-dtrs \| egrep "rawdata
 let g:asyncrun_rootmarks = ['.git', '.root']
 
 nnoremap <silent> <F9> :AsyncRun -cwd=<root> ~/scripts/build-script.sh<cr>
-let g:clang_format#code_style="llvm"
+" let g:clang_format#code_style="llvm"
 let g:clang_format#style_options = {
             \ "UseTab": "Never",
             \ "IndentWidth": "4",
@@ -439,8 +439,9 @@ let g:clang_format#style_options = {
             \ "ConstructorInitializerIndentWidth": "0",
             \ "AccessModifierOffset": "-4",
             \ "BreakBeforeBraces": "Linux",
-            \ "BreakConstructorInitializers": "BeforeComma"}
-
+            \ "BreakConstructorInitializers": "BeforeComma",
+            \ "AllowShortCaseLabelsOnASingleLine": "true",
+            \ "PointerAlignment": "Left"}
 " use this to close multiple buffers with fzf
 function! s:list_buffers()
   redir => list
@@ -463,6 +464,10 @@ command! BD call fzf#run(fzf#wrap({
 let g:ale_pattern_options = {
 \ '*.py': {'ale_linters': [], 'ale_fixers': []},
 \}
+let g:ale_sign_error = '●'
+let g:ale_sign_warning = '.'
+let g:ale_lint_on_enter = 0
+let g:ale_lint_on_save = 1
 
 " make sure we can use aliases in command mode
 let $BASH_ENV = "~/.bash_aliases"
