@@ -75,6 +75,16 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
 
     Plugin 'dbakker/vim-paragraph-motion'
 
+    Plugin 'vim-scripts/argtextobj.vim'
+
+    Plugin 'vim-scripts/DoxygenToolkit.vim'
+
+    Plugin 'dense-analysis/ale'
+
+    Plugin 'iamcco/markdown-preview.nvim'
+
+    Plugin 'justinmk/vim-sneak'
+
     " All of your Plugins must be added before the following line
     call vundle#end()            " required
     filetype plugin indent on    " required
@@ -213,6 +223,9 @@ vnoremap <S-Tab> <<<Esc>gv
 " consistent Y
 nnoremap Y y$
 
+" need to remap ctrl-i as equivalent to <Tab> otherwise
+noremap <C-u> <C-i>
+
 " allow ctrl-z in insert mode
 inoremap <c-z> <esc><c-z>
 
@@ -242,6 +255,8 @@ set showmatch
 nnoremap <silent> <cr> :noh<CR><CR>
 " * just highlights but don't jump
 map <silent> * :let @/="\\<<c-r><c-w>\\>"<CR>:set hls<CR>
+" highlight the visual selection after pressing enter.
+xnoremap <silent> <cr> "*y:silent! let searchTerm = '\V'.substitute(escape(@*, '\/'), "\n", '\\n', "g") <bar> let @/ = searchTerm <bar> echo '/'.@/ <bar> call histadd("search", searchTerm) <bar> set hls<cr>
 " Remap help key.
 inoremap <F1> <ESC>:set invfullscreen<CR>a
 nnoremap <F1> :set invfullscreen<CR>
@@ -294,6 +309,12 @@ endfunction
 colorscheme summerfruit256
 :hi Normal ctermbg=NONE guibg=NONE
 :hi Comment ctermfg=lightgray
+:hi DiffAdd     ctermfg=NONE ctermbg=NONE gui=none guifg=bg guibg=Red
+:hi DiffDelete  ctermfg=NONE ctermbg=NONE gui=none guifg=bg guibg=Red
+:hi DiffChange  ctermfg=NONE ctermbg=NONE gui=none guifg=bg guibg=Red
+:hi DiffText   cterm=bold ctermfg=NONE ctermbg=NONE gui=none guifg=bg guibg=Red
+" tmux knows the extended mouse mode
+set ttymouse=xterm2
 if &term =~ '^screen'
     "tmux will send xterm-style keys when its xterm-keys option is on
     execute "set <xUp>=\e[1;*A"
@@ -301,6 +322,9 @@ if &term =~ '^screen'
     execute "set <xRight>=\e[1;*C"
     execute "set <xLeft>=\e[1;*D"
 endif
+" open new splits to the right
+set splitright
+
 :hi debugPC term=reverse ctermbg=lightblue guibg=lightblue
 " fix syntax highlighting in markdown 
 function! MathAndLiquid()
@@ -324,9 +348,10 @@ function! MathAndLiquid()
     hi link math_block Function
 endfunction
 
+" no syntax highlighting in prot.md
+autocmd BufNewFile,BufRead prot.md setlocal syntax=OFF
 " Call everytime we open a Markdown file
 autocmd BufRead,BufNewFile,BufEnter *.md,*.markdown call MathAndLiquid()
-
 " make sure .e files are highlighted properly
 au BufNewFile,BufRead *.e set filetype=c
 
@@ -341,7 +366,7 @@ set wildmenu
 
 set clipboard=unnamedplus
 " make sure pasted-over content doesn't go to clipboard
-vnoremap p "_c<C-r><C-o>+<Esc>
+xnoremap <expr> p 'pgv"'.v:register.'y`>' 
 
 set tags=./tags,tags;
 " set autochdir
@@ -359,6 +384,18 @@ autocmd filetype c setlocal noexpandtab shiftwidth=4 softtabstop=4
 autocmd FileType c,cpp,cs,java          set commentstring=//\ %s
 
 set directory=$HOME/.vim/swapfiles//
+
+" vim -b : edit binary using xxd-format!
+augroup Binary
+  au!
+  au BufReadPre  *.lsd let &bin=1
+  au BufReadPost *.lsd if &bin | %!xxd
+  au BufReadPost *.lsd set ft=xxd | endif
+  au BufWritePre *.lsd if &bin | %!xxd -r
+  au BufWritePre *.lsd endif
+  au BufWritePost *.lsd if &bin | %!xxd
+  au BufWritePost *.lsd set nomod | endif
+augroup END
 
 " use vim for prose
 augroup pencil
@@ -382,10 +419,59 @@ let g:asyncrun_open = 12
 " example: `:Async cargo test`
 " command -nargs=1 Async execute "AsyncRun <args> |& $VIM_HOME/bundle/estream/bin/estream"
 
+" ignore warnings when jumping with :cn
+set errorformat^=%-G%f:%l:\ warning:%m
 " F4 to toggle quickfix window
 nnoremap <F4> :call asyncrun#quickfix_toggle(12)<cr>
 
-" logic to find the root directory
-let g:asyncrun_rootmarks = ['.gitmodules', '.root']
+" F12 to grab data from dtrs 
+nnoremap <silent> <F12> :$read ! ~/scripts/grab-data-from-dtrs \| egrep "rawdata.lsd" \| rev \| cut -c12- \| rev <cr>
 
-nnoremap <silent> <F7> :AsyncRun -cwd=<root> -mode=term -pos=right /opt/Qt/Tools/CMake/bin/cmake --build ./../build-*-Desktop_Qt_5_15_2_GCC_64bit-Debug --target all<cr>
+" logic to find the root directory
+let g:asyncrun_rootmarks = ['.git', '.root']
+
+nnoremap <silent> <F9> :AsyncRun -cwd=<root> ~/scripts/build-script.sh<cr>
+" let g:clang_format#code_style="llvm"
+let g:clang_format#style_options = {
+            \ "UseTab": "Never",
+            \ "IndentWidth": "4",
+            \ "AllowShortIfStatementsOnASingleLine": "false",
+            \ "AllowShortFunctionsOnASingleLine": "false",
+            \ "IndentCaseLabels": "false",
+            \ "ColumnLimit": "0",
+            \ "ConstructorInitializerAllOnOneLineOrOnePerLine": "false",
+            \ "ConstructorInitializerIndentWidth": "0",
+            \ "AccessModifierOffset": "-4",
+            \ "BreakBeforeBraces": "Linux",
+            \ "BreakConstructorInitializers": "BeforeComma",
+            \ "AllowShortCaseLabelsOnASingleLine": "true",
+            \ "PointerAlignment": "Left"}
+" use this to close multiple buffers with fzf
+function! s:list_buffers()
+  redir => list
+  silent ls
+  redir END
+  return split(list, "\n")
+endfunction
+
+function! s:delete_buffers(lines)
+  execute 'bwipeout' join(map(a:lines, {_, line -> split(line)[0]}))
+endfunction
+
+command! BD call fzf#run(fzf#wrap({
+  \ 'source': s:list_buffers(),
+  \ 'sink*': { lines -> s:delete_buffers(lines) },
+  \ 'options': '--multi --reverse --bind ctrl-a:select-all+accept'
+\ }))
+
+" Do not lint or fix python files.
+let g:ale_pattern_options = {
+\ '*.py': {'ale_linters': [], 'ale_fixers': []},
+\}
+let g:ale_sign_error = '●'
+let g:ale_sign_warning = '.'
+let g:ale_lint_on_enter = 0
+let g:ale_lint_on_save = 1
+
+" make sure we can use aliases in command mode
+let $BASH_ENV = "~/.bash_aliases"

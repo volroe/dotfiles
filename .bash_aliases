@@ -1,4 +1,5 @@
-# some more ls aliases
+shopt -s expand_aliases
+#some more ls aliases
 alias ll='ls -haltr'
 alias la='ls -A'
 alias l='ls -CF'
@@ -13,6 +14,11 @@ alias tn='tmux new-session'
 alias tl='tmux list-sessions'
 # to edit sensitive content
 alias vimprivate='vim -u NONE -c "setlocal history=0 nobackup nomodeline noshelltemp noswapfile noundofile nowritebackup secure viminfo=\"\""'
+
+bartfiles () { names=( "$2"*.hdr ); COMPREPLY=( "${names[@]%.hdr}" ); }
+complete -F bartfiles bart
+complete -F bartfiles dims
+complete -F bartfiles view
 
 pushd()
 {
@@ -55,19 +61,6 @@ alias ....='cd ../../../'
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-
-bind '"\e[A": history-search-backward'
-bind '"\e[B": history-search-forward'
-
-# bind '"\e[1;5A":history-search-backward'
-# bind '"\e[1;5B":history-search-forward'
- 
-bind '"\e[1;5D" backward-word'
-bind '"\e[1;5C" forward-word'
-
-stty werase undef
-bind '"\C-H": backward-kill-word'
-bind '"\e[3;5~": kill-word'
 
 # enable pdf text search (first page) with fzf
 p () {
@@ -114,64 +107,6 @@ extract () {
   fi
 }
 
-# GIT heart FZF
-# -------------
-
-is_in_git_repo() {
-  git rev-parse HEAD > /dev/null 2>&1
-}
-
-fzf-down() {
-  fzf --height 50% --min-height 20 --border --bind ctrl-/:toggle-preview "$@"
-}
-
-_gf() {
-  is_in_git_repo || return
-  git -c color.status=always status --short |
-  fzf-down -m --ansi --nth 2..,.. \
-    --preview '(git diff --color=always -- {-1} | sed 1,4d; cat {-1})' |
-  cut -c4- | sed 's/.* -> //'
-}
-
-_gb() {
-  is_in_git_repo || return
-  git branch -a --color=always | grep -v '/HEAD\s' | sort |
-  fzf-down --ansi --multi --tac --preview-window right:70% \
-    --preview 'git log --oneline --graph --date=short --color=always --pretty="format:%C(auto)%cd %h%d %s" $(sed s/^..// <<< {} | cut -d" " -f1)' |
-  sed 's/^..//' | cut -d' ' -f1 |
-  sed 's#^remotes/##'
-}
-
-_gt() {
-  is_in_git_repo || return
-  git tag --sort -version:refname |
-  fzf-down --multi --preview-window right:70% \
-    --preview 'git show --color=always {}'
-}
-
-_gh() {
-  is_in_git_repo || return
-  git log --date=short --format="%C(green)%C(bold)%cd %C(auto)%h%d %s (%an)" --graph --color=always |
-  fzf-down --ansi --no-sort --reverse --multi --bind 'ctrl-s:toggle-sort' \
-    --header 'Press CTRL-S to toggle sort' \
-    --preview 'grep -o "[a-f0-9]\{7,\}" <<< {} | xargs git show --color=always' |
-  grep -o "[a-f0-9]\{7,\}"
-}
-
-_gr() {
-  is_in_git_repo || return
-  git remote -v | awk '{print $1 "\t" $2}' | uniq |
-  fzf-down --tac \
-    --preview 'git log --oneline --graph --date=short --pretty="format:%C(auto)%cd %h%d %s" {1}' |
-  cut -d$'\t' -f1
-}
-
-_gs() {
-  is_in_git_repo || return
-  git stash list | fzf-down --reverse -d: --preview 'git show --color=always {1}' |
-  cut -d: -f1
-}
-
 latest-file-in-directory () {
     find "${@:-.}" -maxdepth 1 -type f -printf '%T@.%p\0' | \
             sort -znr -t. -k1,2 | \
@@ -202,5 +137,53 @@ rs() {
     for var in "$@"
     do
         printf "%s" "${var%.*} "
+    done
+}
+
+rga-fzf() {
+	RG_PREFIX="rga --files-with-matches"
+	local file
+	file="$(
+		FZF_DEFAULT_COMMAND="$RG_PREFIX '$1'" \
+			fzf --sort --preview="[[ ! -z {} ]] && rga --pretty --context 5 {q} {}" \
+				--phony -q "$1" \
+				--bind "change:reload:$RG_PREFIX {q}" \
+				--preview-window="70%:wrap"
+	)" &&
+	echo "opening $file" &&
+	xdg-open "$file"
+}
+
+rga-fzf-online() {
+	RG_PREFIX="rga --files-with-matches"
+	local file
+    local RELATIVEFILE
+    local FULLONLINENAME
+	file="$(
+		FZF_DEFAULT_COMMAND="$RG_PREFIX '$1'" \
+			fzf --sort --preview="[[ ! -z {} ]] && rga --pretty --context 5 {q} {}" \
+				--phony -q "$1" \
+                --multi \
+				--bind "change:reload:$RG_PREFIX {q}" \
+				--preview-window="70%:wrap"
+	)" &&
+    echo "$file" | \
+    while IFS= read -r line; do
+        RELATIVEFILE="$(realpath --relative-to="/home/vroeloffs/sharepoint/" "$line")" &&
+        FULLONLINENAME="https://neoscansolutions.sharepoint.com/:t:/r/sites/NeoscanSolutionsGmbH/Freigegebene%20Dokumente/${RELATIVEFILE}?csf=1&web=1&e=W0VqTk" &&
+        echo "opening $file online" &&
+        /usr/bin/firefox --new-tab "$FULLONLINENAME"
+    done
+}
+# open file online with Office365
+oo() {
+    for file in "$@"; do
+        echo "$file" | \
+        while IFS= read -r line; do
+            RELATIVEFILE="$(realpath --relative-to="/home/vroeloffs/sharepoint/" "$line")" &&
+            FULLONLINENAME="https://neoscansolutions.sharepoint.com/:t:/r/sites/NeoscanSolutionsGmbH/Freigegebene%20Dokumente/${RELATIVEFILE}?csf=1&web=1&e=W0VqTk" &&
+            echo "opening $file online" &&
+            /usr/bin/firefox --new-tab "$FULLONLINENAME"
+        done
     done
 }
