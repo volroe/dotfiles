@@ -64,7 +64,7 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 
 # enable pdf text search (first page) with fzf
 p () {
-    dir=${1:-"/home/vroeloffs/neoscan/"}
+    dir=${1:-"/home/vroeloffs/neoscan/papers"}
     open=${2:-"xdg-open"}   # this will open pdf file withthe default PDF viewer on KDE, xfce, LXDE and perhaps on other desktops.
     
     ag $dir -U -g ".pdf$" \
@@ -147,11 +147,16 @@ rga-fzf() {
 		FZF_DEFAULT_COMMAND="$RG_PREFIX '$1'" \
 			fzf --sort --preview="[[ ! -z {} ]] && rga --pretty --context 5 {q} {}" \
 				--phony -q "$1" \
+                --multi \
 				--bind "change:reload:$RG_PREFIX {q}" \
-				--preview-window="70%:wrap"
+				--bind "F2:toggle-preview" \
+				--preview-window="50%:wrap"
 	)" &&
-	echo "opening $file" &&
-	xdg-open "$file"
+    echo "$file" | \
+    while IFS= read -r line; do
+        echo "opening $file" &&
+        xdg-open "$line"
+    done
 }
 
 rga-fzf-online() {
@@ -165,7 +170,8 @@ rga-fzf-online() {
 				--phony -q "$1" \
                 --multi \
 				--bind "change:reload:$RG_PREFIX {q}" \
-				--preview-window="70%:wrap"
+				--bind "F2:toggle-preview" \
+				--preview-window="50%:wrap"
 	)" &&
     echo "$file" | \
     while IFS= read -r line; do

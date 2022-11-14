@@ -36,6 +36,8 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
 
     Plugin 'tpope/vim-surround'
     
+    Plugin 'tpope/vim-abolish'
+    
     Plugin 'airblade/vim-gitgutter'
 
     " Plugin 'lifepillar/vim-mucomplete'
@@ -84,6 +86,8 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
     Plugin 'iamcco/markdown-preview.nvim'
 
     Plugin 'justinmk/vim-sneak'
+    
+    Plugin 'godlygeek/tabular'
 
     " All of your Plugins must be added before the following line
     call vundle#end()            " required
@@ -112,6 +116,7 @@ nmap <Leader>C :Commands<CR>
 nmap <Leader>: :History:<CR>
 nmap <Leader>M :Maps<CR>
 " nmap <Leader>s :Filetypes<CR>
+
 " Get text in files with Rg
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
@@ -224,7 +229,7 @@ vnoremap <S-Tab> <<<Esc>gv
 nnoremap Y y$
 
 " need to remap ctrl-i as equivalent to <Tab> otherwise
-noremap <C-u> <C-i>
+noremap <C-n> <C-i>
 
 " allow ctrl-z in insert mode
 inoremap <c-z> <esc><c-z>
@@ -325,6 +330,10 @@ endif
 " open new splits to the right
 set splitright
 
+" map splits similar to tmux
+nmap <Leader>\ :vsplit<CR>
+nmap <Leader>- :split<CR>
+
 :hi debugPC term=reverse ctermbg=lightblue guibg=lightblue
 " fix syntax highlighting in markdown 
 function! MathAndLiquid()
@@ -421,6 +430,7 @@ let g:asyncrun_open = 12
 
 " ignore warnings when jumping with :cn
 set errorformat^=%-G%f:%l:\ warning:%m
+set errorformat^=%-G%f:%l:\ note:%m
 " F4 to toggle quickfix window
 nnoremap <F4> :call asyncrun#quickfix_toggle(12)<cr>
 
@@ -430,14 +440,16 @@ nnoremap <silent> <F12> :$read ! ~/scripts/grab-data-from-dtrs \| egrep "rawdata
 " logic to find the root directory
 let g:asyncrun_rootmarks = ['.git', '.root']
 
-nnoremap <silent> <F9> :AsyncRun -cwd=<root> ~/scripts/build-script.sh<cr>
+" nnoremap <silent> <F9> :AsyncRun -cwd=<root> ~/scripts/build-script.sh<cr>
+autocmd FileType c,cpp,cmake    nnoremap <buffer> <silent> <F9> :AsyncRun -cwd=<root> ~/scripts/build-script.sh<cr>
+autocmd FileType markdown,mkd   nnoremap <buffer> <silent> <F9> :AsyncRun ~/scripts/make-pres %<cr>
+autocmd FileType sh             nnoremap <buffer> <silent> <F9> :AsyncRun ./%<cr>
 " let g:clang_format#code_style="llvm"
 let g:clang_format#style_options = {
             \ "UseTab": "Never",
             \ "IndentWidth": "4",
             \ "AllowShortIfStatementsOnASingleLine": "false",
             \ "AllowShortFunctionsOnASingleLine": "false",
-            \ "IndentCaseLabels": "false",
             \ "ColumnLimit": "0",
             \ "ConstructorInitializerAllOnOneLineOrOnePerLine": "false",
             \ "ConstructorInitializerIndentWidth": "0",
@@ -445,6 +457,8 @@ let g:clang_format#style_options = {
             \ "BreakBeforeBraces": "Linux",
             \ "BreakConstructorInitializers": "BeforeComma",
             \ "AllowShortCaseLabelsOnASingleLine": "true",
+            \ "IndentCaseLabels": "true",
+            \ "DerivePointerAlignment": "false",
             \ "PointerAlignment": "Left"}
 " use this to close multiple buffers with fzf
 function! s:list_buffers()
@@ -472,6 +486,11 @@ let g:ale_sign_error = '●'
 let g:ale_sign_warning = '.'
 let g:ale_lint_on_enter = 0
 let g:ale_lint_on_save = 1
+
+
+highlight clear SignColumn
+" highlight! link SignColumn LineNr
+let g:gitgutter_set_sign_backgrounds = 1
 
 " make sure we can use aliases in command mode
 let $BASH_ENV = "~/.bash_aliases"
