@@ -175,10 +175,14 @@ rga-fzf-online() {
 	)" &&
     echo "$file" | \
     while IFS= read -r line; do
-        RELATIVEFILE="$(realpath --relative-to="/home/vroeloffs/sharepoint/" "$line")" &&
-        FULLONLINENAME="https://neoscansolutions.sharepoint.com/:t:/r/sites/NeoscanSolutionsGmbH/Freigegebene%20Dokumente/${RELATIVEFILE}?csf=1&web=1&e=W0VqTk" &&
-        echo "opening $file online" &&
-        /usr/bin/firefox --new-tab "$FULLONLINENAME"
+        ABSOLUTEPATH="$(realpath "$line")"
+        case $ABSOLUTEPATH/ in
+            /home/vroeloffs/sharepoint/*) 
+                RELATIVEFILE="$(realpath --relative-to="/home/vroeloffs/sharepoint/" "$line")" &&
+                FULLONLINENAME="https://neoscansolutions.sharepoint.com/:t:/r/sites/NeoscanSolutionsGmbH/Freigegebene%20Dokumente/${RELATIVEFILE}?csf=1&web=1&e=W0VqTk" &&
+                echo "opening $file online" &&
+                /usr/bin/firefox --new-tab "$FULLONLINENAME";;
+        esac
     done
 }
 # open file online with Office365
@@ -186,10 +190,14 @@ oo() {
     for file in "$@"; do
         echo "$file" | \
         while IFS= read -r line; do
-            RELATIVEFILE="$(realpath --relative-to="/home/vroeloffs/sharepoint/" "$line")" &&
-            FULLONLINENAME="https://neoscansolutions.sharepoint.com/:t:/r/sites/NeoscanSolutionsGmbH/Freigegebene%20Dokumente/${RELATIVEFILE}?csf=1&web=1&e=W0VqTk" &&
-            echo "opening $file online" &&
-            /usr/bin/firefox --new-tab "$FULLONLINENAME"
+            ABSOLUTEPATH="$(realpath "$line")"
+            case $ABSOLUTEPATH/ in
+                /home/vroeloffs/sharepoint/*) 
+                    RELATIVEFILE="$(realpath --relative-to="/home/vroeloffs/sharepoint/" "$line")" &&
+                    FULLONLINENAME="https://neoscansolutions.sharepoint.com/:t:/r/sites/NeoscanSolutionsGmbH/Freigegebene%20Dokumente/${RELATIVEFILE}?csf=1&web=1&e=W0VqTk" &&
+                    echo "opening $file online" &&
+                    /usr/bin/firefox --new-tab "$FULLONLINENAME";;
+            esac
         done
     done
 }

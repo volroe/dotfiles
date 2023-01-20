@@ -68,8 +68,16 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
     Plugin 'rhysd/vim-clang-format'
 
     Plugin 'alok/notational-fzf-vim'
+    
+    " Plugin 'codota/tabnine-vim', { 'do': './dl_binaries.sh' }
 
-    Plugin 'codota/tabnine-vim'
+    if has('nvim')
+        Plugin 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+    else
+        Plugin 'Shougo/deoplete.nvim'
+        Plugin 'roxma/nvim-yarp'
+        Plugin 'roxma/vim-hug-neovim-rpc'
+    endif
 
     Plugin 'JoshMcguigan/estream'
 
@@ -88,7 +96,9 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
     Plugin 'justinmk/vim-sneak'
     
     Plugin 'godlygeek/tabular'
-
+    
+    Plugin 'ludovicchabant/vim-gutentags'
+    
     " All of your Plugins must be added before the following line
     call vundle#end()            " required
     filetype plugin indent on    " required
@@ -97,6 +107,13 @@ endif
 " remap leader key
 nnoremap <SPACE> <Nop>
 let mapleader=" "
+
+" deoplete configuration
+let g:deoplete#enable_at_startup = 1
+inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<C-j>"
+inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<C-k>"
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
 nnoremap <silent> <F8> :TagbarToggle<CR>
 
@@ -363,6 +380,22 @@ autocmd BufNewFile,BufRead prot.md setlocal syntax=OFF
 autocmd BufRead,BufNewFile,BufEnter *.md,*.markdown call MathAndLiquid()
 " make sure .e files are highlighted properly
 au BufNewFile,BufRead *.e set filetype=c
+" Read-only pdf through pdftotext
+autocmd BufReadPre *.pdf silent set ro
+autocmd BufReadPost *.pdf silent %!pdftotext -nopgbrk -layout -q -eol unix "%" - | fmt -w78
+
+" Read-only .doc through antiword
+autocmd BufReadPre *.doc silent set ro
+autocmd BufReadPost *.doc silent %!antiword "%"
+
+" Open word files with pandoc
+autocmd BufReadPre *.docx silent set ro
+autocmd BufEnter *.docx silent set modifiable
+autocmd BufEnter *.docx silent  %!pandoc --columns=78 -f docx -t markdown "%"
+
+" Open odt files with pandoc
+autocmd BufReadPre *.odt silent set ro
+autocmd BufEnter *.odt silent  %!pandoc --columns=78 -f odt -t markdown "%"
 
 set mouse=a
 if &term =~ '^screen'
@@ -377,7 +410,9 @@ set clipboard=unnamedplus
 " make sure pasted-over content doesn't go to clipboard
 xnoremap <expr> p 'pgv"'.v:register.'y`>' 
 
-set tags=./tags,tags;
+set tags=tags,./tags
+set path=.
+
 " set autochdir
 " cursor shape depending on mode
 let &t_SI = "\e[6 q"
@@ -441,9 +476,9 @@ nnoremap <silent> <F12> :$read ! ~/scripts/grab-data-from-dtrs \| egrep "rawdata
 let g:asyncrun_rootmarks = ['.git', '.root']
 
 " nnoremap <silent> <F9> :AsyncRun -cwd=<root> ~/scripts/build-script.sh<cr>
-autocmd FileType c,cpp,cmake    nnoremap <buffer> <silent> <F9> :AsyncRun -cwd=<root> ~/scripts/build-script.sh<cr>
-autocmd FileType markdown,mkd   nnoremap <buffer> <silent> <F9> :AsyncRun ~/scripts/make-pres %<cr>
-autocmd FileType sh             nnoremap <buffer> <silent> <F9> :AsyncRun ./%<cr>
+autocmd FileType c,cpp,cmake    nnoremap <buffer> <silent> <F9> :AsyncStop \| sleep 100m \| AsyncRun -cwd=<root> ~/scripts/build-script.sh<cr>
+autocmd FileType markdown,mkd   nnoremap <buffer> <silent> <F9> :AsyncStop \| sleep 100m \| AsyncRun ~/scripts/make-pres %<cr>
+autocmd FileType sh             nnoremap <buffer> <silent> <F9> :AsyncStop \| sleep 100m \| AsyncRun ./%<cr>
 " let g:clang_format#code_style="llvm"
 let g:clang_format#style_options = {
             \ "UseTab": "Never",
@@ -486,7 +521,15 @@ let g:ale_sign_error = '●'
 let g:ale_sign_warning = '.'
 let g:ale_lint_on_enter = 0
 let g:ale_lint_on_save = 1
-
+let g:ale_set_highlights = 0
+let g:ale_set_loclist = 1
+let g:ale_set_quickfix = 0
+let g:ale_set_highlights = 0
+let g:ale_set_signs = 1
+let g:ale_echo_cursor = 0
+let g:ale_virtualtext_cursor = 0
+let g:ale_cursor_detail = 0
+let g:ale_set_balloons = 0
 
 highlight clear SignColumn
 " highlight! link SignColumn LineNr
