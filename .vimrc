@@ -226,6 +226,7 @@ noremap <C-n> <C-i>
 inoremap <c-z> <esc><c-z>
 
 set whichwrap+=<,>,h,l,[,]
+
 " Allow hidden buffers
 set hidden
 
@@ -439,15 +440,9 @@ set errorformat^=%-G%f:%l:\ note:%m
 " F4 to toggle quickfix window
 nnoremap <F4> :call asyncrun#quickfix_toggle(12)<cr>
 
-" F12 to grab data from dtrs 
-nnoremap <silent> <F12> :$read ! ~/scripts/grab-data-from-dtrs \| egrep "rawdata.lsd" \| rev \| cut -c12- \| rev <cr>
-
 " logic to find the root directory
 let g:asyncrun_rootmarks = ['.git', '.root']
 
-" nnoremap <silent> <F9> :AsyncRun -cwd=<root> ~/scripts/build-script.sh<cr>
-autocmd FileType c,cpp,cmake    nnoremap <buffer> <silent> <F9> :AsyncStop \| sleep 100m \| AsyncRun -cwd=<root> ~/scripts/build-script.sh<cr>
-autocmd FileType markdown,mkd   nnoremap <buffer> <silent> <F9> :AsyncStop \| sleep 100m \| AsyncRun ~/scripts/make-pres %<cr>
 autocmd FileType sh             nnoremap <buffer> <silent> <F9> :AsyncStop \| sleep 100m \| AsyncRun ./%<cr>
 
 let g:clang_format#style_options = {
@@ -487,15 +482,15 @@ command! BD call fzf#run(fzf#wrap({
 let g:ale_pattern_options = {
 \ '*.py': {'ale_linters': [], 'ale_fixers': []},
 \}
-let g:ale_sign_error = '●'
-let g:ale_sign_warning = '.'
-let g:ale_lint_on_enter = 0
-let g:ale_lint_on_save = 1
 
 " setlocal spell
 set spelllang=en_us
 inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u
 
+let g:ale_sign_error = '●'
+let g:ale_sign_warning = '.'
+let g:ale_lint_on_enter = 0
+let g:ale_lint_on_save = 1
 let g:ale_set_highlights = 0
 let g:ale_set_loclist = 1
 let g:ale_set_quickfix = 0

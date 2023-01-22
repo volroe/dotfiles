@@ -1,0 +1,11 @@
+" ======================================
+" Source general vim config
+" ======================================
+source ~/dotfiles/.vimrc
+
+" ======================================
+" machine specific stuff
+" ======================================
+
+" F9 to create letter
+autocmd FileType markdown,mkd   nnoremap <buffer> <silent> <F9> :AsyncStop \| sleep 100m \| AsyncRun ~/scripts/makeletter %<cr>
