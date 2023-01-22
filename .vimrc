@@ -11,8 +11,6 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
     " let Vundle manage Vundle, required
     Plugin 'VundleVim/Vundle.vim'
 
-    " Plugin 'c.vim'
-
     Plugin 'christoomey/vim-tmux-navigator'
 
     " Plugin 'klen/python-mode'
@@ -128,15 +126,6 @@ command! -bang -nargs=* Rg
 
 " neccessary as snap ctags can't access /tmp 
 let g:tagbar_use_cache = 0
-
-" set statusline+=%#warningmsg#
-" set statusline+=%{SyntasticStatuslineFlag()}
-" set statusline+=%*
-
-" let g:syntastic_always_populate_loc_list = 1
-" let g:syntastic_auto_loc_list = 1
-" let g:syntastic_check_on_open = 1
-" let g:syntastic_check_on_wq = 0
 
 function s:AddTerminalNavigation()
 
@@ -460,7 +449,7 @@ let g:asyncrun_rootmarks = ['.git', '.root']
 autocmd FileType c,cpp,cmake    nnoremap <buffer> <silent> <F9> :AsyncStop \| sleep 100m \| AsyncRun -cwd=<root> ~/scripts/build-script.sh<cr>
 autocmd FileType markdown,mkd   nnoremap <buffer> <silent> <F9> :AsyncStop \| sleep 100m \| AsyncRun ~/scripts/make-pres %<cr>
 autocmd FileType sh             nnoremap <buffer> <silent> <F9> :AsyncStop \| sleep 100m \| AsyncRun ./%<cr>
-" let g:clang_format#code_style="llvm"
+
 let g:clang_format#style_options = {
             \ "UseTab": "Never",
             \ "IndentWidth": "4",
