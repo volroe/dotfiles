@@ -487,7 +487,9 @@ let g:ale_sign_warning = '.'
 let g:ale_lint_on_enter = 0
 let g:ale_lint_on_save = 1
 
-
+" setlocal spell
+set spelllang=en_us
+inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u
 highlight clear SignColumn
 " highlight! link SignColumn LineNr
 let g:gitgutter_set_sign_backgrounds = 1
