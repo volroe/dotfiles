@@ -40,19 +40,6 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
     
     Plugin 'airblade/vim-gitgutter'
 
-    " Plugin 'lifepillar/vim-mucomplete'
-
-    " Plugin 'vim-syntastic/syntastic' 
-
-    " Plugin 'justmao945/vim-clang'
-    " let g:clang_compilation_database = './'
-
-    " Plugin 'xavierd/clang_complete'
-    " let g:clang_library_path='/usr/lib/llvm-8/lib/libclang.so.1'
-    " let g:clang_auto_select=1
-    " set completeopt+=menuone
-    " set completeopt+=noselect
-
     Plugin 'reedes/vim-pencil'
 
     Plugin 'junegunn/goyo.vim'
@@ -69,8 +56,6 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
 
     Plugin 'alok/notational-fzf-vim'
     
-    " Plugin 'codota/tabnine-vim', { 'do': './dl_binaries.sh' }
-
     if has('nvim')
         Plugin 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
     else
@@ -389,13 +374,9 @@ autocmd BufReadPre *.doc silent set ro
 autocmd BufReadPost *.doc silent %!antiword "%"
 
 " Open word files with pandoc
-autocmd BufReadPre *.docx silent set ro
-autocmd BufEnter *.docx silent set modifiable
-autocmd BufEnter *.docx silent  %!pandoc --columns=78 -f docx -t markdown "%"
-
-" Open odt files with pandoc
-autocmd BufReadPre *.odt silent set ro
-autocmd BufEnter *.odt silent  %!pandoc --columns=78 -f odt -t markdown "%"
+autocmd BufReadPre *.doc,*.docx,*.rtf,*.odp,*.odt silent set ro
+autocmd BufEnter *.doc,*.docx,*.rtf,*.odp,*.odt silent set modifiable
+autocmd BufEnter *.doc,*.docx,*.rtf,*.odp,*.odt silent  %!pandoc --columns=100 -t markdown "%" -o /dev/stdout
 
 set mouse=a
 if &term =~ '^screen'
