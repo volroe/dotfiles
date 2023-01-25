@@ -435,8 +435,8 @@ let g:asyncrun_open = 12
 " command -nargs=1 Async execute "AsyncRun <args> |& $VIM_HOME/bundle/estream/bin/estream"
 
 " ignore warnings when jumping with :cn
-set errorformat^=%-G%f:%l:\ warning:%m
-set errorformat^=%-G%f:%l:\ note:%m
+" set errorformat^=%-G%f:%l:\ warning:%m
+" set errorformat^=%-G%f:%l:\ note:%m
 " F4 to toggle quickfix window
 nnoremap <F4> :call asyncrun#quickfix_toggle(12)<cr>
 
@@ -491,12 +491,11 @@ let g:ale_sign_error = '●'
 let g:ale_sign_warning = '.'
 let g:ale_lint_on_enter = 0
 let g:ale_lint_on_save = 1
-let g:ale_set_highlights = 0
-let g:ale_set_loclist = 1
+let g:ale_set_loclist = 0
 let g:ale_set_quickfix = 0
-let g:ale_set_highlights = 0
+let g:ale_set_highlights = 1
 let g:ale_set_signs = 1
-let g:ale_echo_cursor = 0
+let g:ale_echo_cursor = 1
 let g:ale_virtualtext_cursor = 0
 let g:ale_cursor_detail = 0
 let g:ale_set_balloons = 0
