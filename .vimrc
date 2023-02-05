@@ -61,6 +61,8 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
         Plugin 'roxma/nvim-yarp'
         Plugin 'roxma/vim-hug-neovim-rpc'
     endif
+        
+    Plugin 'tbodt/deoplete-tabnine', { 'do': './install.sh' }
 
     Plugin 'JoshMcguigan/estream'
 
@@ -97,6 +99,11 @@ inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<C-j>"
 inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<C-k>"
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+call deoplete#custom#var('tabnine', {
+\ 'line_limit': 500,
+\ 'max_num_results': 20,
+\ })
 
 nnoremap <silent> <F8> :TagbarToggle<CR>
 
