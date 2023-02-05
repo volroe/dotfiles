@@ -362,18 +362,16 @@ autocmd BufNewFile,BufRead prot.md setlocal syntax=OFF
 autocmd BufRead,BufNewFile,BufEnter *.md,*.markdown call MathAndLiquid()
 " make sure .e files are highlighted properly
 au BufNewFile,BufRead *.e set filetype=c
+
 " Read-only pdf through pdftotext
 autocmd BufReadPre *.pdf silent set ro
 autocmd BufReadPost *.pdf silent %!pdftotext -nopgbrk -layout -q -eol unix "%" - | fmt -w78
 
-" Read-only .doc through antiword
-autocmd BufReadPre *.doc silent set ro
-autocmd BufReadPost *.doc silent %!antiword "%"
-
-" Open word files with pandoc
+" Open word files with pandoc and not as a zip file
+let g:zipPlugin_ext = '*.zip,*.jar,*.xpi,*.ja,*.war,*.ear,*.celzip,*.oxt,*.kmz,*.wsz,*.xap,*.docm,*.dotx,*.dotm,*.potx,*.potm,*.ppsx,*.ppsm,*.pptx,*.pptm,*.ppam,*.sldx,*.thmx,*.xlam,*.xlsx,*.xlsm,*.xlsb,*.xltx,*.xltm,*.xlam,*.crtx,*.vdw,*.glox,*.gcsx,*.gqsx'
 autocmd BufReadPre *.doc,*.docx,*.rtf,*.odp,*.odt silent set ro
-autocmd BufEnter *.doc,*.docx,*.rtf,*.odp,*.odt silent set modifiable
-autocmd BufEnter *.doc,*.docx,*.rtf,*.odp,*.odt silent  %!pandoc --columns=100 -t markdown "%" -o /dev/stdout
+autocmd BufReadPost *.doc,*.docx,*.rtf,*.odp,*.odt silent set modifiable
+autocmd BufReadPost *.doc,*.docx,*.rtf,*.odp,*.odt silent  %!pandoc --columns=100 -t markdown "%" -o /dev/stdout
 
 set mouse=a
 if &term =~ '^screen'
@@ -442,8 +440,8 @@ let g:asyncrun_open = 12
 " command -nargs=1 Async execute "AsyncRun <args> |& $VIM_HOME/bundle/estream/bin/estream"
 
 " ignore warnings when jumping with :cn
-set errorformat^=%-G%f:%l:\ warning:%m
-set errorformat^=%-G%f:%l:\ note:%m
+" set errorformat^=%-G%f:%l:\ warning:%m
+" set errorformat^=%-G%f:%l:\ note:%m
 " F4 to toggle quickfix window
 nnoremap <F4> :call asyncrun#quickfix_toggle(12)<cr>
 
@@ -498,12 +496,11 @@ let g:ale_sign_error = '●'
 let g:ale_sign_warning = '.'
 let g:ale_lint_on_enter = 0
 let g:ale_lint_on_save = 1
-let g:ale_set_highlights = 0
-let g:ale_set_loclist = 1
+let g:ale_set_loclist = 0
 let g:ale_set_quickfix = 0
-let g:ale_set_highlights = 0
+let g:ale_set_highlights = 1
 let g:ale_set_signs = 1
-let g:ale_echo_cursor = 0
+let g:ale_echo_cursor = 1
 let g:ale_virtualtext_cursor = 0
 let g:ale_cursor_detail = 0
 let g:ale_set_balloons = 0
