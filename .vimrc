@@ -490,6 +490,7 @@ let g:ale_pattern_options = {
 
 " setlocal spell
 set spelllang=en_us
+" fix latest error directly
 inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u
 
 let g:ale_sign_error = '●'
@@ -504,6 +505,8 @@ let g:ale_echo_cursor = 1
 let g:ale_virtualtext_cursor = 0
 let g:ale_cursor_detail = 0
 let g:ale_set_balloons = 0
+
+:nnoremap <C-]> :ALEGoToDefinition<CR>
 
 highlight clear SignColumn
 " highlight! link SignColumn LineNr
