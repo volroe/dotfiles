@@ -1,0 +1,111 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
+!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
+!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
+!_TAG_PROGRAM_VERSION	0.0.0	//
+$BASH_ENV	.vimrc	/^let $BASH_ENV = "~\/.bash_aliases"$/;"	v
+*	.vimrc	/^map <silent> * :let @\/="\\\\<<c-r><c-w>\\\\>"<CR>:set hls<CR>$/;"	m
+/	.vimrc	/^nnoremap \/ \/\\v$/;"	m
+/	.vimrc	/^vnoremap \/ \/\\v$/;"	m
+<C-j>	.vimrc	/^inoremap <expr> <C-j> pumvisible() ? "\\<C-n>" : "\\<C-j>"$/;"	m
+<C-k>	.vimrc	/^inoremap <expr> <C-k> pumvisible() ? "\\<C-p>" : "\\<C-k>"$/;"	m
+<C-l>	.vimrc	/^inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u$/;"	m
+<C-n>	.vimrc	/^noremap <C-n> <C-i>$/;"	m
+<Down>	.vimrc	/^inoremap <Down> <C-o>gj$/;"	m
+<Down>	.vimrc	/^nnoremap <Down> gj$/;"	m
+<Down>	.vimrc	/^vnoremap <Down> gj$/;"	m
+<F1>	.vimrc	/^inoremap <F1> <ESC>:set invfullscreen<CR>a$/;"	m
+<F1>	.vimrc	/^nnoremap <F1> :set invfullscreen<CR>$/;"	m
+<F1>	.vimrc	/^vnoremap <F1> :set invfullscreen<CR>$/;"	m
+<F4>	.vimrc	/^nnoremap <F4> :call asyncrun#quickfix_toggle(12)<cr>$/;"	m
+<F8>	.vimrc	/^nnoremap <silent> <F8> :TagbarToggle<CR>$/;"	m
+<Leader>'	.vimrc	/^nmap <Leader>' :Marks<CR>$/;"	m
+<Leader>-	.vimrc	/^nmap <Leader>- :split<CR>$/;"	m
+<Leader>/	.vimrc	/^nmap <Leader>\/ :Rg<Space>$/;"	m
+<Leader>:	.vimrc	/^nmap <Leader>: :History:<CR>$/;"	m
+<Leader>C	.vimrc	/^nmap <Leader>C :Commands<CR>$/;"	m
+<Leader>F	.vimrc	/^nmap <Leader>F :Files<CR>$/;"	m
+<Leader>H	.vimrc	/^nmap <Leader>H :Helptags!<CR>$/;"	m
+<Leader>L	.vimrc	/^nmap <Leader>L :Lines<CR>$/;"	m
+<Leader>M	.vimrc	/^nmap <Leader>M :Maps<CR>$/;"	m
+<Leader>T	.vimrc	/^nmap <Leader>T :Tags<CR>$/;"	m
+<Leader>\\	.vimrc	/^nmap <Leader>\\ :vsplit<CR>$/;"	m
+<Leader>ag	.vimrc	/^nnoremap <silent> <Leader>ag :Ag <C-R><C-W><CR>$/;"	m
+<Leader>d	.vimrc	/^nmap <Leader>d :Buffers<CR>$/;"	m
+<Leader>f	.vimrc	/^nmap <Leader>f :GFiles<CR>$/;"	m
+<Leader>h	.vimrc	/^nmap <Leader>h :History<CR>$/;"	m
+<Leader>l	.vimrc	/^nmap <Leader>l :BLines<CR>$/;"	m
+<Leader>t	.vimrc	/^nmap <Leader>t :BTags<CR>$/;"	m
+<S-Tab>	.vimrc	/^inoremap <expr> <S-Tab> pumvisible() ? "\\<C-p>" : "\\<S-Tab>"$/;"	m
+<S-Tab>	.vimrc	/^nnoremap <S-Tab> <<$/;"	m
+<S-Tab>	.vimrc	/^vnoremap <S-Tab> <<<Esc>gv$/;"	m
+<SPACE>	.vimrc	/^nnoremap <SPACE> <Nop>$/;"	m
+<Tab>	.vimrc	/^inoremap <expr> <Tab> pumvisible() ? "\\<C-n>" : "\\<Tab>"$/;"	m
+<Tab>	.vimrc	/^nnoremap <Tab>   >>$/;"	m
+<Tab>	.vimrc	/^vnoremap <Tab>   >><Esc>gv$/;"	m
+<Up>	.vimrc	/^inoremap <Up> <C-o>gk$/;"	m
+<Up>	.vimrc	/^nnoremap <Up> gk$/;"	m
+<Up>	.vimrc	/^vnoremap <Up> gk$/;"	m
+<c-z>	.vimrc	/^inoremap <c-z> <esc><c-z>$/;"	m
+<cr>	.vimrc	/^nnoremap <silent> <cr> :noh<CR><CR>$/;"	m
+<cr>	.vimrc	/^xnoremap <silent> <cr> "*y:silent! let searchTerm = '\\V'.substitute(escape(@*, '\\\/'), "\\n", /;"	m
+<leader>Q	.vimrc	/^nnoremap <silent> <leader>Q vapJgqap$/;"	m
+<leader>l	.vimrc	/^map <leader>l :set list!<CR> " Toggle tabs and EOL$/;"	m
+<leader>s	.vimrc	/^nnoremap <silent> <leader>s :NV<CR>$/;"	m
+<leader>t	.vimrc	/^    noremap <silent> <leader>t :Termdebug<cr>$/;"	m
+BD	.vimrc	/^command! BD call fzf#run(fzf#wrap({$/;"	c
+Binary	.vimrc	/^augroup Binary$/;"	a
+H	.vimrc	/^noremap H     ^$/;"	m
+J	.vimrc	/^noremap J     }$/;"	m
+K	.vimrc	/^noremap K     {$/;"	m
+L	.vimrc	/^noremap L     \$$/;"	m
+MathAndLiquid	.vimrc	/^function! MathAndLiquid()$/;"	f
+Q	.vimrc	/^nnoremap <silent> Q gqap$/;"	m
+Q	.vimrc	/^xnoremap <silent> Q gq$/;"	m
+Rg	.vimrc	/^command! -bang -nargs=* Rg$/;"	c
+TerminalNavigation	.vimrc	/^augroup TerminalNavigation$/;"	a
+ToggleBatEnvVar	.vimrc	/^function ToggleBatEnvVar()$/;"	f
+Y	.vimrc	/^nnoremap Y y\$$/;"	m
+g:ackprg	.vimrc	/^let g:ackprg = 'ag --nogroup --nocolor --column'$/;"	v
+g:ale_cursor_detail	.vimrc	/^let g:ale_cursor_detail = 0$/;"	v
+g:ale_echo_cursor	.vimrc	/^let g:ale_echo_cursor = 1$/;"	v
+g:ale_lint_on_enter	.vimrc	/^let g:ale_lint_on_enter = 0$/;"	v
+g:ale_lint_on_save	.vimrc	/^let g:ale_lint_on_save = 1$/;"	v
+g:ale_pattern_options	.vimrc	/^let g:ale_pattern_options = {$/;"	v
+g:ale_set_balloons	.vimrc	/^let g:ale_set_balloons = 0$/;"	v
+g:ale_set_highlights	.vimrc	/^let g:ale_set_highlights = 1$/;"	v
+g:ale_set_loclist	.vimrc	/^let g:ale_set_loclist = 0$/;"	v
+g:ale_set_quickfix	.vimrc	/^let g:ale_set_quickfix = 0$/;"	v
+g:ale_set_signs	.vimrc	/^let g:ale_set_signs = 1$/;"	v
+g:ale_sign_error	.vimrc	/^let g:ale_sign_error = '●'$/;"	v
+g:ale_sign_warning	.vimrc	/^let g:ale_sign_warning = '.'$/;"	v
+g:ale_virtualtext_cursor	.vimrc	/^let g:ale_virtualtext_cursor = 0$/;"	v
+g:asyncrun_open	.vimrc	/^let g:asyncrun_open = 12$/;"	v
+g:asyncrun_rootmarks	.vimrc	/^let g:asyncrun_rootmarks = ['.git', '.root']$/;"	v
+g:clang_format#style_options	.vimrc	/^let g:clang_format#style_options = {$/;"	v
+g:deoplete#enable_at_startup	.vimrc	/^let g:deoplete#enable_at_startup = 1$/;"	v
+g:fzf_nvim_statusline	.vimrc	/^let g:fzf_nvim_statusline = 0 " disable statusline overwriting$/;"	v
+g:gitgutter_set_sign_backgrounds	.vimrc	/^let g:gitgutter_set_sign_backgrounds = 1$/;"	v
+g:nv_search_paths	.vimrc	/^let g:nv_search_paths = ['~\/neoscan\/notes', '~\/notes', 'docs.md', '.\/notes.md']$/;"	v
+g:tagbar_use_cache	.vimrc	/^let g:tagbar_use_cache = 0$/;"	v
+g:termdebug_wide	.vimrc	/^let g:termdebug_wide=1$/;"	v
+g:zipPlugin_ext	.vimrc	/^let g:zipPlugin_ext = '*.zip,*.jar,*.xpi,*.ja,*.war,*.ear,*.celzip,*.oxt,*.kmz,*.wsz,*.xap,*.doc/;"	v
+is_fzf	.tmux.conf	/^is_fzf="ps -o state= -o comm= -t '#{pane_tty}' \\$/;"	k
+is_vim	.tmux.conf	/^is_vim="ps -o state= -o comm= -t '#{pane_tty}' \\$/;"	k
+j	.vimrc	/^vnoremap j gj$/;"	m
+k	.vimrc	/^vnoremap k gk$/;"	m
+mapleader	.vimrc	/^let mapleader=" "$/;"	v
+myCmds	.vimrc	/^augroup myCmds$/;"	a
+p	.vimrc	/^xnoremap <expr> p 'pgv"'.v:register.'y`>' $/;"	m
+pencil	.vimrc	/^augroup pencil$/;"	a
+s:AddTerminalNavigation	.vimrc	/^function s:AddTerminalNavigation()$/;"	f
+s:delete_buffers	.vimrc	/^function! s:delete_buffers(lines)$/;"	f
+s:list_buffers	.vimrc	/^function! s:list_buffers()$/;"	f
+style bg	.tmux.conf	/^set-window-option -g window-status-current-style bg=white$/;"	k
+t	.tmux.conf	/^bind -n C-WheelUpPane select-pane -t= \\; copy-mode -e \\; send-keys -M$/;"	k
+t	.tmux.conf	/^bind -n WheelDownPane select-pane -t= \\; send-keys -M$/;"	k
+t	.tmux.conf	/^bind -n WheelUpPane if-shell -F -t = "#{mouse_any_flag}" "send-keys -M" "if -Ft= '#{pane_in_mode/;"	k
+update_bat_theme	.vimrc	/^augroup update_bat_theme$/;"	a
+w!!	.vimrc	/^cmap w!! w !sudo tee > \/dev\/null %$/;"	m
