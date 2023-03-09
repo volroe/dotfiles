@@ -62,7 +62,7 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
         Plugin 'roxma/vim-hug-neovim-rpc'
     endif
         
-    Plugin 'tbodt/deoplete-tabnine', { 'do': './install.sh' }
+    " Plugin 'tbodt/deoplete-tabnine', { 'do': './install.sh' }
 
     Plugin 'JoshMcguigan/estream'
 
