@@ -333,6 +333,8 @@ set splitright
 nmap <Leader>\ :vsplit<CR>
 nmap <Leader>- :split<CR>
 
+" markdown preview also on docx etc.
+" let g:mkdp_filetypes = ['markdown','docx']
 :hi debugPC term=reverse ctermbg=lightblue guibg=lightblue
 " fix syntax highlighting in markdown 
 function! MathAndLiquid()
@@ -371,6 +373,7 @@ autocmd BufReadPost *.pdf silent %!pdftotext -nopgbrk -layout -q -eol unix "%" -
 let g:zipPlugin_ext = '*.zip,*.jar,*.xpi,*.ja,*.war,*.ear,*.celzip,*.oxt,*.kmz,*.wsz,*.xap,*.docm,*.dotx,*.dotm,*.potx,*.potm,*.ppsx,*.ppsm,*.pptx,*.pptm,*.ppam,*.sldx,*.thmx,*.xlam,*.xlsx,*.xlsm,*.xlsb,*.xltx,*.xltm,*.xlam,*.crtx,*.vdw,*.glox,*.gcsx,*.gqsx'
 autocmd BufReadPre *.doc,*.docx,*.rtf,*.odp,*.odt silent set ro
 autocmd BufReadPost *.doc,*.docx,*.rtf,*.odp,*.odt silent set modifiable
+autocmd BufReadPost *.doc,*.docx,*.rtf,*.odp,*.odt silent set filetype=markdown
 autocmd BufReadPost *.doc,*.docx,*.rtf,*.odp,*.odt silent  %!pandoc --columns=100 -t markdown "%" -o /dev/stdout
 
 set mouse=a
@@ -440,8 +443,8 @@ let g:asyncrun_open = 12
 " command -nargs=1 Async execute "AsyncRun <args> |& $VIM_HOME/bundle/estream/bin/estream"
 
 " ignore warnings when jumping with :cn
-" set errorformat^=%-G%f:%l:\ warning:%m
-" set errorformat^=%-G%f:%l:\ note:%m
+set errorformat^=%-G%f:%l:\ warning:%m
+set errorformat^=%-G%f:%l:\ note:%m
 " F4 to toggle quickfix window
 nnoremap <F4> :call asyncrun#quickfix_toggle(12)<cr>
 
@@ -484,6 +487,7 @@ command! BD call fzf#run(fzf#wrap({
 \ }))
 
 " Do not lint or fix python files.
+let g:ale_pattern_options_enabled = 1
 let g:ale_pattern_options = {
 \ '*.py': {'ale_linters': [], 'ale_fixers': []},
 \}
