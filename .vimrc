@@ -42,6 +42,8 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
 
     Plugin 'junegunn/goyo.vim'
 
+    Plugin 'junegunn/limelight.vim'
+    
     Plugin 'baeuml/summerfruit256.vim'
 
     Plugin 'junegunn/seoul256.vim'
@@ -83,6 +85,10 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
     Plugin 'godlygeek/tabular'
     
     Plugin 'ludovicchabant/vim-gutentags'
+
+    Plugin 'fedorenchik/qt-support.vim'
+    
+    Plugin 'vim-scripts/ConflictMotions'
     
     " All of your Plugins must be added before the following line
     call vundle#end()            " required
@@ -518,3 +524,32 @@ let g:gitgutter_set_sign_backgrounds = 1
 
 " make sure we can use aliases in command mode
 let $BASH_ENV = "~/.bash_aliases"
+
+function! s:goyo_enter()
+  if executable('tmux') && strlen($TMUX)
+    silent !tmux set status off
+    silent !tmux list-panes -F '\#F' | grep -q Z || tmux resize-pane -Z
+  endif
+  set noshowmode
+  set noshowcmd
+  set scrolloff=999
+  set textwidth=80
+  Limelight
+  " ...
+endfunction
+
+function! s:goyo_leave()
+  if executable('tmux') && strlen($TMUX)
+    silent !tmux set status on
+    silent !tmux list-panes -F '\#F' | grep -q Z && tmux resize-pane -Z
+  endif
+  set showmode
+  set showcmd
+  set scrolloff=3
+  set textwidth=0
+  Limelight!
+  " ...
+endfunction
+
+autocmd! User GoyoEnter nested call <SID>goyo_enter()
+autocmd! User GoyoLeave nested call <SID>goyo_leave()
