@@ -88,9 +88,11 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
 
     Plugin 'fedorenchik/qt-support.vim'
     
-    Plugin 'vim-scripts/ConflictMotions'
+    " Plugin 'vim-scripts/ConflictMotions'
     
-    " All of your Plugins must be added before the following line
+    Plugin 'madox2/vim-ai', { 'do': './install.sh' }
+     
+    " All of ycur Plugins must be added before the following line
     call vundle#end()            " required
     filetype plugin indent on    " required
 endif
