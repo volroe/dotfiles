@@ -526,6 +526,12 @@ let g:gitgutter_set_sign_backgrounds = 1
 
 " make sure we can use aliases in command mode
 let $BASH_ENV = "~/.bash_aliases"
+  
+"Goyo settings
+let g:goyo_width = 81
+let g:goyo_height = 999
+let g:goyo_margin_top = 0
+let g:goyo_margin_bottom = 0
 
 function! s:goyo_enter()
   if executable('tmux') && strlen($TMUX)
@@ -536,6 +542,7 @@ function! s:goyo_enter()
   set noshowcmd
   set scrolloff=999
   set textwidth=80
+  set wrap
   Limelight
   " ...
 endfunction
@@ -549,6 +556,7 @@ function! s:goyo_leave()
   set showcmd
   set scrolloff=3
   set textwidth=0
+  set nowrap
   Limelight!
   " ...
 endfunction
