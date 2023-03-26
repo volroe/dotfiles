@@ -92,7 +92,8 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
     
     Plugin 'madox2/vim-ai', { 'do': './install.sh' }
      
-    " All of ycur Plugins must be added before the following line
+    Plugin 'peterhoeg/vim-qml'   
+
     call vundle#end()            " required
     filetype plugin indent on    " required
 endif
@@ -372,6 +373,8 @@ autocmd BufNewFile,BufRead prot.md setlocal syntax=OFF
 autocmd BufRead,BufNewFile,BufEnter *.md,*.markdown call MathAndLiquid()
 " make sure .e files are highlighted properly
 au BufNewFile,BufRead *.e set filetype=c
+" make sure .qml files are highlighted properly
+au BufNewFile,BufRead *.qml set filetype=qml
 
 " Read-only pdf through pdftotext
 autocmd BufReadPre *.pdf silent set ro
@@ -449,6 +452,10 @@ let g:asyncrun_open = 12
 " by the errorformat setting above
 " example: `:Async cargo test`
 " command -nargs=1 Async execute "AsyncRun <args> |& $VIM_HOME/bundle/estream/bin/estream"
+
+" Go to the previous/next quickfix item 
+nnoremap [q :cprev<CR>
+nnoremap ]q :cnext<CR>
 
 " ignore warnings when jumping with :cn
 set errorformat^=%-G%f:%l:\ warning:%m

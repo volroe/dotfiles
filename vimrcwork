@@ -11,5 +11,5 @@ source ~/dotfiles/.vimrc
 nnoremap <silent> <F12> :$read ! ~/scripts/grab-data-from-dtrs \| egrep "rawdata.lsd" \| rev \| cut -c12- \| rev <cr>
 
 " F9 to compile or generate report
-autocmd FileType c,cpp,cmake    nnoremap <buffer> <silent> <F9> :AsyncRun -cwd=<root> ~/scripts/build-script.sh<cr>
+autocmd FileType c,cpp,cmake,qml    nnoremap <buffer> <silent> <F9> :AsyncRun -cwd=<root> ~/scripts/build-script.sh<cr>
 autocmd FileType markdown,mkd   nnoremap <buffer> <silent> <F9> :AsyncRun ~/scripts/make-pres %<cr>
