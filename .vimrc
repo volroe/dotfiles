@@ -114,6 +114,13 @@ call deoplete#custom#var('tabnine', {
 \ 'max_num_results': 20,
 \ })
 
+" special chatGPT commands
+command! -range -nargs=? AITranslate <line1>,<line2>call AIEditRun(<range>, "Translate to English: " . <q-args>)
+command! -range -nargs=? AICode <line1>,<line2>call AIRun(<range>, "Programming syntax is " . &filetype . ", " . <q-args>)
+command! -range -nargs=? AIImprove <line1>,<line2>call AIEditRun(<range>, "Please improve phrasing and word choices: " . <q-args>)
+command! -range -nargs=? AIFix <line1>,<line2>call AIEditRun(<range>, "Fix grammar and spelling: " . <q-args>)
+
+
 nnoremap <silent> <F8> :TagbarToggle<CR>
 
 let g:fzf_nvim_statusline = 0 " disable statusline overwriting
@@ -439,7 +446,7 @@ augroup pencil
 augroup END
 
 " open quickfix window automatically when AsyncRun is executed
-" set the quickfix window 6 lines height.
+" set the quickfix window 12 lines height.
 let g:asyncrun_open = 12
 " open quickfix window always at the bottom 
 " :autocmd FileType qf wincmd J
