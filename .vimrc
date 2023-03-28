@@ -94,20 +94,29 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
      
     Plugin 'peterhoeg/vim-qml'   
 
+    Plugin 'SirVer/ultisnips'
+
     call vundle#end()            " required
     filetype plugin indent on    " required
 endif
 
-" remap leader key
-nnoremap <SPACE> <Nop>
-let mapleader=" "
+let g:UltiSnipsSnippetsDir = "~/.vim/bundle/ultisnips/UltiSnips"
+" let g:UltiSnipsListSnippets="<c-tab>"
+" let g:UltiSnipsExpandTrigger="<F3>"
+" let g:UltiSnipsJumpForwardTrigger="<C-j>"
+" let g:UltiSnipsJumpBackwardTrigger="<C-k>"
 
 " deoplete configuration
 let g:deoplete#enable_at_startup = 1
 inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<C-j>"
 inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<C-k>"
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <expr> <TAB> pumvisible() ? "\<C-n>" : UltiSnips#CanExpandSnippet() ? "\<C-r>=UltiSnips#ExpandSnippet()<CR>" : "\<TAB>"
+
+" remap leader key
+nnoremap <SPACE> <Nop>
+let mapleader=" "
+
 
 call deoplete#custom#var('tabnine', {
 \ 'line_limit': 500,
@@ -376,6 +385,8 @@ endfunction
 
 " no syntax highlighting in prot.md
 autocmd BufNewFile,BufRead prot.md setlocal syntax=OFF
+" no error highlighting for markdown at all 
+hi link markdownError NONE
 " Call everytime we open a Markdown file
 autocmd BufRead,BufNewFile,BufEnter *.md,*.markdown call MathAndLiquid()
 " make sure .e files are highlighted properly
