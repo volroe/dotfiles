@@ -106,13 +106,6 @@ let g:UltiSnipsSnippetsDir = "~/.vim/bundle/ultisnips/UltiSnips"
 " let g:UltiSnipsJumpForwardTrigger="<C-j>"
 " let g:UltiSnipsJumpBackwardTrigger="<C-k>"
 
-" deoplete configuration
-let g:deoplete#enable_at_startup = 1
-inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<C-j>"
-inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<C-k>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-inoremap <expr> <TAB> pumvisible() ? "\<C-n>" : UltiSnips#CanExpandSnippet() ? "\<C-r>=UltiSnips#ExpandSnippet()<CR>" : "\<TAB>"
-
 " remap leader key
 nnoremap <SPACE> <Nop>
 let mapleader=" "
@@ -567,7 +560,6 @@ function! s:goyo_enter()
   set noshowcmd
   set scrolloff=999
   set textwidth=80
-  set wrap
   Limelight
   " ...
 endfunction
@@ -581,10 +573,18 @@ function! s:goyo_leave()
   set showcmd
   set scrolloff=3
   set textwidth=0
-  set nowrap
   Limelight!
   " ...
 endfunction
 
 autocmd! User GoyoEnter nested call <SID>goyo_enter()
 autocmd! User GoyoLeave nested call <SID>goyo_leave()
+
+" deoplete configuration
+let g:deoplete#enable_at_startup = 1
+inoremap <expr> <C-j>   pumvisible() ? "\<C-n>" : "\<C-j>"
+inoremap <expr> <C-k>   pumvisible() ? "\<C-p>" : "\<C-k>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <expr> <TAB>   pumvisible() ? "\<C-n>" : "\<TAB>"
+imap <expr> <CR> UltiSnips#CanExpandSnippet() ? "\<C-r>=UltiSnips#ExpandSnippet()<CR>" : pumvisible() ? "\<C-y>" : "\<CR>"
+
