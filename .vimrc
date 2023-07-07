@@ -90,7 +90,7 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
     
     " Plugin 'vim-scripts/ConflictMotions'
     
-    Plugin 'madox2/vim-ai', { 'do': './install.sh' }
+    " Plugin 'madox2/vim-ai', { 'do': './install.sh' }
      
     Plugin 'peterhoeg/vim-qml'   
 
@@ -113,7 +113,8 @@ inoremap <expr> <C-j>   pumvisible() ? "\<C-n>" : "\<C-j>"
 inoremap <expr> <C-k>   pumvisible() ? "\<C-p>" : "\<C-k>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <expr> <TAB>   pumvisible() ? "\<C-n>" : "\<TAB>"
-" imap <expr> <CR> UltiSnips#CanExpandSnippet() ? "\<C-r>=UltiSnips#ExpandSnippet()<CR>" : pumvisible() ? "\<C-y>" : "\<CR>"
+imap <expr> <CR> UltiSnips#CanExpandSnippet() ? "\<C-r>=UltiSnips#ExpandSnippet()<CR>" : pumvisible() ? "\<C-y>" : "\<CR>"
+" imap <expr> <CR> UltiSnips#CanExpandSnippet() ? "\<C-r>=UltiSnips#ExpandSnippet()<CR>" : "\<ESC><CR>"
 
 " deoplete configuration
 let g:deoplete#enable_at_startup = 1        
@@ -146,6 +147,7 @@ nmap <Leader>H :Helptags!<CR>
 nmap <Leader>C :Commands<CR>
 nmap <Leader>: :History:<CR>
 nmap <Leader>M :Maps<CR>
+nnoremap <silent> <Leader>q :Rg <C-R><C-W><CR>
 " nmap <Leader>s :Filetypes<CR>
 
 " Get text in files with Rg
@@ -154,6 +156,11 @@ command! -bang -nargs=* Rg
   \   'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
   \   fzf#vim#with_preview(), <bang>0)
 
+let g:fzf_action = {
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-x': 'split',
+  \ 'ctrl-v': 'vsplit',
+  \ 'ctrl-q': 'fill_quickfix'}
 
 " neccessary as snap ctags can't access /tmp 
 let g:tagbar_use_cache = 0
@@ -309,7 +316,7 @@ set listchars=tab:▸\ ,eol:¬
 " Uncomment this to enable by default:
 " set list " To enable by default
 " Or use your leader key + l to toggle on/off
-map <leader>l :set list!<CR> " Toggle tabs and EOL
+" map <leader>l :set list!<CR> " Toggle tabs and EOL
 
 " avoid random characters at startup
 set t_TI= t_TE=
@@ -483,7 +490,7 @@ nnoremap <F4> :call asyncrun#quickfix_toggle(12)<cr>
 " logic to find the root directory
 let g:asyncrun_rootmarks = ['.git', '.root']
 
-autocmd FileType sh             nnoremap <buffer> <silent> <F9> :AsyncStop \| sleep 100m \| AsyncRun ./%<cr>
+autocmd FileType sh             nnoremap <buffer> <silent> <F9> :AsyncStop! \| sleep 100m \| AsyncRun %:p<cr>
 
 let g:clang_format#style_options = {
             \ "UseTab": "Never",
