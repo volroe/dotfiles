@@ -113,7 +113,7 @@ inoremap <expr> <C-j>   pumvisible() ? "\<C-n>" : "\<C-j>"
 inoremap <expr> <C-k>   pumvisible() ? "\<C-p>" : "\<C-k>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <expr> <TAB>   pumvisible() ? "\<C-n>" : "\<TAB>"
-imap <expr> <CR> UltiSnips#CanExpandSnippet() ? "\<C-r>=UltiSnips#ExpandSnippet()<CR>" : pumvisible() ? "\<C-y>" : "\<CR>"
+" imap <expr> <CR> UltiSnips#CanExpandSnippet() ? "\<C-r>=UltiSnips#ExpandSnippet()<CR>" : pumvisible() ? "\<C-y>" : "\<CR>"
 " imap <expr> <CR> UltiSnips#CanExpandSnippet() ? "\<C-r>=UltiSnips#ExpandSnippet()<CR>" : "\<ESC><CR>"
 
 " deoplete configuration
