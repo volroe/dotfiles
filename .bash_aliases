@@ -203,3 +203,5 @@ oo() {
         done
     done
 }
+
+alias plantuml='java -jar /usr/local/bin/plantuml-1.2023.10.jar'
