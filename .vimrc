@@ -364,8 +364,6 @@ set splitright
 nmap <Leader>\ :vsplit<CR>
 nmap <Leader>- :split<CR>
 
-" markdown preview also on docx etc.
-" let g:mkdp_filetypes = ['markdown','docx']
 :hi debugPC term=reverse ctermbg=lightblue guibg=lightblue
 " fix syntax highlighting in markdown 
 function! MathAndLiquid()
@@ -410,6 +408,7 @@ autocmd BufReadPre *.doc,*.docx,*.rtf,*.odp,*.odt silent set ro
 autocmd BufReadPost *.doc,*.docx,*.rtf,*.odp,*.odt silent set modifiable
 autocmd BufReadPost *.doc,*.docx,*.rtf,*.odp,*.odt silent set filetype=markdown
 autocmd BufReadPost *.doc,*.docx,*.rtf,*.odp,*.odt silent  %!pandoc --columns=100 -t markdown "%" -o /dev/stdout
+set conceallevel=0 " don't hide symbols in markdown
 
 set mouse=a
 if &term =~ '^screen'
