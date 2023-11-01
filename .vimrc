@@ -118,10 +118,10 @@ inoremap <expr> <TAB>   pumvisible() ? "\<C-n>" : "\<TAB>"
 
 " deoplete configuration
 let g:deoplete#enable_at_startup = 1        
-call deoplete#custom#var('tabnine', {
-\ 'line_limit': 500,
-\ 'max_num_results': 20,
-\ })
+" Use ALE and also some plugin 'foobar' as completion sources for all code.
+call deoplete#custom#option('sources', {
+\ '_': ['ale'],
+\}) 
 
 " special chatGPT commands
 command! -range -nargs=? AITranslate <line1>,<line2>call AIEditRun(<range>, "Translate to English: " . <q-args>)
