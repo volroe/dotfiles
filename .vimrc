@@ -95,6 +95,8 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
     Plugin 'peterhoeg/vim-qml'   
 
     " Plugin 'SirVer/ultisnips'
+    
+    Plugin 'tpope/vim-repeat'   
 
     call vundle#end()            " required
     filetype plugin indent on    " required
@@ -161,6 +163,12 @@ let g:fzf_action = {
   \ 'ctrl-x': 'split',
   \ 'ctrl-v': 'vsplit',
   \ 'ctrl-q': 'fill_quickfix'}
+
+command! -bang -nargs=* BLines
+    \ call fzf#vim#grep(
+    \   'rg --with-filename --column --line-number --no-heading --smart-case . '.fnameescape(expand('%:p')), 1,
+    \   fzf#vim#with_preview({'options': '--layout reverse --query '.shellescape(<q-args>).' --with-nth=4.. --delimiter=":"'}, 'right:50%'))
+    " \   fzf#vim#with_preview({'options': '--layout reverse  --with-nth=-1.. --delimiter="/"'}, 'right:50%'))
 
 " neccessary as snap ctags can't access /tmp 
 let g:tagbar_use_cache = 0
@@ -365,6 +373,9 @@ nmap <Leader>\ :vsplit<CR>
 nmap <Leader>- :split<CR>
 
 :hi debugPC term=reverse ctermbg=lightblue guibg=lightblue
+
+" don't hide symbols in markdown
+set conceallevel=0
 " fix syntax highlighting in markdown 
 function! MathAndLiquid()
     "" Define certain regions
@@ -407,8 +418,8 @@ let g:zipPlugin_ext = '*.zip,*.jar,*.xpi,*.ja,*.war,*.ear,*.celzip,*.oxt,*.kmz,*
 autocmd BufReadPre *.doc,*.docx,*.rtf,*.odp,*.odt silent set ro
 autocmd BufReadPost *.doc,*.docx,*.rtf,*.odp,*.odt silent set modifiable
 autocmd BufReadPost *.doc,*.docx,*.rtf,*.odp,*.odt silent set filetype=markdown
+autocmd BufReadPost *.doc,*.docx,*.rtf,*.odp,*.odt silent set conceallevel=0 " don't hide symbols in markdown
 autocmd BufReadPost *.doc,*.docx,*.rtf,*.odp,*.odt silent  %!pandoc --columns=100 -t markdown "%" -o /dev/stdout
-set conceallevel=0 " don't hide symbols in markdown
 
 set mouse=a
 if &term =~ '^screen'
@@ -526,9 +537,11 @@ command! BD call fzf#run(fzf#wrap({
 
 " Do not lint or fix python files.
 let g:ale_pattern_options_enabled = 1
+let g:ale_fixers = {'cpp': ['clangtidy']}
 let g:ale_pattern_options = {
 \ '*.py': {'ale_linters': [], 'ale_fixers': []},
 \}
+
 
 " setlocal spell
 set spelllang=en_us
