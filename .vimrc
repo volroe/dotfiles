@@ -315,6 +315,7 @@ nnoremap <silent> <leader>Q vapJgqap
 set timeoutlen=1000 ttimeoutlen=0
 
 " useful shortcuts
+inoremap <C-u> <esc>gUiWEa 
 
 " Allow saving of files as sudo when I forgot to start vim using sudo.
 cmap w!! w !sudo tee > /dev/null %

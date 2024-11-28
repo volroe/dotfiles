@@ -60,6 +60,13 @@ alias ....='cd ../../../'
 ../..() { cd ../../; }
 ../../..() { cd ../../../; }
 
+
+bb() {
+  local cmd dir
+  cmd="dirs -p"
+  dir=$(eval "$cmd" | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} --reverse --bind=ctrl-z:ignore $FZF_DEFAULT_OPTS $FZF_ALT_C_OPTS" $(__fzfcmd) +m) && eval 'cd' "$dir"
+}
+
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
@@ -193,10 +200,11 @@ rga-fzf-online() {
     while IFS= read -r line; do
         ABSOLUTEPATH="$(realpath "$line")"
         case $ABSOLUTEPATH/ in
-            /home/vroeloffs/sharepoint/*) 
-                RELATIVEFILE="$(realpath --relative-to="/home/vroeloffs/sharepoint/" "$line")" &&
+            /home/vroeloffs/neoscan/homeoffice/sharepoint/*) 
+                RELATIVEFILE="$(realpath --relative-to="/home/vroeloffs/neoscan/homeoffice/sharepoint/" "$line")" &&
                 FULLONLINENAME="https://neoscansolutions.sharepoint.com/:t:/r/sites/NeoscanSolutionsGmbH/Freigegebene%20Dokumente/${RELATIVEFILE}?csf=1&web=1&e=W0VqTk" &&
                 echo "opening $file online" &&
+                cd &&
                 /usr/bin/firefox --new-tab "$FULLONLINENAME";;
         esac
     done
@@ -208,10 +216,11 @@ oo() {
         while IFS= read -r line; do
             ABSOLUTEPATH="$(realpath "$line")"
             case $ABSOLUTEPATH/ in
-                /home/vroeloffs/sharepoint/*) 
-                    RELATIVEFILE="$(realpath --relative-to="/home/vroeloffs/sharepoint/" "$line")" &&
+                /home/vroeloffs/neoscan/homeoffice/sharepoint/*) 
+                    RELATIVEFILE="$(realpath --relative-to="/home/vroeloffs/neoscan/homeoffice/sharepoint/" "$line")" &&
                     FULLONLINENAME="https://neoscansolutions.sharepoint.com/:t:/r/sites/NeoscanSolutionsGmbH/Freigegebene%20Dokumente/${RELATIVEFILE}?csf=1&web=1&e=W0VqTk" &&
                     echo "opening $file online" &&
+                    cd &&
                     /usr/bin/firefox --new-tab "$FULLONLINENAME";;
             esac
         done
