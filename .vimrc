@@ -88,7 +88,7 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
 
     Plugin 'fedorenchik/qt-support.vim'
     
-    " Plugin 'vim-scripts/ConflictMotions'
+    Plugin 'inkarkat/vim-ConflictMotions'
     
     " Plugin 'madox2/vim-ai', { 'do': './install.sh' }
      
@@ -173,6 +173,7 @@ command! -bang -nargs=* BLines
 " neccessary as snap ctags can't access /tmp 
 let g:tagbar_use_cache = 0
 
+let g:tmux_navigator_no_wrap = 0
 function s:AddTerminalNavigation()
 
     if &filetype ==# ''
@@ -535,18 +536,20 @@ command! BD call fzf#run(fzf#wrap({
   \ 'options': '--multi --reverse --bind ctrl-a:select-all+accept'
 \ }))
 
-" Do not lint or fix python files.
-let g:ale_pattern_options_enabled = 1
-let g:ale_fixers = {'cpp': ['clangtidy']}
-let g:ale_pattern_options = {
-\ '*.py': {'ale_linters': [], 'ale_fixers': []},
-\}
-
-
 " setlocal spell
 set spelllang=en_us
 " fix latest error directly
 inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u
+
+" Do not lint or fix python files.
+let g:ale_pattern_options_enabled = 1
+let g:ale_pattern_options = {
+\ '*.py': {'ale_linters': [], 'ale_fixers': []},
+\}
+" Only run linters named in ale_linters settings.
+let g:ale_linters_explicit = 1
+let g:ale_fixers = {'cpp': ['clangtidy']}
+let g:ale_linters = {'cpp': ['clangd']}
 
 let g:ale_sign_error = '●'
 let g:ale_sign_warning = '.'
