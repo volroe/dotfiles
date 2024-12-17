@@ -207,7 +207,8 @@ endif
 " better termdebug layout
 let g:termdebug_wide=1
 
-" Turn on syntax highlighting
+" Turn on syntax highlighting with doxygen on top
+let g:load_doxygen_syntax=1
 syntax on
 
 " Security
@@ -470,8 +471,8 @@ augroup END
 " use vim for prose
 augroup pencil
   autocmd!
-  autocmd FileType markdown,mkd call pencil#init({'wrap': 'hard', 'autoformat': 0})
-  autocmd FileType text         call pencil#init({'wrap': 'hard', 'autoformat': 0})
+  autocmd FileType markdown,mkd call pencil#init({'wrap': 'hard', 'autoformat': 0, 'conceallevel': 0})
+  autocmd FileType text         call pencil#init({'wrap': 'hard', 'autoformat': 0, 'conceallevel': 0})
 augroup END
 
 " open quickfix window automatically when AsyncRun is executed
