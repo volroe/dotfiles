@@ -281,6 +281,8 @@ set ttyfast
 
 " Status bar
 set laststatus=2
+set statusline=%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P
+set statusline+=%{fugitive#statusline()}
 
 " Last line
 set showmode
