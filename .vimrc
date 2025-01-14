@@ -151,7 +151,6 @@ nmap <Leader>: :History:<CR>
 nmap <Leader>M :Maps<CR>
 nnoremap <silent> <Leader>q :Rg <C-R><C-W><CR>
 vnoremap <silent> <Leader>q y:Rg <C-R>=escape(@",'/\')<CR><CR>
-" vnoremap <Leader>q <C-R>* <CR>
 " nmap <Leader>s :Filetypes<CR>
 
 " Get text in files with Rg
