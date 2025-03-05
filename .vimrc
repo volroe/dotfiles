@@ -617,6 +617,8 @@ autocmd! User GoyoLeave nested call <SID>goyo_leave()
 
 command! -range=% Openinbrowser <line1>,<line2> TOhtml | :AsyncRun open %
 
+:command Q q
+
 " This prompt instructs model to be consise in order to be used inline in editor
 let s:initial_complete_prompt =<< trim END
 >>> system
