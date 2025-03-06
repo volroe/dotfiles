@@ -74,6 +74,8 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
 
     Plugin 'vim-scripts/argtextobj.vim'
 
+    Plugin 'PeterRincker/vim-argumentative'
+
     Plugin 'vim-scripts/DoxygenToolkit.vim'
 
     Plugin 'dense-analysis/ale'
@@ -90,7 +92,7 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
     
     " Plugin 'inkarkat/vim-ConflictMotions'
     
-    Plugin 'madox2/vim-ai', { 'do': './install.sh' }
+    Plugin 'madox2/vim-ai'
      
     Plugin 'peterhoeg/vim-qml'   
 
@@ -360,10 +362,10 @@ endfunction
 colorscheme summerfruit256
 :hi Normal ctermbg=NONE guibg=NONE
 :hi Comment ctermfg=lightgray
-:hi DiffAdd     ctermfg=NONE ctermbg=NONE gui=none guifg=bg guibg=Red
-:hi DiffDelete  ctermfg=NONE ctermbg=NONE gui=none guifg=bg guibg=Red
-:hi DiffChange  ctermfg=NONE ctermbg=NONE gui=none guifg=bg guibg=Red
-:hi DiffText   cterm=bold ctermfg=NONE ctermbg=NONE gui=none guifg=bg guibg=Red
+" :hi DiffAdd                   ctermfg=black cterm=bold guibg=green      guifg=black
+" :hi DiffText   ctermbg=yellow ctermfg=red   cterm=bold guibg=yellow     guifg=red
+" :hi DiffChange ctermbg=none   ctermfg=none  cterm=bold guibg=white      guifg=black
+" :hi DiffDelete                                         guibg=lightblue  guifg=lightblue
 " tmux knows the extended mouse mode
 set ttymouse=xterm2
 if &term =~ '^screen'
