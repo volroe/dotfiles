@@ -375,7 +375,9 @@ if &term =~ '^screen'
     execute "set <xRight>=\e[1;*C"
     execute "set <xLeft>=\e[1;*D"
 endif
-" open new splits to the right
+
+" change the direction of new splits
+set splitbelow
 set splitright
 
 " map splits similar to tmux
@@ -573,7 +575,10 @@ let g:ale_virtualtext_cursor = 0
 let g:ale_cursor_detail = 0
 let g:ale_set_balloons = 0
 
+" Set this in your vimrc file to disabling highlighting
 :nnoremap <C-]> :ALEGoToDefinition<CR>
+highlight ALEWarning ctermbg=lightyellow
+highlight ALEError ctermbg=lightred
 
 highlight clear SignColumn
 " highlight! link SignColumn LineNr
