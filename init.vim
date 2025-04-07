@@ -88,23 +88,19 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
 
     Plugin 'fedorenchik/qt-support.vim'
     
-    " Plugin 'inkarkat/vim-ConflictMotions'
+    " Plugin 'vim-scripts/ConflictMotions'
     
-    Plugin 'madox2/vim-ai', { 'do': './install.sh' }
-     
+    " Plugin 'madox2/vim-ai', { 'do': './install.sh' }
+    
+    Plugin 'github/copilot.vim'
+   
     Plugin 'peterhoeg/vim-qml'   
 
     " Plugin 'SirVer/ultisnips'
-    
-    Plugin 'tpope/vim-repeat'   
-    
-    Plugin 'tpope/vim-markdown'   
 
     call vundle#end()            " required
     filetype plugin indent on    " required
 endif
-
-let g:vim_ai_roles_config_file = '~/.config/openai.roles'
 
 " let g:UltiSnipsSnippetsDir = "~/.vim/bundle/ultisnips/UltiSnips"
 " let g:UltiSnipsExpandTrigger="<nop>"
@@ -154,7 +150,6 @@ nmap <Leader>C :Commands<CR>
 nmap <Leader>: :History:<CR>
 nmap <Leader>M :Maps<CR>
 nnoremap <silent> <Leader>q :Rg <C-R><C-W><CR>
-vnoremap <silent> <Leader>q y:Rg <C-R>=escape(@",'/\')<CR><CR>
 " nmap <Leader>s :Filetypes<CR>
 
 " Get text in files with Rg
@@ -167,19 +162,11 @@ let g:fzf_action = {
   \ 'ctrl-t': 'tab split',
   \ 'ctrl-x': 'split',
   \ 'ctrl-v': 'vsplit',
-  \ 'ctrl-q': 'fill_quickfix',
-  \ 'ctrl-y': {lines -> setreg('*', join(lines, "\n"))}}
-
-command! -bang -nargs=* BLines
-    \ call fzf#vim#grep(
-    \   'rg --with-filename --column --line-number --no-heading --smart-case . '.fnameescape(expand('%:p')), 1,
-    \   fzf#vim#with_preview({'options': '--layout reverse --query '.shellescape(<q-args>).' --with-nth=4.. --delimiter=":"'}, 'right:50%'))
-    " \   fzf#vim#with_preview({'options': '--layout reverse  --with-nth=-1.. --delimiter="/"'}, 'right:50%'))
+  \ 'ctrl-q': 'fill_quickfix'}
 
 " neccessary as snap ctags can't access /tmp 
 let g:tagbar_use_cache = 0
 
-let g:tmux_navigator_no_wrap = 0
 function s:AddTerminalNavigation()
 
     if &filetype ==# ''
@@ -213,8 +200,7 @@ endif
 " better termdebug layout
 let g:termdebug_wide=1
 
-" Turn on syntax highlighting with doxygen on top
-let g:load_doxygen_syntax=1
+" Turn on syntax highlighting
 syntax on
 
 " Security
@@ -289,8 +275,6 @@ set ttyfast
 
 " Status bar
 set laststatus=2
-set statusline=%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P
-set statusline+=%{fugitive#statusline()}
 
 " Last line
 set showmode
@@ -324,7 +308,6 @@ nnoremap <silent> <leader>Q vapJgqap
 set timeoutlen=1000 ttimeoutlen=0
 
 " useful shortcuts
-inoremap <C-u> <esc>gUiWEa 
 
 " Allow saving of files as sudo when I forgot to start vim using sudo.
 cmap w!! w !sudo tee > /dev/null %
@@ -384,9 +367,6 @@ nmap <Leader>\ :vsplit<CR>
 nmap <Leader>- :split<CR>
 
 :hi debugPC term=reverse ctermbg=lightblue guibg=lightblue
-
-" don't hide symbols in markdown
-set conceallevel=0
 " fix syntax highlighting in markdown 
 function! MathAndLiquid()
     "" Define certain regions
@@ -429,8 +409,8 @@ let g:zipPlugin_ext = '*.zip,*.jar,*.xpi,*.ja,*.war,*.ear,*.celzip,*.oxt,*.kmz,*
 autocmd BufReadPre *.doc,*.docx,*.rtf,*.odp,*.odt silent set ro
 autocmd BufReadPost *.doc,*.docx,*.rtf,*.odp,*.odt silent set modifiable
 autocmd BufReadPost *.doc,*.docx,*.rtf,*.odp,*.odt silent set filetype=markdown
-autocmd BufReadPost *.doc,*.docx,*.rtf,*.odp,*.odt silent set conceallevel=0 " don't hide symbols in markdown
 autocmd BufReadPost *.doc,*.docx,*.rtf,*.odp,*.odt silent  %!pandoc --columns=100 -t markdown "%" -o /dev/stdout
+set conceallevel=0 " don't hide symbols in markdown
 
 set mouse=a
 if &term =~ '^screen'
@@ -479,8 +459,8 @@ augroup END
 " use vim for prose
 augroup pencil
   autocmd!
-  autocmd FileType markdown,mkd call pencil#init({'wrap': 'hard', 'autoformat': 0, 'conceallevel': 0})
-  autocmd FileType text         call pencil#init({'wrap': 'hard', 'autoformat': 0, 'conceallevel': 0})
+  autocmd FileType markdown,mkd call pencil#init({'wrap': 'hard', 'autoformat': 0})
+  autocmd FileType text         call pencil#init({'wrap': 'hard', 'autoformat': 0})
 augroup END
 
 " open quickfix window automatically when AsyncRun is executed
@@ -546,20 +526,16 @@ command! BD call fzf#run(fzf#wrap({
   \ 'options': '--multi --reverse --bind ctrl-a:select-all+accept'
 \ }))
 
-" setlocal spell
-set spelllang=en_us
-" fix latest error directly
-inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u
-
 " Do not lint or fix python files.
 let g:ale_pattern_options_enabled = 1
 let g:ale_pattern_options = {
 \ '*.py': {'ale_linters': [], 'ale_fixers': []},
 \}
-" Only run linters named in ale_linters settings.
-let g:ale_linters_explicit = 1
-let g:ale_fixers = {'cpp': ['clangtidy']}
-let g:ale_linters = {'cpp': ['clangd']}
+
+" setlocal spell
+set spelllang=en_us
+" fix latest error directly
+inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u
 
 let g:ale_sign_error = '●'
 let g:ale_sign_warning = '.'
@@ -619,128 +595,3 @@ autocmd! User GoyoEnter nested call <SID>goyo_enter()
 autocmd! User GoyoLeave nested call <SID>goyo_leave()
 
 command! -range=% Openinbrowser <line1>,<line2> TOhtml | :AsyncRun open %
-
-" I hit Q instead of q too often..
-:command Q q
-
-" write out and run make
-:map <leader>m :update \| AsyncRun make <CR>
-
-
-" This prompt instructs model to be consise in order to be used inline in editor
-let s:initial_complete_prompt =<< trim END
->>> system
-
-You are a general assistant.
-Answer shortly, consisely and only what you are asked.
-Do not provide any explanantion or comments if not requested.
-If you answer in a code, do not wrap it in markdown code block.
-END
-
-" :AI
-" - prompt: optional prepended prompt
-" - engine: chat | complete - see how to configure complete engine in the section below
-" - options: openai config (see https://platform.openai.com/docs/api-reference/completions)
-" - options.initial_prompt: prompt prepended to every chat request (list of lines or string)
-" - options.request_timeout: request timeout in seconds
-" - options.enable_auth: enable authorization using openai key
-" - options.token_file_path: override global token configuration
-" - options.selection_boundary: selection prompt wrapper (eliminates empty responses, see #20)
-" - ui.paste_mode: use paste mode (see more info in the Notes below)
-let g:vim_ai_complete = {
-\  "prompt": "",
-\  "engine": "chat",
-\  "options": {
-\    "model": "cognitivecomputations/mistralai/mistral-small-3.1-24b-instruct:free",
-\    "endpoint_url": "https://openrouter.ai/api/v1/chat/completions",
-\    "max_tokens": 0,
-\    "max_completion_tokens": 0,
-\    "temperature": 0.1,
-\    "request_timeout": 20,
-\    "stream": 1,
-\    "enable_auth": 1,
-\    "token_file_path": "~/.config/openrouter.token",
-\    "selection_boundary": "#####",
-\    "initial_prompt": s:initial_complete_prompt,
-\  },
-\  "ui": {
-\    "paste_mode": 1,
-\  },
-\}
-
-" :AIEdit
-" - prompt: optional prepended prompt
-" - engine: chat | complete - see how to configure complete engine in the section below
-" - options: openai config (see https://platform.openai.com/docs/api-reference/completions)
-" - options.initial_prompt: prompt prepended to every chat request (list of lines or string)
-" - options.request_timeout: request timeout in seconds
-" - options.enable_auth: enable authorization using openai key
-" - options.token_file_path: override global token configuration
-" - options.selection_boundary: selection prompt wrapper (eliminates empty responses, see #20)
-" - ui.paste_mode: use paste mode (see more info in the Notes below)
-let g:vim_ai_edit = {
-\  "prompt": "",
-\  "engine": "chat",
-\  "options": {
-\    "model": "cognitivecomputations/dolphin3.0-r1-mistral-24b:free",
-\    "endpoint_url": "https://openrouter.ai/api/v1/chat/completions",
-\    "max_tokens": 0,
-\    "max_completion_tokens": 0,
-\    "temperature": 0.1,
-\    "request_timeout": 20,
-\    "stream": 1,
-\    "enable_auth": 1,
-\    "token_file_path": "~/.config/openrouter.token",
-\    "selection_boundary": "#####",
-\    "initial_prompt": s:initial_complete_prompt,
-\  },
-\  "ui": {
-\    "paste_mode": 1,
-\  },
-\}
-
-" This prompt instructs model to work with syntax highlighting
-let s:initial_chat_prompt =<< trim END
->>> system
-
-You are a general assistant.
-If you attach a code block add syntax type after ``` to enable syntax highlighting.
-END
-
-" :AIChat
-" - prompt: optional prepended prompt
-" - options: openai config (see https://platform.openai.com/docs/api-reference/chat)
-" - options.initial_prompt: prompt prepended to every chat request (list of lines or string)
-" - options.request_timeout: request timeout in seconds
-" - options.enable_auth: enable authorization using openai key
-" - options.token_file_path: override global token configuration
-" - options.selection_boundary: selection prompt wrapper (eliminates empty responses, see #20)
-" - ui.open_chat_command: preset (preset_below, preset_tab, preset_right) or a custom command
-" - ui.populate_options: put [chat-options] to the chat header
-" - ui.scratch_buffer_keep_open: re-use scratch buffer within the vim session
-" - ui.force_new_chat: force new chat window (used in chat opening roles e.g. `/tab`)
-" - ui.paste_mode: use paste mode (see more info in the Notes below)
-let g:vim_ai_chat = {
-\  "prompt": "",
-\  "options": {
-\    "model": "cognitivecomputations/dolphin3.0-r1-mistral-24b:free",
-\    "endpoint_url": "https://openrouter.ai/api/v1/chat/completions",
-\    "max_tokens": 0,
-\    "max_completion_tokens": 0,
-\    "temperature": 1,
-\    "request_timeout": 20,
-\    "stream": 1,
-\    "enable_auth": 1,
-\    "token_file_path": "~/.config/openrouter.token",
-\    "selection_boundary": "",
-\    "initial_prompt": s:initial_chat_prompt,
-\  },
-\  "ui": {
-\    "open_chat_command": "preset_below",
-\    "scratch_buffer_keep_open": 0,
-\    "populate_options": 0,
-\    "code_syntax_enabled": 1,
-\    "force_new_chat": 0,
-\    "paste_mode": 1,
-\  },
-\}
