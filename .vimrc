@@ -651,7 +651,7 @@ let g:vim_ai_complete = {
 \  "prompt": "",
 \  "engine": "chat",
 \  "options": {
-\    "model": "cognitivecomputations/mistralai/mistral-small-3.1-24b-instruct:free",
+\    "model": "meta-llama/llama-4-maverick:free",
 \    "endpoint_url": "https://openrouter.ai/api/v1/chat/completions",
 \    "max_tokens": 0,
 \    "max_completion_tokens": 0,
@@ -682,7 +682,7 @@ let g:vim_ai_edit = {
 \  "prompt": "",
 \  "engine": "chat",
 \  "options": {
-\    "model": "cognitivecomputations/dolphin3.0-r1-mistral-24b:free",
+\    "model": "meta-llama/llama-4-maverick:free",
 \    "endpoint_url": "https://openrouter.ai/api/v1/chat/completions",
 \    "max_tokens": 0,
 \    "max_completion_tokens": 0,
@@ -723,7 +723,7 @@ END
 let g:vim_ai_chat = {
 \  "prompt": "",
 \  "options": {
-\    "model": "cognitivecomputations/dolphin3.0-r1-mistral-24b:free",
+\    "model": "meta-llama/llama-4-maverick:free",
 \    "endpoint_url": "https://openrouter.ai/api/v1/chat/completions",
 \    "max_tokens": 0,
 \    "max_completion_tokens": 0,
