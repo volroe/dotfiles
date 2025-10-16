@@ -96,7 +96,8 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
      
     Plugin 'peterhoeg/vim-qml'   
 
-    " Plugin 'SirVer/ultisnips'
+    Plugin 'Shougo/neosnippet.vim'
+    Plugin 'Shougo/neosnippet-snippets' 
     
     Plugin 'tpope/vim-repeat'   
 
@@ -106,11 +107,6 @@ endif
 
 let g:vim_ai_roles_config_file = '~/.config/openai.roles'
 
-" let g:UltiSnipsSnippetsDir = "~/.vim/bundle/ultisnips/UltiSnips"
-" let g:UltiSnipsExpandTrigger="<nop>"
-" let g:UltiSnipsJumpForwardTrigger="<c-b>"
-" let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-
 " remap leader key
 nnoremap <SPACE> <Nop>
 let mapleader=" "
@@ -119,8 +115,26 @@ inoremap <expr> <C-j>   pumvisible() ? "\<C-n>" : "\<C-j>"
 inoremap <expr> <C-k>   pumvisible() ? "\<C-p>" : "\<C-k>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <expr> <TAB>   pumvisible() ? "\<C-n>" : "\<TAB>"
-" imap <expr> <CR> UltiSnips#CanExpandSnippet() ? "\<C-r>=UltiSnips#ExpandSnippet()<CR>" : pumvisible() ? "\<C-y>" : "\<CR>"
-" imap <expr> <CR> UltiSnips#CanExpandSnippet() ? "\<C-r>=UltiSnips#ExpandSnippet()<CR>" : "\<ESC><CR>"
+
+" Plugin key-mappings.
+" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
+imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+xmap <C-k>     <Plug>(neosnippet_expand_target)
+
+" SuperTab like snippets behavior.
+" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
+"imap <expr><TAB>
+" \ pumvisible() ? "\<C-n>" :
+" \ neosnippet#expandable_or_jumpable() ?
+" \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+\ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+
+" For conceal markers.
+if has('conceal')
+  set conceallevel=2 concealcursor=niv
+endif
 
 " deoplete configuration
 let g:deoplete#enable_at_startup = 1        
@@ -602,6 +616,7 @@ function! s:goyo_enter()
   set noshowcmd
   set scrolloff=999
   set textwidth=80
+  set wrap
   Limelight
   " ...
 endfunction
@@ -615,6 +630,7 @@ function! s:goyo_leave()
   set showcmd
   set scrolloff=3
   set textwidth=0
+  set nowrap
   Limelight!
   " ...
 endfunction
