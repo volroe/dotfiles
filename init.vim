@@ -1,5 +1,7 @@
 " Don't try to be vi compatible
 set nocompatible
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim 
 
 if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
     " set the runtime path to include Vundle and initialize
@@ -46,15 +48,13 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
     
     Plugin 'baeuml/summerfruit256.vim'
 
-    Plugin 'junegunn/seoul256.vim'
-
     Plugin 'majutsushi/tagbar'
 
     Plugin 'tommcdo/vim-exchange'
     
     Plugin 'rhysd/vim-clang-format'
 
-    Plugin 'alok/notational-fzf-vim'
+    " Plugin 'alok/notational-fzf-vim'
     
     if has('nvim')
         Plugin 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -108,6 +108,18 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
     call vundle#end()            " required
     filetype plugin indent on    " required
 endif
+
+
+" ======================================
+" machine specific stuff
+" ======================================
+
+" F13 to grab data from dtrs 
+nnoremap <silent> <F12> :$read ! ~/scripts/grab-data-from-dtrs \| egrep "rawdata.lsd" \| rev \| cut -c12- \| rev <cr>
+
+" F9 to compile or generate report
+autocmd FileType c,cpp,cmake,qml,javascript    nnoremap <buffer> <silent> <F9> :AsyncStop<cr> :AsyncRun -save=2 -cwd=<root> ~/scripts/build-script.sh<cr>
+autocmd FileType markdown,mkd   nnoremap <buffer> <silent> <F9> :AsyncRun -save=1 ~/scripts/make-pres %<cr>
 
 let g:vim_ai_roles_config_file = '~/.config/openai.roles'
 
@@ -194,25 +206,17 @@ command! -bang -nargs=* BLines
     \   fzf#vim#with_preview({'options': '--layout reverse --query '.shellescape(<q-args>).' --with-nth=4.. --delimiter=":"'}, 'right:50%'))
     " \   fzf#vim#with_preview({'options': '--layout reverse  --with-nth=-1.. --delimiter="/"'}, 'right:50%'))
 
+" Customize fzf colors to match your color scheme
+" - fzf#wrap translates this to a set of `--color` options
+let g:fzf_colors =
+\ { 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+  \ 'hl+':     ['fg', 'Statement'],}
+
 " neccessary as snap ctags can't access /tmp 
 let g:tagbar_use_cache = 0
 
 let g:tmux_navigator_no_wrap = 0
-function s:AddTerminalNavigation()
-
-    if &filetype ==# ''
-        tnoremap <buffer> <silent> <c-h> <c-\><c-n>:TmuxNavigateLeft<cr>
-        tnoremap <buffer> <silent> <c-j> <c-\><c-n>:TmuxNavigateDown<cr>
-        tnoremap <buffer> <silent> <c-k> <c-\><c-n>:TmuxNavigateUp<cr>
-        tnoremap <buffer> <silent> <c-l> <c-\><c-n>:TmuxNavigateRight<cr>
-    endif
-
-endfunction
-
-augroup TerminalNavigation
-    autocmd!
-    autocmd TerminalOpen * call s:AddTerminalNavigation()
-augroup END
 
 let g:nv_search_paths = ['~/neoscan/notes', '~/notes', 'docs.md', './notes.md']
 nnoremap <silent> <leader>s :NV<CR>
@@ -377,16 +381,14 @@ endfunction
 " let g:solarized_termcolors=256
 " let g:solarized_termtrans=1
 " let g:seoul256_background = 256
-" colorscheme seoul256-light
 colorscheme summerfruit256
 :hi Normal ctermbg=NONE guibg=NONE
-:hi Comment ctermfg=lightgray
+:hi Comment ctermfg=gray
 " :hi DiffAdd                   ctermfg=black cterm=bold guibg=green      guifg=black
 " :hi DiffText   ctermbg=yellow ctermfg=red   cterm=bold guibg=yellow     guifg=red
 " :hi DiffChange ctermbg=none   ctermfg=none  cterm=bold guibg=white      guifg=black
 " :hi DiffDelete                                         guibg=lightblue  guifg=lightblue
 " tmux knows the extended mouse mode
-set ttymouse=xterm2
 if &term =~ '^screen'
     "tmux will send xterm-style keys when its xterm-keys option is on
     execute "set <xUp>=\e[1;*A"
