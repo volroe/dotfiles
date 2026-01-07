@@ -80,7 +80,7 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
 
     Plugin 'dense-analysis/ale'
 
-    Plugin 'iamcco/markdown-preview.nvim'
+    Plugin 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 
     Plugin 'justinmk/vim-sneak'
     
