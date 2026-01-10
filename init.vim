@@ -48,6 +48,8 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
     
     Plugin 'baeuml/summerfruit256.vim'
 
+    Plugin 'projekt0n/github-nvim-theme'
+
     Plugin 'majutsushi/tagbar'
 
     Plugin 'tommcdo/vim-exchange'
@@ -361,9 +363,6 @@ set listchars=tab:▸\ ,eol:¬
 
 " avoid random characters at startup
 set t_TI= t_TE=
-" Color scheme (terminal)
-set t_Co=256
-set background=light
 
 " handling setting and unsetting BAT_THEME for fzf.vim
 augroup update_bat_theme
@@ -378,12 +377,7 @@ function ToggleBatEnvVar()
     endif
 endfunction
 
-" let g:solarized_termcolors=256
-" let g:solarized_termtrans=1
-" let g:seoul256_background = 256
-colorscheme summerfruit256
-:hi Normal ctermbg=NONE guibg=NONE
-:hi Comment ctermfg=gray
+colorscheme github_light_high_contrast
 " :hi DiffAdd                   ctermfg=black cterm=bold guibg=green      guifg=black
 " :hi DiffText   ctermbg=yellow ctermfg=red   cterm=bold guibg=yellow     guifg=red
 " :hi DiffChange ctermbg=none   ctermfg=none  cterm=bold guibg=white      guifg=black
