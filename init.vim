@@ -1,5 +1,7 @@
 " Don't try to be vi compatible
 set nocompatible
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim 
 
 if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
     " set the runtime path to include Vundle and initialize
@@ -46,7 +48,7 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
     
     Plugin 'baeuml/summerfruit256.vim'
 
-    Plugin 'junegunn/seoul256.vim'
+    Plugin 'projekt0n/github-nvim-theme'
 
     Plugin 'majutsushi/tagbar'
 
@@ -54,7 +56,7 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
     
     Plugin 'rhysd/vim-clang-format'
 
-    Plugin 'alok/notational-fzf-vim'
+    " Plugin 'alok/notational-fzf-vim'
     
     if has('nvim')
         Plugin 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -74,11 +76,13 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
 
     Plugin 'vim-scripts/argtextobj.vim'
 
+    Plugin 'PeterRincker/vim-argumentative'
+
     Plugin 'vim-scripts/DoxygenToolkit.vim'
 
     Plugin 'dense-analysis/ale'
 
-    Plugin 'iamcco/markdown-preview.nvim'
+    Plugin 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 
     Plugin 'justinmk/vim-sneak'
     
@@ -88,24 +92,38 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
 
     Plugin 'fedorenchik/qt-support.vim'
     
-    " Plugin 'vim-scripts/ConflictMotions'
+    " Plugin 'inkarkat/vim-ConflictMotions'
     
-    " Plugin 'madox2/vim-ai', { 'do': './install.sh' }
-    
-    Plugin 'github/copilot.vim'
-   
+    Plugin 'madox2/vim-ai'
+     
     Plugin 'peterhoeg/vim-qml'   
 
-    " Plugin 'SirVer/ultisnips'
+    Plugin 'Shougo/neosnippet.vim'
+    Plugin 'Shougo/neosnippet-snippets' 
+    
+    Plugin 'tpope/vim-repeat'   
+
+	Plugin 'gorkunov/smartpairs.vim'
+
+    Plugin 'joshuavial/aider.nvim'
 
     call vundle#end()            " required
     filetype plugin indent on    " required
 endif
 
-" let g:UltiSnipsSnippetsDir = "~/.vim/bundle/ultisnips/UltiSnips"
-" let g:UltiSnipsExpandTrigger="<nop>"
-" let g:UltiSnipsJumpForwardTrigger="<c-b>"
-" let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
+" ======================================
+" machine specific stuff
+" ======================================
+
+" F13 to grab data from dtrs 
+nnoremap <silent> <F12> :$read ! ~/scripts/grab-data-from-dtrs \| egrep "rawdata.lsd" \| rev \| cut -c12- \| rev <cr>
+
+" F9 to compile or generate report
+autocmd FileType c,cpp,cmake,qml,javascript    nnoremap <buffer> <silent> <F9> :AsyncStop<cr> :AsyncRun -save=2 -cwd=<root> ~/scripts/build-script.sh<cr>
+autocmd FileType markdown,mkd   nnoremap <buffer> <silent> <F9> :AsyncRun -save=1 ~/scripts/make-pres %<cr>
+
+let g:vim_ai_roles_config_file = '~/.config/openai.roles'
 
 " remap leader key
 nnoremap <SPACE> <Nop>
@@ -115,8 +133,26 @@ inoremap <expr> <C-j>   pumvisible() ? "\<C-n>" : "\<C-j>"
 inoremap <expr> <C-k>   pumvisible() ? "\<C-p>" : "\<C-k>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <expr> <TAB>   pumvisible() ? "\<C-n>" : "\<TAB>"
-" imap <expr> <CR> UltiSnips#CanExpandSnippet() ? "\<C-r>=UltiSnips#ExpandSnippet()<CR>" : pumvisible() ? "\<C-y>" : "\<CR>"
-" imap <expr> <CR> UltiSnips#CanExpandSnippet() ? "\<C-r>=UltiSnips#ExpandSnippet()<CR>" : "\<ESC><CR>"
+
+" Plugin key-mappings.
+" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
+imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+xmap <C-k>     <Plug>(neosnippet_expand_target)
+
+" SuperTab like snippets behavior.
+" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
+"imap <expr><TAB>
+" \ pumvisible() ? "\<C-n>" :
+" \ neosnippet#expandable_or_jumpable() ?
+" \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+\ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+
+" For conceal markers.
+if has('conceal')
+  set conceallevel=2 concealcursor=niv
+endif
 
 " deoplete configuration
 let g:deoplete#enable_at_startup = 1        
@@ -150,38 +186,39 @@ nmap <Leader>C :Commands<CR>
 nmap <Leader>: :History:<CR>
 nmap <Leader>M :Maps<CR>
 nnoremap <silent> <Leader>q :Rg <C-R><C-W><CR>
+vnoremap <silent> <Leader>q y:Rg <C-R>=escape(@",'/\')<CR><CR>
 " nmap <Leader>s :Filetypes<CR>
 
 " Get text in files with Rg
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
-  \   'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
+  \   'rg --fixed-strings --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
   \   fzf#vim#with_preview(), <bang>0)
 
 let g:fzf_action = {
   \ 'ctrl-t': 'tab split',
   \ 'ctrl-x': 'split',
   \ 'ctrl-v': 'vsplit',
-  \ 'ctrl-q': 'fill_quickfix'}
+  \ 'ctrl-q': 'fill_quickfix',
+  \ 'ctrl-y': {lines -> setreg('+', join(lines, "\n"))}}
+
+command! -bang -nargs=* BLines
+    \ call fzf#vim#grep(
+    \   'rg --with-filename --column --line-number --no-heading --smart-case . '.fnameescape(expand('%:p')), 1,
+    \   fzf#vim#with_preview({'options': '--layout reverse --query '.shellescape(<q-args>).' --with-nth=4.. --delimiter=":"'}, 'right:50%'))
+    " \   fzf#vim#with_preview({'options': '--layout reverse  --with-nth=-1.. --delimiter="/"'}, 'right:50%'))
+
+" Customize fzf colors to match your color scheme
+" - fzf#wrap translates this to a set of `--color` options
+let g:fzf_colors =
+\ { 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+  \ 'hl+':     ['fg', 'Statement'],}
 
 " neccessary as snap ctags can't access /tmp 
 let g:tagbar_use_cache = 0
 
-function s:AddTerminalNavigation()
-
-    if &filetype ==# ''
-        tnoremap <buffer> <silent> <c-h> <c-\><c-n>:TmuxNavigateLeft<cr>
-        tnoremap <buffer> <silent> <c-j> <c-\><c-n>:TmuxNavigateDown<cr>
-        tnoremap <buffer> <silent> <c-k> <c-\><c-n>:TmuxNavigateUp<cr>
-        tnoremap <buffer> <silent> <c-l> <c-\><c-n>:TmuxNavigateRight<cr>
-    endif
-
-endfunction
-
-augroup TerminalNavigation
-    autocmd!
-    autocmd TerminalOpen * call s:AddTerminalNavigation()
-augroup END
+let g:tmux_navigator_no_wrap = 0
 
 let g:nv_search_paths = ['~/neoscan/notes', '~/notes', 'docs.md', './notes.md']
 nnoremap <silent> <leader>s :NV<CR>
@@ -200,7 +237,8 @@ endif
 " better termdebug layout
 let g:termdebug_wide=1
 
-" Turn on syntax highlighting
+" Turn on syntax highlighting with doxygen on top
+let g:load_doxygen_syntax=1
 syntax on
 
 " Security
@@ -275,6 +313,8 @@ set ttyfast
 
 " Status bar
 set laststatus=2
+set statusline=%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P
+set statusline+=%{fugitive#statusline()}
 
 " Last line
 set showmode
@@ -308,6 +348,7 @@ nnoremap <silent> <leader>Q vapJgqap
 set timeoutlen=1000 ttimeoutlen=0
 
 " useful shortcuts
+inoremap <C-u> <esc>gUiWEa 
 
 " Allow saving of files as sudo when I forgot to start vim using sudo.
 cmap w!! w !sudo tee > /dev/null %
@@ -322,9 +363,6 @@ set listchars=tab:▸\ ,eol:¬
 
 " avoid random characters at startup
 set t_TI= t_TE=
-" Color scheme (terminal)
-set t_Co=256
-set background=light
 
 " handling setting and unsetting BAT_THEME for fzf.vim
 augroup update_bat_theme
@@ -339,19 +377,12 @@ function ToggleBatEnvVar()
     endif
 endfunction
 
-" let g:solarized_termcolors=256
-" let g:solarized_termtrans=1
-" let g:seoul256_background = 256
-" colorscheme seoul256-light
-colorscheme summerfruit256
-:hi Normal ctermbg=NONE guibg=NONE
-:hi Comment ctermfg=lightgray
-:hi DiffAdd     ctermfg=NONE ctermbg=NONE gui=none guifg=bg guibg=Red
-:hi DiffDelete  ctermfg=NONE ctermbg=NONE gui=none guifg=bg guibg=Red
-:hi DiffChange  ctermfg=NONE ctermbg=NONE gui=none guifg=bg guibg=Red
-:hi DiffText   cterm=bold ctermfg=NONE ctermbg=NONE gui=none guifg=bg guibg=Red
+colorscheme github_light_high_contrast
+" :hi DiffAdd                   ctermfg=black cterm=bold guibg=green      guifg=black
+" :hi DiffText   ctermbg=yellow ctermfg=red   cterm=bold guibg=yellow     guifg=red
+" :hi DiffChange ctermbg=none   ctermfg=none  cterm=bold guibg=white      guifg=black
+" :hi DiffDelete                                         guibg=lightblue  guifg=lightblue
 " tmux knows the extended mouse mode
-set ttymouse=xterm2
 if &term =~ '^screen'
     "tmux will send xterm-style keys when its xterm-keys option is on
     execute "set <xUp>=\e[1;*A"
@@ -359,7 +390,9 @@ if &term =~ '^screen'
     execute "set <xRight>=\e[1;*C"
     execute "set <xLeft>=\e[1;*D"
 endif
-" open new splits to the right
+
+" change the direction of new splits
+set splitbelow
 set splitright
 
 " map splits similar to tmux
@@ -367,6 +400,9 @@ nmap <Leader>\ :vsplit<CR>
 nmap <Leader>- :split<CR>
 
 :hi debugPC term=reverse ctermbg=lightblue guibg=lightblue
+
+" don't hide symbols in markdown
+set conceallevel=0
 " fix syntax highlighting in markdown 
 function! MathAndLiquid()
     "" Define certain regions
@@ -409,8 +445,8 @@ let g:zipPlugin_ext = '*.zip,*.jar,*.xpi,*.ja,*.war,*.ear,*.celzip,*.oxt,*.kmz,*
 autocmd BufReadPre *.doc,*.docx,*.rtf,*.odp,*.odt silent set ro
 autocmd BufReadPost *.doc,*.docx,*.rtf,*.odp,*.odt silent set modifiable
 autocmd BufReadPost *.doc,*.docx,*.rtf,*.odp,*.odt silent set filetype=markdown
+autocmd BufReadPost *.doc,*.docx,*.rtf,*.odp,*.odt silent set conceallevel=0 " don't hide symbols in markdown
 autocmd BufReadPost *.doc,*.docx,*.rtf,*.odp,*.odt silent  %!pandoc --columns=100 -t markdown "%" -o /dev/stdout
-set conceallevel=0 " don't hide symbols in markdown
 
 set mouse=a
 if &term =~ '^screen'
@@ -459,8 +495,8 @@ augroup END
 " use vim for prose
 augroup pencil
   autocmd!
-  autocmd FileType markdown,mkd call pencil#init({'wrap': 'hard', 'autoformat': 0})
-  autocmd FileType text         call pencil#init({'wrap': 'hard', 'autoformat': 0})
+  autocmd FileType markdown,mkd call pencil#init({'wrap': 'hard', 'autoformat': 0, 'conceallevel': 0})
+  autocmd FileType text         call pencil#init({'wrap': 'hard', 'autoformat': 0, 'conceallevel': 0})
 augroup END
 
 " open quickfix window automatically when AsyncRun is executed
@@ -526,16 +562,20 @@ command! BD call fzf#run(fzf#wrap({
   \ 'options': '--multi --reverse --bind ctrl-a:select-all+accept'
 \ }))
 
+" setlocal spell
+set spelllang=en_us
+" fix latest error directly
+inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u
+
 " Do not lint or fix python files.
 let g:ale_pattern_options_enabled = 1
 let g:ale_pattern_options = {
 \ '*.py': {'ale_linters': [], 'ale_fixers': []},
 \}
-
-" setlocal spell
-set spelllang=en_us
-" fix latest error directly
-inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u
+" Only run linters named in ale_linters settings.
+let g:ale_linters_explicit = 1
+let g:ale_fixers = {'cpp': ['clangtidy']}
+let g:ale_linters = {'cpp': ['clangd']}
 
 let g:ale_sign_error = '●'
 let g:ale_sign_warning = '.'
@@ -543,6 +583,8 @@ let g:ale_lint_on_enter = 0
 let g:ale_lint_on_save = 1
 let g:ale_set_loclist = 0
 let g:ale_set_quickfix = 0
+let g:ale_open_list = 1
+let g:ale_keep_list_window_open = 0
 let g:ale_set_highlights = 1
 let g:ale_set_signs = 1
 let g:ale_echo_cursor = 1
@@ -551,6 +593,10 @@ let g:ale_cursor_detail = 0
 let g:ale_set_balloons = 0
 
 :nnoremap <C-]> :ALEGoToDefinition<CR>
+:nnoremap <Leader>w :ALEFindReference -quickfix <bar> :copen<CR>
+" Set this in your vimrc file to disabling highlighting
+highlight ALEWarning ctermbg=lightyellow
+highlight ALEError ctermbg=lightred
 
 highlight clear SignColumn
 " highlight! link SignColumn LineNr
@@ -574,6 +620,7 @@ function! s:goyo_enter()
   set noshowcmd
   set scrolloff=999
   set textwidth=80
+  set wrap
   Limelight
   " ...
 endfunction
@@ -587,6 +634,7 @@ function! s:goyo_leave()
   set showcmd
   set scrolloff=3
   set textwidth=0
+  set nowrap
   Limelight!
   " ...
 endfunction
@@ -595,3 +643,123 @@ autocmd! User GoyoEnter nested call <SID>goyo_enter()
 autocmd! User GoyoLeave nested call <SID>goyo_leave()
 
 command! -range=% Openinbrowser <line1>,<line2> TOhtml | :AsyncRun open %
+
+:command Q q
+
+" This prompt instructs model to be consise in order to be used inline in editor
+let s:initial_complete_prompt =<< trim END
+>>> system
+
+You are a general assistant.
+Answer shortly, consisely and only what you are asked.
+Do not provide any explanantion or comments if not requested.
+If you answer in a code, do not wrap it in markdown code block.
+END
+
+" :AI
+" - prompt: optional prepended prompt
+" - engine: chat | complete - see how to configure complete engine in the section below
+" - options: openai config (see https://platform.openai.com/docs/api-reference/completions)
+" - options.initial_prompt: prompt prepended to every chat request (list of lines or string)
+" - options.request_timeout: request timeout in seconds
+" - options.enable_auth: enable authorization using openai key
+" - options.token_file_path: override global token configuration
+" - options.selection_boundary: selection prompt wrapper (eliminates empty responses, see #20)
+" - ui.paste_mode: use paste mode (see more info in the Notes below)
+let g:vim_ai_complete = {
+\  "prompt": "",
+\  "engine": "chat",
+\  "options": {
+\    "model": "cognitivecomputations/dolphin3.0-r1-mistral-24b:free",
+\    "endpoint_url": "https://openrouter.ai/api/v1/chat/completions",
+\    "max_tokens": 0,
+\    "max_completion_tokens": 0,
+\    "temperature": 0.1,
+\    "request_timeout": 20,
+\    "stream": 1,
+\    "enable_auth": 1,
+\    "token_file_path": "~/.config/openrouter.token",
+\    "selection_boundary": "#####",
+\    "initial_prompt": s:initial_complete_prompt,
+\  },
+\  "ui": {
+\    "paste_mode": 1,
+\  },
+\}
+
+" :AIEdit
+" - prompt: optional prepended prompt
+" - engine: chat | complete - see how to configure complete engine in the section below
+" - options: openai config (see https://platform.openai.com/docs/api-reference/completions)
+" - options.initial_prompt: prompt prepended to every chat request (list of lines or string)
+" - options.request_timeout: request timeout in seconds
+" - options.enable_auth: enable authorization using openai key
+" - options.token_file_path: override global token configuration
+" - options.selection_boundary: selection prompt wrapper (eliminates empty responses, see #20)
+" - ui.paste_mode: use paste mode (see more info in the Notes below)
+let g:vim_ai_edit = {
+\  "prompt": "",
+\  "engine": "chat",
+\  "options": {
+\    "model": "cognitivecomputations/dolphin3.0-r1-mistral-24b:free",
+\    "endpoint_url": "https://openrouter.ai/api/v1/chat/completions",
+\    "max_tokens": 0,
+\    "max_completion_tokens": 0,
+\    "temperature": 0.1,
+\    "request_timeout": 20,
+\    "stream": 1,
+\    "enable_auth": 1,
+\    "token_file_path": "~/.config/openrouter.token",
+\    "selection_boundary": "#####",
+\    "initial_prompt": s:initial_complete_prompt,
+\  },
+\  "ui": {
+\    "paste_mode": 1,
+\  },
+\}
+
+" This prompt instructs model to work with syntax highlighting
+let s:initial_chat_prompt =<< trim END
+>>> system
+
+You are a general assistant.
+If you attach a code block add syntax type after ``` to enable syntax highlighting.
+END
+
+" :AIChat
+" - prompt: optional prepended prompt
+" - options: openai config (see https://platform.openai.com/docs/api-reference/chat)
+" - options.initial_prompt: prompt prepended to every chat request (list of lines or string)
+" - options.request_timeout: request timeout in seconds
+" - options.enable_auth: enable authorization using openai key
+" - options.token_file_path: override global token configuration
+" - options.selection_boundary: selection prompt wrapper (eliminates empty responses, see #20)
+" - ui.open_chat_command: preset (preset_below, preset_tab, preset_right) or a custom command
+" - ui.populate_options: put [chat-options] to the chat header
+" - ui.scratch_buffer_keep_open: re-use scratch buffer within the vim session
+" - ui.force_new_chat: force new chat window (used in chat opening roles e.g. `/tab`)
+" - ui.paste_mode: use paste mode (see more info in the Notes below)
+let g:vim_ai_chat = {
+\  "prompt": "",
+\  "options": {
+\    "model": "cognitivecomputations/dolphin3.0-r1-mistral-24b:free",
+\    "endpoint_url": "https://openrouter.ai/api/v1/chat/completions",
+\    "max_tokens": 0,
+\    "max_completion_tokens": 0,
+\    "temperature": 1,
+\    "request_timeout": 20,
+\    "stream": 1,
+\    "enable_auth": 1,
+\    "token_file_path": "~/.config/openrouter.token",
+\    "selection_boundary": "",
+\    "initial_prompt": s:initial_chat_prompt,
+\  },
+\  "ui": {
+\    "open_chat_command": "preset_below",
+\    "scratch_buffer_keep_open": 0,
+\    "populate_options": 0,
+\    "code_syntax_enabled": 1,
+\    "force_new_chat": 0,
+\    "paste_mode": 1,
+\  },
+\}

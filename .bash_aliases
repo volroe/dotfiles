@@ -64,6 +64,21 @@ alias ....='cd ../../../'
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
+recent () {
+    awk -F"file://|\" " '/file:\/\// {print $2}' ~/.local/share/recently-used.xbel | sed -e 's/%20/ /g' | fzf -m --tac --no-sort | while read -r item; do printf '%q ' "$item"; done
+    echo
+}
+
+or () {
+    file="$(awk -F"file://|\" " '/file:\/\// {print $2}' ~/.local/share/recently-used.xbel | sed -e 's/%20/ /g' | fzf -m --tac --no-sort 
+    )" &&
+    echo "$file" | \
+    while IFS= read -r line; do
+        echo "opening $file" &&
+        xdg-open "$line"
+    done
+}
+
 # enable pdf text search (first page) with fzf
 p () {
     dir=${1:-"/home/vroeloffs/neoscan/papers /home/vroeloffs/code/projects /home/vroeloffs/sharepoint/0_General/0_2_Dokumente/JabRefBib /home/vroeloffs/sharepoint/0_General/0_2_Dokumente/MR-Bibliothek"}

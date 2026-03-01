@@ -74,6 +74,8 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
 
     Plugin 'vim-scripts/argtextobj.vim'
 
+    Plugin 'PeterRincker/vim-argumentative'
+
     Plugin 'vim-scripts/DoxygenToolkit.vim'
 
     Plugin 'dense-analysis/ale'
@@ -90,26 +92,26 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
     
     " Plugin 'inkarkat/vim-ConflictMotions'
     
-    Plugin 'madox2/vim-ai', { 'do': './install.sh' }
+    Plugin 'madox2/vim-ai'
      
     Plugin 'peterhoeg/vim-qml'   
 
-    " Plugin 'SirVer/ultisnips'
+    Plugin 'Shougo/neosnippet.vim'
+    Plugin 'Shougo/neosnippet-snippets' 
     
     Plugin 'tpope/vim-repeat'   
     
     Plugin 'tpope/vim-markdown'   
+
+	Plugin 'gorkunov/smartpairs.vim'
+
+    Plugin 'joshuavial/aider.nvim'
 
     call vundle#end()            " required
     filetype plugin indent on    " required
 endif
 
 let g:vim_ai_roles_config_file = '~/.config/openai.roles'
-
-" let g:UltiSnipsSnippetsDir = "~/.vim/bundle/ultisnips/UltiSnips"
-" let g:UltiSnipsExpandTrigger="<nop>"
-" let g:UltiSnipsJumpForwardTrigger="<c-b>"
-" let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 " remap leader key
 nnoremap <SPACE> <Nop>
@@ -119,8 +121,26 @@ inoremap <expr> <C-j>   pumvisible() ? "\<C-n>" : "\<C-j>"
 inoremap <expr> <C-k>   pumvisible() ? "\<C-p>" : "\<C-k>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <expr> <TAB>   pumvisible() ? "\<C-n>" : "\<TAB>"
-" imap <expr> <CR> UltiSnips#CanExpandSnippet() ? "\<C-r>=UltiSnips#ExpandSnippet()<CR>" : pumvisible() ? "\<C-y>" : "\<CR>"
-" imap <expr> <CR> UltiSnips#CanExpandSnippet() ? "\<C-r>=UltiSnips#ExpandSnippet()<CR>" : "\<ESC><CR>"
+
+" Plugin key-mappings.
+" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
+imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+xmap <C-k>     <Plug>(neosnippet_expand_target)
+
+" SuperTab like snippets behavior.
+" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
+"imap <expr><TAB>
+" \ pumvisible() ? "\<C-n>" :
+" \ neosnippet#expandable_or_jumpable() ?
+" \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+\ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+
+" For conceal markers.
+if has('conceal')
+  set conceallevel=2 concealcursor=niv
+endif
 
 " deoplete configuration
 let g:deoplete#enable_at_startup = 1        
@@ -160,7 +180,7 @@ vnoremap <silent> <Leader>q y:Rg <C-R>=escape(@",'/\')<CR><CR>
 " Get text in files with Rg
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
-  \   'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
+  \   'rg --fixed-strings --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
   \   fzf#vim#with_preview(), <bang>0)
 
 let g:fzf_action = {
@@ -168,7 +188,7 @@ let g:fzf_action = {
   \ 'ctrl-x': 'split',
   \ 'ctrl-v': 'vsplit',
   \ 'ctrl-q': 'fill_quickfix',
-  \ 'ctrl-y': {lines -> setreg('*', join(lines, "\n"))}}
+  \ 'ctrl-y': {lines -> setreg('+', join(lines, "\n"))}}
 
 command! -bang -nargs=* BLines
     \ call fzf#vim#grep(
@@ -363,10 +383,10 @@ endfunction
 colorscheme summerfruit256
 :hi Normal ctermbg=NONE guibg=NONE
 :hi Comment ctermfg=lightgray
-:hi DiffAdd     ctermfg=NONE ctermbg=NONE gui=none guifg=bg guibg=Red
-:hi DiffDelete  ctermfg=NONE ctermbg=NONE gui=none guifg=bg guibg=Red
-:hi DiffChange  ctermfg=NONE ctermbg=NONE gui=none guifg=bg guibg=Red
-:hi DiffText   cterm=bold ctermfg=NONE ctermbg=NONE gui=none guifg=bg guibg=Red
+" :hi DiffAdd                   ctermfg=black cterm=bold guibg=green      guifg=black
+" :hi DiffText   ctermbg=yellow ctermfg=red   cterm=bold guibg=yellow     guifg=red
+" :hi DiffChange ctermbg=none   ctermfg=none  cterm=bold guibg=white      guifg=black
+" :hi DiffDelete                                         guibg=lightblue  guifg=lightblue
 " tmux knows the extended mouse mode
 set ttymouse=xterm2
 if &term =~ '^screen'
@@ -376,7 +396,9 @@ if &term =~ '^screen'
     execute "set <xRight>=\e[1;*C"
     execute "set <xLeft>=\e[1;*D"
 endif
-" open new splits to the right
+
+" change the direction of new splits
+set splitbelow
 set splitright
 
 " map splits similar to tmux
@@ -567,6 +589,8 @@ let g:ale_lint_on_enter = 0
 let g:ale_lint_on_save = 1
 let g:ale_set_loclist = 0
 let g:ale_set_quickfix = 0
+let g:ale_open_list = 1
+let g:ale_keep_list_window_open = 0
 let g:ale_set_highlights = 1
 let g:ale_set_signs = 1
 let g:ale_echo_cursor = 1
@@ -575,6 +599,10 @@ let g:ale_cursor_detail = 0
 let g:ale_set_balloons = 0
 
 :nnoremap <C-]> :ALEGoToDefinition<CR>
+:nnoremap <Leader>w :ALEFindReference -quickfix <bar> :copen<CR>
+" Set this in your vimrc file to disabling highlighting
+highlight ALEWarning ctermbg=lightyellow
+highlight ALEError ctermbg=lightred
 
 highlight clear SignColumn
 " highlight! link SignColumn LineNr
@@ -598,6 +626,7 @@ function! s:goyo_enter()
   set noshowcmd
   set scrolloff=999
   set textwidth=80
+  set wrap
   Limelight
   " ...
 endfunction
@@ -611,6 +640,7 @@ function! s:goyo_leave()
   set showcmd
   set scrolloff=3
   set textwidth=0
+  set nowrap
   Limelight!
   " ...
 endfunction
