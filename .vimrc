@@ -255,8 +255,8 @@ noremap K     {
 noremap J     }
 noremap H     ^
 noremap L     $
-vnoremap j gj
-vnoremap k gk
+noremap j gj
+noremap k gk
 nnoremap <Down> gj
 nnoremap <Up> gk
 vnoremap <Down> gj
@@ -511,7 +511,7 @@ nnoremap <F4> :call asyncrun#quickfix_toggle(12)<cr>
 " logic to find the root directory
 let g:asyncrun_rootmarks = ['.git', '.root']
 
-autocmd FileType sh             nnoremap <buffer> <silent> <F9> :AsyncStop! \| sleep 100m \| AsyncRun %:p<cr>
+autocmd FileType sh             nnoremap <buffer> <silent> <F9> :AsyncStop! \| sleep 100m \| AsyncRun -save=1 %:p<cr>
 
 let g:clang_format#style_options = {
             \ "UseTab": "Never",
@@ -651,7 +651,7 @@ let g:vim_ai_complete = {
 \  "prompt": "",
 \  "engine": "chat",
 \  "options": {
-\    "model": "meta-llama/llama-4-maverick:free",
+\    "model": "mistralai/mistral-7b-instruct:free",
 \    "endpoint_url": "https://openrouter.ai/api/v1/chat/completions",
 \    "max_tokens": 0,
 \    "max_completion_tokens": 0,
@@ -682,7 +682,7 @@ let g:vim_ai_edit = {
 \  "prompt": "",
 \  "engine": "chat",
 \  "options": {
-\    "model": "meta-llama/llama-4-maverick:free",
+\    "model": "mistralai/mistral-7b-instruct:free",
 \    "endpoint_url": "https://openrouter.ai/api/v1/chat/completions",
 \    "max_tokens": 0,
 \    "max_completion_tokens": 0,
@@ -723,7 +723,7 @@ END
 let g:vim_ai_chat = {
 \  "prompt": "",
 \  "options": {
-\    "model": "meta-llama/llama-4-maverick:free",
+\    "model": "mistralai/mistral-7b-instruct:free",
 \    "endpoint_url": "https://openrouter.ai/api/v1/chat/completions",
 \    "max_tokens": 0,
 \    "max_completion_tokens": 0,
