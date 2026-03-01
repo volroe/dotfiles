@@ -80,7 +80,7 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
 
     Plugin 'vim-scripts/DoxygenToolkit.vim'
 
-    Plugin 'dense-analysis/ale'
+    " Plugin 'dense-analysis/ale'
 
     Plugin 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 
@@ -106,6 +106,12 @@ if isdirectory(expand('~/.vim/bundle/Vundle.vim'))
 	Plugin 'gorkunov/smartpairs.vim'
 
     Plugin 'joshuavial/aider.nvim'
+    
+    Plugin 'neovim/nvim-lspconfig', {'tag': 'v1.8.0', 'frozen': 1} 
+    Plugin 'mason-org/mason.nvim', {'tag': 'v1.11.0', 'frozen': 1}
+    Plugin 'mason-org/mason-lspconfig.nvim', {'tag': 'v1.32.0', 'frozen': 1}
+    Plugin 'hrsh7th/nvim-cmp'
+    Plugin 'hrsh7th/cmp-nvim-lsp'
 
     call vundle#end()            " required
     filetype plugin indent on    " required
@@ -157,9 +163,49 @@ endif
 " deoplete configuration
 let g:deoplete#enable_at_startup = 1        
 " Use ALE and also some plugin 'foobar' as completion sources for all code.
-call deoplete#custom#option('sources', {
-\ '_': ['ale'],
-\}) 
+" call deoplete#custom#option('sources', {
+" \ '_': ['ale'],
+" \}) 
+
+function! LspAttached() abort
+  " nnoremap <buffer> K <cmd>lua vim.lsp.buf.hover()<cr>
+  " nnoremap <buffer> gd <cmd>lua vim.lsp.buf.definition()<cr>
+  " nnoremap <buffer> gD <cmd>lua vim.lsp.buf.declaration()<cr>
+  " nnoremap <buffer> gi <cmd>lua vim.lsp.buf.implementation()<cr>
+  " nnoremap <buffer> go <cmd>lua vim.lsp.buf.type_definition()<cr>
+  " nnoremap <buffer> gr <cmd>lua vim.lsp.buf.references()<cr>
+  " nnoremap <buffer> gs <cmd>lua vim.lsp.buf.signature_help()<cr>
+  " nnoremap <buffer> <F2> <cmd>lua vim.lsp.buf.rename()<cr>
+  " nnoremap <buffer> <F3> <cmd>lua vim.lsp.buf.format({async = true})<cr>
+  " xnoremap <buffer> <F3> <cmd>lua vim.lsp.buf.format({async = true})<cr>
+  " nnoremap <buffer> <F4> <cmd>lua vim.lsp.buf.code_action()<cr>
+endfunction
+
+autocmd LspAttach * call LspAttached()
+
+lua <<EOF
+-- Configure LSP clients
+-- Set default root markers for all clients
+vim.lsp.config('*', {
+  root_markers = { '.git', '.root' },
+})
+
+-- Set default configuration for clangd but don't enable it
+vim.lsp.config.clangd = {
+  cmd = {
+    'clangd',
+    '--clang-tidy',
+    '--background-index',
+    '--offset-encoding=utf-8',
+  },
+  root_markers = { '.clangd', 'compile_commands.json' },
+  filetypes = { 'c', 'cpp' },
+}
+
+-- Enable Language Server
+vim.lsp.enable('clangd')
+
+EOF
 
 " special chatGPT commands
 command! -range -nargs=? AITranslate <line1>,<line2>call AIEditRun(<range>, "Translate to English: " . <q-args>)
@@ -568,35 +614,35 @@ set spelllang=en_us
 inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u
 
 " Do not lint or fix python files.
-let g:ale_pattern_options_enabled = 1
-let g:ale_pattern_options = {
-\ '*.py': {'ale_linters': [], 'ale_fixers': []},
-\}
-" Only run linters named in ale_linters settings.
-let g:ale_linters_explicit = 1
-let g:ale_fixers = {'cpp': ['clangtidy']}
-let g:ale_linters = {'cpp': ['clangd']}
+" let g:ale_pattern_options_enabled = 1
+" let g:ale_pattern_options = {
+" \ '*.py': {'ale_linters': [], 'ale_fixers': []},
+" \}
+" " Only run linters named in ale_linters settings.
+" let g:ale_linters_explicit = 1
+" let g:ale_fixers = {'cpp': ['clangtidy']}
+" let g:ale_linters = {'cpp': ['clangd']}
 
-let g:ale_sign_error = '●'
-let g:ale_sign_warning = '.'
-let g:ale_lint_on_enter = 0
-let g:ale_lint_on_save = 1
-let g:ale_set_loclist = 0
-let g:ale_set_quickfix = 0
-let g:ale_open_list = 1
-let g:ale_keep_list_window_open = 0
-let g:ale_set_highlights = 1
-let g:ale_set_signs = 1
-let g:ale_echo_cursor = 1
-let g:ale_virtualtext_cursor = 0
-let g:ale_cursor_detail = 0
-let g:ale_set_balloons = 0
+" let g:ale_sign_error = '●'
+" let g:ale_sign_warning = '.'
+" let g:ale_lint_on_enter = 0
+" let g:ale_lint_on_save = 1
+" let g:ale_set_loclist = 0
+" let g:ale_set_quickfix = 0
+" let g:ale_open_list = 1
+" let g:ale_keep_list_window_open = 0
+" let g:ale_set_highlights = 1
+" let g:ale_set_signs = 1
+" let g:ale_echo_cursor = 1
+" let g:ale_virtualtext_cursor = 0
+" let g:ale_cursor_detail = 0
+" let g:ale_set_balloons = 0
 
-:nnoremap <C-]> :ALEGoToDefinition<CR>
-:nnoremap <Leader>w :ALEFindReference -quickfix <bar> :copen<CR>
-" Set this in your vimrc file to disabling highlighting
-highlight ALEWarning ctermbg=lightyellow
-highlight ALEError ctermbg=lightred
+" :nnoremap <C-]> :ALEGoToDefinition<CR>
+" :nnoremap <Leader>w :ALEFindReference -quickfix <bar> :copen<CR>
+" " Set this in your vimrc file to disabling highlighting
+" highlight ALEWarning ctermbg=lightyellow
+" highlight ALEError ctermbg=lightred
 
 highlight clear SignColumn
 " highlight! link SignColumn LineNr
